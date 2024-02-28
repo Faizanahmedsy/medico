@@ -30,7 +30,7 @@ export function ThemeToggle() {
   }, []);
 
   return (
-    <div>
+    <div className="flex justify-center">
       <Switch
         aria-readonly
         checked={checked}
