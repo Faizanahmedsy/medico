@@ -35,16 +35,16 @@ export default function RegisterShopPage() {
 
   return (
     <>
-      <div className="flex flex-col w-[700px]">
+      <div className="flex flex-col md:w-[700px]">
         <h1 className="text-3xl font-semibold my-5">Register</h1>
         <hr />
         <div className="my-5" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 w-[700px] mx-auto my-5"
+            className="space-y-8 md:w-[700px]  min-w-[400px] mx-auto my-5"
           >
-            <div className="flex gap-5">
+            <div className="flex gap-5 flex-col md:flex-row">
               <FormField
                 control={form.control}
                 name="firstName"
@@ -75,7 +75,7 @@ export default function RegisterShopPage() {
               />
             </div>
 
-            <div className="flex gap-5">
+            <div className="flex gap-5 flex-col md:flex-row">
               <FormField
                 control={form.control}
                 name="username"
@@ -105,7 +105,7 @@ export default function RegisterShopPage() {
               />
             </div>
 
-            <div className="flex gap-5">
+            <div className="flex gap-5 flex-col md:flex-row">
               <FormField
                 control={form.control}
                 name="password"
