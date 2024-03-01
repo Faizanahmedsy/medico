@@ -1,4 +1,7 @@
 "use client";
+import React from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -9,20 +12,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { registrationSchema } from "@/schema/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+
 import { Input } from "@/components/ui/input";
 
 export default function RegisterShopPage() {
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
       username: "",
+      type: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -35,16 +42,16 @@ export default function RegisterShopPage() {
 
   return (
     <>
-      <div className="flex flex-col md:w-[700px]">
-        <h1 className="text-3xl font-semibold my-5">Register</h1>
+      <div className="flex flex-col lg:w-[700px]">
+        <h1 className="text-3xl font-semibold">Register</h1>
         <hr />
-        <div className="my-5" />
+        <div className="" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 md:w-[700px]  min-w-[400px] mx-auto my-5"
+            className="space-y-8 md:w-[700px]  min-w-[250px] mx-auto my-5"
           >
-            <div className="flex gap-5 flex-col md:flex-row">
+            {/* <div className="flex gap-5 flex-col md:flex-row">
               <FormField
                 control={form.control}
                 name="firstName"
@@ -73,7 +80,7 @@ export default function RegisterShopPage() {
                   </FormItem>
                 )}
               />
-            </div>
+            </div> */}
 
             <div className="flex gap-5 flex-col md:flex-row">
               <FormField
@@ -91,19 +98,44 @@ export default function RegisterShopPage() {
               />
               <FormField
                 control={form.control}
-                name="email"
+                name="type"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-
+                    <FormLabel>Register as</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a verified email to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="company">Company</SelectItem>
+                        <SelectItem value="buyer">Buyer</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder=" " {...field} />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <div className="flex gap-5 flex-col md:flex-row">
               <FormField

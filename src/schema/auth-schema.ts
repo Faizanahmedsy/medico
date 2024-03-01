@@ -2,24 +2,26 @@ import { z } from "zod";
 
 export const registrationSchema = z
   .object({
-    firstName: z
-      .string()
-      .min(2, {
-        message: "First name must be at least 2 characters",
-      })
-      .max(50)
-      .refine((value) => /^[a-zA-Z]+$/.test(value), {
-        message: "First name must not contain special characters or numbers",
-      }),
-    lastName: z
-      .string()
-      .min(2, {
-        message: "Last name must be at least 2 characters",
-      })
-      .max(50)
-      .refine((value) => /^[a-zA-Z]+$/.test(value), {
-        message: "Last name must not contain special characters or numbers",
-      }),
+    // firstName: z
+    //   .string()
+    //   .min(2, {
+    //     message: "First name must be at least 2 characters",
+    //   })
+    //   .max(50)
+    //   .refine((value) => /^[a-zA-Z]+$/.test(value), {
+    //     message: "First name must not contain special characters or numbers",
+    //   }),
+    // lastName: z
+    //   .string()
+    //   .min(2, {
+    //     message: "Last name must be at least 2 characters",
+    //   })
+    //   .max(50)
+    //   .refine((value) => /^[a-zA-Z]+$/.test(value), {
+    //     message: "Last name must not contain special characters or numbers",
+    //   }),
+    // type: z.enum(["company", "buyer"]),
+    type: z.string().refine((value) => ["company", "buyer"].includes(value)),
     username: z
       .string()
       .min(3, {
