@@ -25,9 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
-export default function RegisterShopPage() {
-  const router = useRouter();
-
+export default function RegisterAsCompanyPage() {
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -42,63 +40,55 @@ export default function RegisterShopPage() {
 
   function onSubmit(data: z.infer<typeof registrationSchema>) {
     console.log(data);
-
-    if (data.type === "company") {
-      router.push("register/as-company");
-    } else {
-      router.push("register/as-buyer");
-    }
   }
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col lg:w-[700px]">
-        <h1 className="text-3xl font-semibold">Register</h1>
+    <>
+      <div className="px-32 min-h-screen flex flex-col justify-center">
+        {/* <div className="flex flex-col "> */}
+        <h1 className="text-3xl font-semibold py-6 text-center">
+          Register your company
+        </h1>
         <hr />
         <div className="" />
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 md:w-[700px]  min-w-[250px] mx-auto my-5"
+            className="space-y-8  my-5"
           >
-            {/* <div className="flex gap-5 flex-col md:flex-row">
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div> */}
-
-            <div className="flex gap-5 flex-col md:flex-row">
+            <div className="grid grid-cols-3 gap-6">
               <FormField
                 control={form.control}
                 name="username"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder=" " {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Company Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder=" " {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Company Email</FormLabel>
                     <FormControl>
                       <Input placeholder=" " {...field} />
                     </FormControl>
@@ -111,7 +101,7 @@ export default function RegisterShopPage() {
                 name="type"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Register as</FormLabel>
+                    <FormLabel>Company Type</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -130,49 +120,42 @@ export default function RegisterShopPage() {
                   </FormItem>
                 )}
               />
-            </div>
 
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder=" " {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex gap-5 flex-col md:flex-row">
               <FormField
                 control={form.control}
-                name="password"
+                name="type"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-
+                    <FormLabel>Charge Type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a verified email to display" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="company">
+                          Percentage on Margin
+                        </SelectItem>
+                        <SelectItem value="buyer">Subscription</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
-                name="confirmPassword"
+                name="username"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Confirm Password</FormLabel>
+                    <FormLabel>Charges</FormLabel>
                     <FormControl>
                       <Input placeholder=" " {...field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
@@ -180,9 +163,6 @@ export default function RegisterShopPage() {
             </div>
 
             <div className="flex justify-between items-center gap-6">
-              {/* <Button variant={"secondary"} className="w-full">
-              Submit
-            </Button> */}
               <Button
                 type="submit"
                 size={"sm"}
@@ -195,6 +175,7 @@ export default function RegisterShopPage() {
           </form>
         </Form>
       </div>
-    </div>
+      {/* </div> */}
+    </>
   );
 }
