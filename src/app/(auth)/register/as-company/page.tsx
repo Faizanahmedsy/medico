@@ -109,7 +109,7 @@ export default function RegisterAsCompanyPage() {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
+                          <SelectValue placeholder="Select a company type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -134,7 +134,7 @@ export default function RegisterAsCompanyPage() {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
+                          <SelectValue placeholder="Select a charge type" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
