@@ -19,32 +19,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { registrationSchema } from "@/schema/auth-schema";
+import { registerAsCompany, registrationSchema } from "@/schema/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
 export default function RegisterAsCompanyPage() {
-  const form = useForm<z.infer<typeof registrationSchema>>({
-    resolver: zodResolver(registrationSchema),
+  const form = useForm<z.infer<typeof registerAsCompany>>({
+    resolver: zodResolver(registerAsCompany),
     defaultValues: {
-      username: "",
-      type: "",
+      companyName: "",
+      companyEmail: "",
+      companyType: "",
+      chargeType: "",
+      charges: "",
       email: "",
-      password: "",
-      confirmPassword: "",
     },
     mode: "onChange",
   });
 
-  function onSubmit(data: z.infer<typeof registrationSchema>) {
+  function onSubmit(data: z.infer<typeof registerAsCompany>) {
     console.log(data);
   }
 
   return (
     <>
-      <div className="px-32 min-h-screen flex flex-col justify-center">
+      <div className="min-h-screen flex flex-col justify-center items-center">
         {/* <div className="flex flex-col "> */}
         <h1 className="text-3xl font-semibold py-6 text-center">
           Register your company
@@ -54,12 +55,12 @@ export default function RegisterAsCompanyPage() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8  my-5"
+            className="space-y-8  my-5 min-w-[700px]"
           >
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 gap-6">
               <FormField
                 control={form.control}
-                name="username"
+                name="email"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Email</FormLabel>
@@ -72,7 +73,7 @@ export default function RegisterAsCompanyPage() {
               />
               <FormField
                 control={form.control}
-                name="username"
+                name="companyName"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Company Name</FormLabel>
@@ -85,7 +86,7 @@ export default function RegisterAsCompanyPage() {
               />
               <FormField
                 control={form.control}
-                name="username"
+                name="companyEmail"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Company Email</FormLabel>
@@ -98,7 +99,7 @@ export default function RegisterAsCompanyPage() {
               />
               <FormField
                 control={form.control}
-                name="type"
+                name="companyType"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Company Type</FormLabel>
@@ -112,8 +113,8 @@ export default function RegisterAsCompanyPage() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="company">Company</SelectItem>
-                        <SelectItem value="buyer">Buyer</SelectItem>
+                        <SelectItem value="company">Self Selling</SelectItem>
+                        <SelectItem value="buyer">Company selling</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -123,7 +124,7 @@ export default function RegisterAsCompanyPage() {
 
               <FormField
                 control={form.control}
-                name="type"
+                name="chargeType"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Charge Type</FormLabel>
@@ -149,7 +150,7 @@ export default function RegisterAsCompanyPage() {
               />
               <FormField
                 control={form.control}
-                name="username"
+                name="charges"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Charges</FormLabel>

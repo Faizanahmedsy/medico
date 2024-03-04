@@ -50,3 +50,12 @@ export const registrationSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const registerAsCompany = z.object({
+  companyName: z.string(),
+  companyEmail: z.string(),
+  companyType: z.string(),
+  chargeType: z.string(),
+  charges: z.string(),
+  email: z.string().email(),
+});

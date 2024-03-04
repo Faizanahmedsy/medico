@@ -53,7 +53,7 @@ export default function RegisterShopPage() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="flex flex-col lg:w-[700px]">
-        <h1 className="text-3xl font-semibold">Register</h1>
+        <h1 className="text-3xl font-semibold py-4">Register</h1>
         <hr />
         <div className="" />
         <Form {...form}>
