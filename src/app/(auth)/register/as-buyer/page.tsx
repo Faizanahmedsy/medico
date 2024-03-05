@@ -19,161 +19,218 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { registrationSchema } from "@/schema/auth-schema";
+import {
+  registerAsBuyerSchema,
+  registrationSchema,
+} from "@/schema/auth-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { registerAsBuyerApi } from "@/services/user/user.api";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export default function RegisterAsBuyerPage() {
-  const form = useForm<z.infer<typeof registrationSchema>>({
-    resolver: zodResolver(registrationSchema),
+  const form = useForm<z.infer<typeof registerAsBuyerSchema>>({
+    resolver: zodResolver(registerAsBuyerSchema),
     defaultValues: {
-      username: "",
-      type: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      occupation: "",
+      degree: "",
+      state: "",
+      district: "",
+      taluka: "",
     },
     mode: "onChange",
   });
 
-  function onSubmit(data: z.infer<typeof registrationSchema>) {
-    console.log(data);
+  const registerAsBuyerMutation = useMutation({
+    mutationFn: registerAsBuyerApi,
+    onSuccess: (data: any) => {
+      console.log("data", data);
+      // if (data.type === "company") {
+      //   router.push("register/as-company");
+      // } else {
+      //   router.push("register/as-buyer");
+      // }
+    },
+    onError: (error: any) => {
+      console.log("error", error);
+      toast.error("Something went wrong");
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof registerAsBuyerSchema>) {
+    let payload = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      emailAddress: data.emailAddress,
+      occupation: data.occupation,
+      degree: data.degree,
+      address: {
+        state: data.state,
+        district: data.district,
+        taluka: data.taluka,
+      },
+    };
+
+    // console.log("payload", payload);
+    registerAsBuyerMutation.mutate(payload);
   }
 
   return (
     <>
-      <div className="px-32 min-h-screen flex flex-col justify-center items-center">
+      <div className="px-32 py-2 flex flex-col justify-center items-center min-h-screen w-full">
         {/* <div className="flex flex-col "> */}
-        <h1 className="text-3xl font-semibold py-6 text-center">
-          Register as buyer
-        </h1>
-        <hr />
-        <div className="" />
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8  my-5"
-          >
-            <div className="grid grid-cols-2 gap-6">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Company Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Company Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Company Type</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="company">Company</SelectItem>
-                        <SelectItem value="buyer">Buyer</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+        <Card className="w-[800px]">
+          <CardHeader>
+            <CardTitle>Register as buyer</CardTitle>
+            <CardDescription>
+              Deploy your new project in one-click.
+            </CardDescription>
+          </CardHeader>
+          {/* <h1 className="text-3xl font-semibold py-6 text-center">
+            Register as buyer
+          </h1> */}
+          <hr />
+          <div className="" />
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8  my-5"
+            >
+              <CardContent>
+                <div className="grid grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>First Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Last Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="emailAddress"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="occupation"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Occupation</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="degree"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Degree</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Charge Type</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a verified email to display" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="company">
-                          Percentage on Margin
-                        </SelectItem>
-                        <SelectItem value="buyer">Subscription</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Charges</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="flex justify-between items-center gap-6">
-              <Button
-                type="submit"
-                size={"sm"}
-                className="w-full"
-                disabled={!form.formState.isDirty}
-              >
-                Submit
-              </Button>
-            </div>
-          </form>
-        </Form>
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>State</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="district"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>District</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="taluka"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Taluka</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button
+                  type="submit"
+                  size={"sm"}
+                  className="w-full"
+                  disabled={!form.formState.isDirty}
+                >
+                  Submit
+                </Button>
+              </CardFooter>
+            </form>
+          </Form>
+        </Card>
       </div>
       {/* </div> */}
     </>

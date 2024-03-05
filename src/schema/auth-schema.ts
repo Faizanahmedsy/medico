@@ -59,3 +59,14 @@ export const registerAsCompany = z.object({
   charges: z.string(),
   email: z.string().email(),
 });
+
+export const registerAsBuyerSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  occupation: z.string(),
+  degree: z.string(),
+  state: z.string(),
+  district: z.string(),
+  taluka: z.string(),
+  emailAddress: z.string().email(),
+});
