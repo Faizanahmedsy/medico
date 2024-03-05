@@ -96,7 +96,7 @@ export default function RegisterAsBuyerPage() {
           <CardHeader>
             <CardTitle>Register as buyer</CardTitle>
             <CardDescription>
-              Deploy your new project in one-click.
+              Register yourself as a buyer to start buying products.
             </CardDescription>
           </CardHeader>
           {/* <h1 className="text-3xl font-semibold py-6 text-center">

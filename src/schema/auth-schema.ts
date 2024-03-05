@@ -66,8 +66,18 @@ export const registerAsCompany = z.object({
 });
 
 export const registerAsBuyerSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
+  firstName: z
+    .string()
+    .refine((value) => /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(value), {
+      message:
+        "First name should not have special characters and more than 1 space",
+    }),
+  lastName: z
+    .string()
+    .refine((value) => /^[A-Za-z]+(?: [A-Za-z]+)*$/.test(value), {
+      message:
+        "Last name should not have special characters and more than 1 space",
+    }),
   occupation: z.string(),
   degree: z.string(),
   state: z.string(),
