@@ -69,7 +69,7 @@ export default function RegisterAsCompanyPage() {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="min-h-screen flex md:flex-col justify-center items-center">
         {/* <div className="flex flex-col "> */}
         {/* <h1 className="text-3xl font-semibold py-6 text-center">
           Register your company
@@ -86,10 +86,10 @@ export default function RegisterAsCompanyPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8  my-5 min-w-[700px]"
+              className="space-y-8  my-5 md:min-w-[700px]"
             >
               <CardContent>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
                     name="email"
