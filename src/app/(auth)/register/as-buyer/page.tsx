@@ -90,13 +90,13 @@ export default function RegisterAsBuyerPage() {
 
   return (
     <>
-      <div className="px-32 py-2 flex flex-col justify-center items-center min-h-screen w-full">
+      <div className="md:px-32 py-2 flex md:flex-col justify-center items-center min-h-screen w-full ">
         {/* <div className="flex flex-col "> */}
         <Card className="w-[800px]">
           <CardHeader>
             <CardTitle>Register as buyer</CardTitle>
             <CardDescription>
-              Deploy your new project in one-click.
+              Register yourself as a buyer to start buying products.
             </CardDescription>
           </CardHeader>
           {/* <h1 className="text-3xl font-semibold py-6 text-center">
@@ -110,7 +110,7 @@ export default function RegisterAsBuyerPage() {
               className="space-y-8  my-5"
             >
               <CardContent>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-6">
                   <FormField
                     control={form.control}
                     name="firstName"
