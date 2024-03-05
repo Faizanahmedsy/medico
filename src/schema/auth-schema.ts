@@ -51,6 +51,11 @@ export const registrationSchema = z
     path: ["confirmPassword"],
   });
 
+export const loginSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+});
+
 export const registerAsCompany = z.object({
   companyName: z.string(),
   companyEmail: z.string(),

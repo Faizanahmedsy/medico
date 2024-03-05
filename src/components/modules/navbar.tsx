@@ -10,7 +10,9 @@ export default function Navbar() {
         <div className="font-bold text-3xl">Medico</div>
 
         <div className="flex items-center  gap-8">
-          <Button variant={"outline"}>Login</Button>
+          <Link href="/login">
+            <Button variant={"outline"}>Login</Button>
+          </Link>
           <Link href="/register">
             <Button variant={"outline"}>Register</Button>
           </Link>
