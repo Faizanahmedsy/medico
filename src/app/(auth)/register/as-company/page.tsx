@@ -62,10 +62,13 @@ export default function RegisterAsCompanyPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsCompany>) {
+    console.log("form", form);
     console.log(data);
 
     registerAsCompanyMutation.mutate(data);
   }
+
+  console.log("form chageType", form.watch("chargeType"));
 
   return (
     <>
@@ -77,9 +80,9 @@ export default function RegisterAsCompanyPage() {
         <Card>
           <CardHeader>
             <CardTitle>Register your company</CardTitle>
-            <CardDescription>
+            {/* <CardDescription>
               Register your company to start selling or buying products.
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           <hr />
           <div className="" />
@@ -186,19 +189,67 @@ export default function RegisterAsCompanyPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
-                    control={form.control}
-                    name="charges"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Charges</FormLabel>
-                        <FormControl>
-                          <Input placeholder=" " {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  {form.watch("chargeType") === "subscription" && (
+                    <FormField
+                      control={form.control}
+                      name="charges"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Charges</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select a role" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="1">
+                                <div>
+                                  <div>3000 INR</div>
+                                  <div>Per Month</div>
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="2">
+                                <div>
+                                  <div>15000 INR</div>
+                                  <div>Per 6 Month</div>
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="3">
+                                <div>
+                                  <div>25000 INR</div>
+                                  <div>Per Year</div>
+                                </div>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                        // <FormItem className="w-full flex flex-col justify-between">
+                        //   <FormLabel>Charges</FormLabel>
+                        //   <FormControl>
+                        //     <Button variant={"outline"}>Select a Plan</Button>
+                        //   </FormControl>
+                        // </FormItem>
+                      )}
+                    />
+                    // <FormField
+                    //   control={form.control}
+                    //   name="charges"
+                    //   render={({ field }) => (
+                    //     <FormItem className="w-full">
+                    //       <FormLabel>Charges</FormLabel>
+                    //       <FormControl>
+                    //         <Input placeholder=" " {...field} />
+                    //       </FormControl>
+                    //       <FormMessage />
+                    //     </FormItem>
+                    //   )}
+                    // />
+                  )}
                 </div>
               </CardContent>
               <CardFooter>

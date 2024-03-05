@@ -5,15 +5,15 @@ import Cookies from "js-cookie";
 
 const token = getItem("customerAuthToken");
 
-console.log("instance token", token);
+// console.log("instance token", token);
 
-console.log("instance cookie", Cookies.get("customerAuthToken"));
+// console.log("instance cookie", Cookies.get("pharmaAuth"));
 
 // const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
 const superAxios = axios.create({
   baseURL:
-    "https://cbee-2409-40c1-b-cea6-488f-2463-b673-5645.ngrok-free.app/api/",
+    "https://968a-2409-40c1-2-7028-3954-1a3-3f91-48e.ngrok-free.app/api/",
   // baseURL: "https://honestly-teaching-toucan.ngrok-free.app/web/v1/api/",
 
   // baseURL: "https://dummyjson.com",

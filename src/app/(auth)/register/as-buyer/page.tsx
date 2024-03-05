@@ -84,8 +84,8 @@ export default function RegisterAsBuyerPage() {
       },
     };
 
-    // console.log("payload", payload);
-    registerAsBuyerMutation.mutate(payload);
+    console.log("payload", payload);
+    // registerAsBuyerMutation.mutate(payload);
   }
 
   return (
@@ -95,9 +95,9 @@ export default function RegisterAsBuyerPage() {
         <Card className="w-[800px]">
           <CardHeader>
             <CardTitle>Register as buyer</CardTitle>
-            <CardDescription>
+            {/* <CardDescription>
               Register yourself as a buyer to start buying products.
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           {/* <h1 className="text-3xl font-semibold py-6 text-center">
             Register as buyer
@@ -209,9 +209,20 @@ export default function RegisterAsBuyerPage() {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Taluka</FormLabel>
-                        <FormControl>
-                          <Input placeholder=" " {...field} />
-                        </FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a Taluka" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="item1">Item 1</SelectItem>
+                            <SelectItem value="item2">Item 2</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
