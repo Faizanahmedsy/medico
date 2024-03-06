@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -34,8 +43,15 @@ import {
 } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
 import { registerAsCompanyApi } from "@/services/user/user.api";
+import { cn } from "@/lib/utils";
 
 export default function RegisterAsCompanyPage() {
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+
+  const handleCardClick = (plan: string) => {
+    setSelectedPlan(plan);
+  };
+
   const form = useForm<z.infer<typeof registerAsCompany>>({
     resolver: zodResolver(registerAsCompany),
     defaultValues: {
@@ -65,10 +81,19 @@ export default function RegisterAsCompanyPage() {
     console.log("form", form);
     console.log(data);
 
-    registerAsCompanyMutation.mutate(data);
+    // registerAsCompanyMutation.mutate(data);
+
+    localStorage.setItem("test-isCompleted", "true");
   }
 
   console.log("form chageType", form.watch("chargeType"));
+
+  useEffect(() => {
+    const email = localStorage.getItem("test-email");
+    if (email) {
+      form.setValue("email", email);
+    }
+  }, []);
 
   return (
     <>
@@ -100,7 +125,11 @@ export default function RegisterAsCompanyPage() {
                       <FormItem className="w-full">
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder=" " {...field} />
+                          <Input
+                            placeholder=" "
+                            {...field}
+                            disabled={form.watch("email") !== ""}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -194,46 +223,107 @@ export default function RegisterAsCompanyPage() {
                       control={form.control}
                       name="charges"
                       render={({ field }) => (
-                        <FormItem className="w-full">
-                          <FormLabel>Charges</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select a role" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="1">
-                                <div>
-                                  <div>3000 INR</div>
-                                  <div>Per Month</div>
-                                </div>
-                              </SelectItem>
-                              <SelectItem value="2">
-                                <div>
-                                  <div>15000 INR</div>
-                                  <div>Per 6 Month</div>
-                                </div>
-                              </SelectItem>
-                              <SelectItem value="3">
-                                <div>
-                                  <div>25000 INR</div>
-                                  <div>Per Year</div>
-                                </div>
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                        // <FormItem className="w-full flex flex-col justify-between">
+                        // <FormItem className="w-full">
                         //   <FormLabel>Charges</FormLabel>
-                        //   <FormControl>
-                        //     <Button variant={"outline"}>Select a Plan</Button>
-                        //   </FormControl>
+                        //   <Select
+                        //     onValueChange={field.onChange}
+                        //     defaultValue={field.value}
+                        //   >
+                        //     <FormControl>
+                        //       <SelectTrigger>
+                        //         <SelectValue placeholder="Select a role" />
+                        //       </SelectTrigger>
+                        //     </FormControl>
+                        //     <SelectContent>
+                        //       <SelectItem value="1">
+                        //         <div>
+                        //           <div>3000 INR</div>
+                        //           <div>Per Month</div>
+                        //         </div>
+                        //       </SelectItem>
+                        //       <SelectItem value="2">
+                        //         <div>
+                        //           <div>15000 INR</div>
+                        //           <div>Per 6 Month</div>
+                        //         </div>
+                        //       </SelectItem>
+                        //       <SelectItem value="3">
+                        //         <div>
+                        //           <div>25000 INR</div>
+                        //           <div>Per Year</div>
+                        //         </div>
+                        //       </SelectItem>
+                        //     </SelectContent>
+                        //   </Select>
+                        //   <FormMessage />
                         // </FormItem>
+                        <FormItem className="w-full flex flex-col justify-between pt-1">
+                          <FormLabel>Charges</FormLabel>
+                          <FormControl>
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button variant="outline">Edit Profile</Button>
+                              </DialogTrigger>
+                              <DialogContent className="sm:max-w-[625px] ">
+                                <DialogHeader>
+                                  <DialogTitle>
+                                    Select a Subscription plan
+                                  </DialogTitle>
+                                  <DialogDescription>
+                                    Pick what suites you the best
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <div className="grid grid-cols-3 gap-3">
+                                  <Card
+                                    onClick={() => handleCardClick("monthly")}
+                                    className={cn(
+                                      "cursor-pointer",
+                                      selectedPlan === "monthly"
+                                        ? "bg-teal-800 text-white"
+                                        : ""
+                                    )}
+                                  >
+                                    <CardHeader>
+                                      <CardTitle>3000 INR</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>Per Month</CardContent>
+                                  </Card>
+                                  <Card
+                                    onClick={() => handleCardClick("sixMonths")}
+                                    className={cn(
+                                      "cursor-pointer",
+                                      selectedPlan === "sixMonths"
+                                        ? "bg-teal-800 text-white"
+                                        : ""
+                                    )}
+                                  >
+                                    <CardHeader>
+                                      <CardTitle>15000 INR</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>Per 6 Month</CardContent>
+                                  </Card>
+                                  <Card
+                                    onClick={() => handleCardClick("yearly")}
+                                    className={cn(
+                                      "cursor-pointer",
+                                      selectedPlan === "yearly"
+                                        ? "bg-teal-800 text-white"
+                                        : ""
+                                    )}
+                                  >
+                                    <CardHeader>
+                                      <CardTitle>25000 INR</CardTitle>
+                                    </CardHeader>
+                                    <CardContent> Per Year</CardContent>
+                                  </Card>
+                                </div>
+                                <DialogFooter>
+                                  <Button type="submit">Save changes</Button>
+                                </DialogFooter>
+                              </DialogContent>
+                            </Dialog>
+                          </FormControl>
+                        </FormItem>
                       )}
                     />
                     // <FormField

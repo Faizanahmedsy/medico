@@ -74,13 +74,21 @@ export default function RegisterShopPage() {
   function onSubmit(data: z.infer<typeof registrationSchema>) {
     console.log(data);
 
+    localStorage.setItem("test-email", data.email);
+
+    localStorage.setItem("test-type", data.type);
+
+    toast.success("Please check your email to verify your account");
+
     // signUpMutation.mutate(data);
 
-    if (data.type === "company") {
-      router.push("register/as-company");
-    } else {
-      router.push("register/as-buyer");
-    }
+    router.push("/register/verify-email");
+
+    // if (data.type === "company") {
+    //   router.push("register/as-company");
+    // } else {
+    //   router.push("register/as-buyer");
+    // }
   }
 
   return (

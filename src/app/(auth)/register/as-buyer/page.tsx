@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -85,8 +85,17 @@ export default function RegisterAsBuyerPage() {
     };
 
     console.log("payload", payload);
+
+    localStorage.setItem("test-isCompleted", "true");
     // registerAsBuyerMutation.mutate(payload);
   }
+
+  useEffect(() => {
+    const email = localStorage.getItem("test-email");
+    if (email) {
+      form.setValue("emailAddress", email);
+    }
+  }, []);
 
   return (
     <>
@@ -144,7 +153,13 @@ export default function RegisterAsBuyerPage() {
                       <FormItem className="w-full">
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder=" " {...field} />
+                          <Input
+                            placeholder=" "
+                            {...field}
+                            disabled={
+                              localStorage.getItem("test-email") ? true : false
+                            }
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

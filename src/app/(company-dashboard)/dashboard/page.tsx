@@ -1,10 +1,29 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const data = { isComplete: true };
+  const data = { isComplete: localStorage.getItem("test-isCompleted") };
   if (!data?.isComplete) router.push("/register/as-company");
 
-  return <div>DashboardPage</div>;
+  useEffect(() => {
+    const isCompleted = localStorage.getItem("test-isCompleted") ? true : false;
+
+    console.log("isCompleted", isCompleted);
+
+    if (!isCompleted) {
+      if (localStorage.getItem("test-isVerified") === "true") {
+        if (localStorage.getItem("test-type") === "company") {
+          router.push("/register/as-company");
+        } else {
+          router.push("/register/as-buyer");
+        }
+      } else {
+        router.push("/register");
+      }
+    }
+  }, []);
+
+  return localStorage.getItem("test-isCompleted") && <div>DashboardPage</div>;
 }
