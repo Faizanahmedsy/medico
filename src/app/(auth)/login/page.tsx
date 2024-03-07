@@ -37,6 +37,7 @@ import { toast } from "sonner";
 import Image from "next/image";
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import { PasswordInput } from "@/components/ui/password-input";
 
 export default function LoginShopPage() {
   const router = useRouter();
@@ -72,9 +73,9 @@ export default function LoginShopPage() {
   function onSubmit(data: z.infer<typeof loginSchema>) {
     console.log(data);
 
-    // loginInMutation.mutate(data);
+    loginInMutation.mutate(data);
 
-    if (!localStorage.getItem("test-Completed")) {
+    if (!localStorage.getItem("test-isCompleted")) {
       toast("Please complete your profile");
       if (localStorage.getItem("test-type") == "company") {
         router.push("/register/as-company");
@@ -150,7 +151,7 @@ export default function LoginShopPage() {
                           <FormLabel>Password</FormLabel>
                           <FormControl>
                             {/* <div className="flex w-full max-w-sm items-center space-x-2"> */}
-                            <Input placeholder="" {...field} />
+                            <PasswordInput placeholder="" {...field} />
                             {/* <div>
                                 <Eye />
                               </div>

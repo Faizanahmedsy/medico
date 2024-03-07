@@ -37,8 +37,11 @@ import {
 import { registerAsBuyerApi } from "@/services/user/user.api";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function RegisterAsBuyerPage() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof registerAsBuyerSchema>>({
     resolver: zodResolver(registerAsBuyerSchema),
     defaultValues: {
@@ -87,7 +90,10 @@ export default function RegisterAsBuyerPage() {
     console.log("payload", payload);
 
     localStorage.setItem("test-isCompleted", "true");
-    // registerAsBuyerMutation.mutate(payload);
+    registerAsBuyerMutation.mutate(payload);
+
+    toast.success("Welcome to medico");
+    router.push("/dashboard");
   }
 
   useEffect(() => {
