@@ -72,7 +72,26 @@ export default function LoginShopPage() {
   function onSubmit(data: z.infer<typeof loginSchema>) {
     console.log(data);
 
-    loginInMutation.mutate(data);
+    // loginInMutation.mutate(data);
+
+    if (!localStorage.getItem("test-Completed")) {
+      toast("Please complete your profile");
+      if (localStorage.getItem("test-type") == "company") {
+        router.push("/register/as-company");
+      }
+      if (localStorage.getItem("test-type") == "buyer") {
+        router.push("/register/as-buyer");
+      }
+    }
+
+    if (localStorage.getItem("test-isVerified") == "true") {
+      router.push("/dashboard");
+    }
+
+    if (!localStorage.getItem("test-isVerified")) {
+      toast("Please verify your email");
+      router.push("/register/verify-email");
+    }
   }
 
   return (
