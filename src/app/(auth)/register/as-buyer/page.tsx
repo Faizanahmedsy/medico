@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -84,9 +84,18 @@ export default function RegisterAsBuyerPage() {
       },
     };
 
-    // console.log("payload", payload);
-    registerAsBuyerMutation.mutate(payload);
+    console.log("payload", payload);
+
+    localStorage.setItem("test-isCompleted", "true");
+    // registerAsBuyerMutation.mutate(payload);
   }
+
+  useEffect(() => {
+    const email = localStorage.getItem("test-email");
+    if (email) {
+      form.setValue("emailAddress", email);
+    }
+  }, []);
 
   return (
     <>
@@ -95,9 +104,9 @@ export default function RegisterAsBuyerPage() {
         <Card className="w-[800px]">
           <CardHeader>
             <CardTitle>Register as buyer</CardTitle>
-            <CardDescription>
+            {/* <CardDescription>
               Register yourself as a buyer to start buying products.
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
           {/* <h1 className="text-3xl font-semibold py-6 text-center">
             Register as buyer
@@ -144,7 +153,13 @@ export default function RegisterAsBuyerPage() {
                       <FormItem className="w-full">
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder=" " {...field} />
+                          <Input
+                            placeholder=" "
+                            {...field}
+                            disabled={
+                              localStorage.getItem("test-email") ? true : false
+                            }
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -209,9 +224,20 @@ export default function RegisterAsBuyerPage() {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Taluka</FormLabel>
-                        <FormControl>
-                          <Input placeholder=" " {...field} />
-                        </FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a Taluka" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="item1">Item 1</SelectItem>
+                            <SelectItem value="item2">Item 2</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}

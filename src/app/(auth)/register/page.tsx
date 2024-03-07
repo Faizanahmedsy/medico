@@ -57,11 +57,11 @@ export default function RegisterShopPage() {
     onSuccess: (data: any) => {
       console.log("data", data);
 
-      if (data.type === "company") {
-        router.push("register/as-company");
-      } else {
-        router.push("register/as-buyer");
-      }
+      // if (data.type === "company") {
+      //   router.push("register/as-company");
+      // } else {
+      //   router.push("register/as-buyer");
+      // }
     },
     onError: (error: any) => {
       console.log("error", error);
@@ -74,13 +74,21 @@ export default function RegisterShopPage() {
   function onSubmit(data: z.infer<typeof registrationSchema>) {
     console.log(data);
 
-    signUpMutation.mutate(data);
+    localStorage.setItem("test-email", data.email);
 
-    if (data.type === "company") {
-      router.push("register/as-company");
-    } else {
-      router.push("register/as-buyer");
-    }
+    localStorage.setItem("test-type", data.type);
+
+    toast.success("Please check your email to verify your account");
+
+    // signUpMutation.mutate(data);
+
+    router.push("/register/verify-email");
+
+    // if (data.type === "company") {
+    //   router.push("register/as-company");
+    // } else {
+    //   router.push("register/as-buyer");
+    // }
   }
 
   return (
@@ -93,7 +101,7 @@ export default function RegisterShopPage() {
         <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]"></div>
       </div> */}
 
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div>
+      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div> */}
 
       <div className="flex justify-center items-center h-screen">
         <Card>

@@ -72,7 +72,26 @@ export default function LoginShopPage() {
   function onSubmit(data: z.infer<typeof loginSchema>) {
     console.log(data);
 
-    loginInMutation.mutate(data);
+    // loginInMutation.mutate(data);
+
+    if (!localStorage.getItem("test-Completed")) {
+      toast("Please complete your profile");
+      if (localStorage.getItem("test-type") == "company") {
+        router.push("/register/as-company");
+      }
+      if (localStorage.getItem("test-type") == "buyer") {
+        router.push("/register/as-buyer");
+      }
+    }
+
+    if (localStorage.getItem("test-isVerified") == "true") {
+      router.push("/dashboard");
+    }
+
+    if (!localStorage.getItem("test-isVerified")) {
+      toast("Please verify your email");
+      router.push("/register/verify-email");
+    }
   }
 
   return (
@@ -85,7 +104,7 @@ export default function LoginShopPage() {
         <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]"></div>
       </div> */}
 
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div>
+      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div> */}
 
       <div className="flex justify-center items-center h-screen">
         <Card>
