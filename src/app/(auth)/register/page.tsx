@@ -36,6 +36,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Eye } from "lucide-react";
+import { PasswordInput } from "@/components/ui/password-input";
 
 export default function RegisterShopPage() {
   const router = useRouter();
@@ -80,7 +81,7 @@ export default function RegisterShopPage() {
 
     toast.success("Please check your email to verify your account");
 
-    // signUpMutation.mutate(data);
+    signUpMutation.mutate(data);
 
     router.push("/register/verify-email");
 
@@ -218,7 +219,7 @@ export default function RegisterShopPage() {
                           <FormLabel>Password</FormLabel>
                           <FormControl>
                             {/* <div className="flex w-full max-w-sm items-center space-x-2"> */}
-                            <Input placeholder="" {...field} />
+                            <PasswordInput placeholder="" {...field} />
                             {/* <div>
                                 <Eye />
                               </div>
@@ -237,7 +238,7 @@ export default function RegisterShopPage() {
                         <FormItem className="w-full">
                           <FormLabel>Confirm Password</FormLabel>
                           <FormControl>
-                            <Input placeholder=" " {...field} />
+                            <PasswordInput placeholder=" " {...field} />
                           </FormControl>
 
                           <FormMessage />

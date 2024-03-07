@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -50,6 +51,8 @@ export default function RegisterAsCompanyPage() {
 
   const handleCardClick = (plan: string) => {
     setSelectedPlan(plan);
+
+    console.log("plan", plan);
   };
 
   const form = useForm<z.infer<typeof registerAsCompany>>({
@@ -81,7 +84,19 @@ export default function RegisterAsCompanyPage() {
     console.log("form", form);
     console.log(data);
 
-    // registerAsCompanyMutation.mutate(data);
+    if (data.charges) {
+      delete data.charges;
+    }
+
+    // data.charges = selectedPlan;
+
+    const payload = {
+      ...data,
+      charges: selectedPlan,
+    };
+
+    console.log("payload", payload);
+    registerAsCompanyMutation.mutate(payload);
 
     localStorage.setItem("test-isCompleted", "true");
   }
@@ -262,7 +277,7 @@ export default function RegisterAsCompanyPage() {
                           <FormControl>
                             <Dialog>
                               <DialogTrigger asChild>
-                                <Button variant="outline">Edit Profile</Button>
+                                <Button variant="outline">Select a plan</Button>
                               </DialogTrigger>
                               <DialogContent className="sm:max-w-[625px] ">
                                 <DialogHeader>
@@ -275,10 +290,12 @@ export default function RegisterAsCompanyPage() {
                                 </DialogHeader>
                                 <div className="grid grid-cols-3 gap-3">
                                   <Card
-                                    onClick={() => handleCardClick("monthly")}
+                                    onClick={() =>
+                                      handleCardClick("monthly 3000")
+                                    }
                                     className={cn(
                                       "cursor-pointer",
-                                      selectedPlan === "monthly"
+                                      selectedPlan === "monthly 3000"
                                         ? "bg-teal-800 text-white"
                                         : ""
                                     )}
@@ -289,10 +306,12 @@ export default function RegisterAsCompanyPage() {
                                     <CardContent>Per Month</CardContent>
                                   </Card>
                                   <Card
-                                    onClick={() => handleCardClick("sixMonths")}
+                                    onClick={() =>
+                                      handleCardClick("sixMonths 15000")
+                                    }
                                     className={cn(
                                       "cursor-pointer",
-                                      selectedPlan === "sixMonths"
+                                      selectedPlan === "sixMonths 15000"
                                         ? "bg-teal-800 text-white"
                                         : ""
                                     )}
@@ -303,10 +322,12 @@ export default function RegisterAsCompanyPage() {
                                     <CardContent>Per 6 Month</CardContent>
                                   </Card>
                                   <Card
-                                    onClick={() => handleCardClick("yearly")}
+                                    onClick={() =>
+                                      handleCardClick("yearly 25000")
+                                    }
                                     className={cn(
                                       "cursor-pointer",
-                                      selectedPlan === "yearly"
+                                      selectedPlan === "yearly 25000"
                                         ? "bg-teal-800 text-white"
                                         : ""
                                     )}
@@ -318,7 +339,12 @@ export default function RegisterAsCompanyPage() {
                                   </Card>
                                 </div>
                                 <DialogFooter>
-                                  <Button type="submit">Save changes</Button>
+                                  <DialogClose asChild>
+                                    <Button type="button" variant="secondary">
+                                      Save changes
+                                    </Button>
+                                  </DialogClose>
+                                  {/* <Button type="submit">Save changes</Button> */}
                                 </DialogFooter>
                               </DialogContent>
                             </Dialog>

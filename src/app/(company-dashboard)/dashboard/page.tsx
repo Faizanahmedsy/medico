@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { toast } from "sonner";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function DashboardPage() {
           router.push("/register/as-buyer");
         }
       } else {
+        toast("Please verify your email");
         router.push("/register");
       }
     }
