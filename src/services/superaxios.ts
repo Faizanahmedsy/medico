@@ -13,7 +13,7 @@ const token = getItem("customerAuthToken");
 
 const superAxios = axios.create({
   baseURL:
-    "https://5f9b-2409-40c1-42-d715-5557-31cd-66e1-feec.ngrok-free.app/api/",
+    "https://ec2e-2409-40c1-42-d715-5557-31cd-66e1-feec.ngrok-free.app/api/",
   // baseURL: "https://honestly-teaching-toucan.ngrok-free.app/web/v1/api/",
 
   // baseURL: "https://dummyjson.com",

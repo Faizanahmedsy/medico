@@ -167,6 +167,7 @@
     --ring: 263.4 70% 50.4%;
   }
 }
+
 @layer base {
   * {
     @apply border-border;

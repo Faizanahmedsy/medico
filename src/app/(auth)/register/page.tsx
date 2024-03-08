@@ -38,6 +38,7 @@ import Image from "next/image";
 import { Eye } from "lucide-react";
 import { PasswordInput } from "@/components/ui/password-input";
 import { setItem } from "@/lib/localStorage";
+import { jwtDecode } from "jwt-decode";
 
 export default function RegisterShopPage() {
   const router = useRouter();
@@ -59,6 +60,19 @@ export default function RegisterShopPage() {
     onSuccess: (data: any) => {
       console.log("data", data);
 
+      console.log("token", data?.accessToken);
+
+      const decodeedToken = jwtDecode(data?.accessToken);
+
+      console.log("decodeedToken token", decodeedToken);
+
+      setItem("medico_access_token", data?.accessToken);
+
+      if (decodeedToken?.isEmailConfirmed === "False") {
+        toast.success("Please check your email to verify your account");
+        router.push("/register/verify-email");
+      }
+
       // if (data.type === "company") {
       //   router.push("register/as-company");
       // } else {
@@ -67,7 +81,7 @@ export default function RegisterShopPage() {
     },
     onError: (error: any) => {
       console.log("error", error);
-      toast.error("An error occurred");
+      // toast.error("An error occurred");
     },
   });
 
@@ -80,11 +94,9 @@ export default function RegisterShopPage() {
 
     setItem("test-type", data.type);
 
-    toast.success("Please check your email to verify your account");
-
     signUpMutation.mutate(data);
 
-    router.push("/register/verify-email");
+    // router.push("/register/verify-email");
 
     // if (data.type === "company") {
     //   router.push("register/as-company");
