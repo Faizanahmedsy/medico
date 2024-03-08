@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,11 +25,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { registrationSchema } from "@/schema/auth-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
@@ -31,14 +34,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { signUpApi } from "@/services/auth/auth.api";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
-import Image from "next/image";
-import { Eye } from "lucide-react";
 import { PasswordInput } from "@/components/ui/password-input";
+import { registrationSchema } from "@/schema/auth-schema";
+import { signUpApi } from "@/services/auth/auth.api";
 import { setItem } from "@/lib/localStorage";
-import { jwtDecode } from "jwt-decode";
+
+interface decodeedToken {
+  isEmailConfirmed: string;
+}
 
 export default function RegisterShopPage() {
   const router = useRouter();
@@ -58,11 +61,11 @@ export default function RegisterShopPage() {
   const signUpMutation = useMutation({
     mutationFn: signUpApi,
     onSuccess: (data: any) => {
-      console.log("data", data);
+      console.log("signUpMutation onSucces data", data);
 
-      console.log("token", data?.accessToken);
+      console.log("signUpMutation token", data?.accessToken);
 
-      const decodeedToken = jwtDecode(data?.accessToken);
+      const decodeedToken: any = jwtDecode(data?.accessToken);
 
       console.log("decodeedToken token", decodeedToken);
 
@@ -80,7 +83,13 @@ export default function RegisterShopPage() {
       // }
     },
     onError: (error: any) => {
-      console.log("error", error);
+      console.log("signUpMutation error", error);
+
+      if (error?.response?.status) {
+        if (error?.response?.status === 409) {
+          toast.error("Email already exists");
+        }
+      }
       // toast.error("An error occurred");
     },
   });

@@ -47,16 +47,11 @@ import { useMutation } from "@tanstack/react-query";
 import { registerAsCompanyApi } from "@/services/user/user.api";
 import { cn } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
+import { jwtDecode } from "jwt-decode";
+import { toast } from "sonner";
 
 export default function RegisterAsCompanyPage() {
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-
-  const handleCardClick = (plan: string) => {
-    setSelectedPlan(plan);
-
-    console.log("plan", plan);
-  };
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof registerAsCompany>>({
     resolver: zodResolver(registerAsCompany),
     defaultValues: {
@@ -69,6 +64,7 @@ export default function RegisterAsCompanyPage() {
     },
     mode: "onChange",
   });
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
   const registerAsCompanyMutation = useMutation({
     mutationFn: registerAsCompanyApi,
@@ -105,12 +101,41 @@ export default function RegisterAsCompanyPage() {
 
   console.log("form chageType", form.watch("chargeType"));
 
+  const handleCardClick = (plan: string) => {
+    setSelectedPlan(plan);
+
+    console.log("plan", plan);
+  };
+
   useEffect(() => {
     const email = getItem("test-email");
     if (email) {
       form.setValue("email", email);
     }
   }, []);
+
+  const token = getItem("medico_access_token");
+
+  const decodedToken: any = jwtDecode(token);
+
+  const userRole =
+    decodedToken[
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ];
+
+  console.log("debug decodedToken", decodedToken);
+
+  console.log("debug userRole", userRole);
+
+  //   if(decodedToken?.http://schemas.microsoft.com/ws/2008/06/identity/claims/role === "company") {
+
+  // }
+
+  if (userRole === "Buyer") {
+    toast.error("You are not authorized to access this page");
+    router.push("/register/as-buyer");
+    return;
+  }
 
   return (
     <>
