@@ -38,6 +38,7 @@ import Image from "next/image";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
+import { getItem } from "@/lib/localStorage";
 
 export default function LoginShopPage() {
   const router = useRouter();
@@ -75,21 +76,21 @@ export default function LoginShopPage() {
 
     loginInMutation.mutate(data);
 
-    if (!localStorage.getItem("test-isCompleted")) {
+    if (!getItem("test-isCompleted")) {
       toast("Please complete your profile");
-      if (localStorage.getItem("test-type") == "company") {
+      if (getItem("test-type") == "company") {
         router.push("/register/as-company");
       }
-      if (localStorage.getItem("test-type") == "buyer") {
+      if (getItem("test-type") == "buyer") {
         router.push("/register/as-buyer");
       }
     }
 
-    if (localStorage.getItem("test-isVerified") == "true") {
+    if (getItem("test-isVerified") == "true") {
       router.push("/dashboard");
     }
 
-    if (!localStorage.getItem("test-isVerified")) {
+    if (!getItem("test-isVerified")) {
       toast("Please verify your email");
       router.push("/register/verify-email");
     }

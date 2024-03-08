@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { CldUploadWidget } from "next-cloudinary";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { registerAsCompanyApi } from "@/services/user/user.api";
 import { cn } from "@/lib/utils";
+import { getItem, setItem } from "@/lib/localStorage";
 
 export default function RegisterAsCompanyPage() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -98,13 +100,13 @@ export default function RegisterAsCompanyPage() {
     console.log("payload", payload);
     registerAsCompanyMutation.mutate(payload);
 
-    localStorage.setItem("test-isCompleted", "true");
+    setItem("test-isCompleted", "true");
   }
 
   console.log("form chageType", form.watch("chargeType"));
 
   useEffect(() => {
-    const email = localStorage.getItem("test-email");
+    const email = getItem("test-email");
     if (email) {
       form.setValue("email", email);
     }
@@ -366,6 +368,21 @@ export default function RegisterAsCompanyPage() {
                     //   )}
                     // />
                   )}
+                </div>
+
+                <div className="py-4">
+                  {/* <CldUploadWidget
+                    uploadPreset="dzdjzwcrs"
+                    options={{
+                      sources: ["local", "url", "google_drive", "dropbox"],
+                    }}
+                  >
+                    {({ open }) => {
+                      return (
+                        <button onClick={() => open()}>Upload an Image</button>
+                      );
+                    }}
+                  </CldUploadWidget> */}
                 </div>
               </CardContent>
               <CardFooter>

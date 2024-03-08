@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 
 import { Switch } from "./ui/switch";
+import { setItem } from "@/lib/localStorage";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -42,7 +43,7 @@ export function ThemeToggle() {
             setTheme("light");
             setChecked(false);
 
-            localStorage.setItem("theme", "light");
+            setItem("theme", "light");
           }
         }}
       />

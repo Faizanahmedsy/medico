@@ -37,6 +37,7 @@ import { toast } from "sonner";
 import Image from "next/image";
 import { Eye } from "lucide-react";
 import { PasswordInput } from "@/components/ui/password-input";
+import { setItem } from "@/lib/localStorage";
 
 export default function RegisterShopPage() {
   const router = useRouter();
@@ -75,9 +76,9 @@ export default function RegisterShopPage() {
   function onSubmit(data: z.infer<typeof registrationSchema>) {
     console.log(data);
 
-    localStorage.setItem("test-email", data.email);
+    setItem("test-email", data.email);
 
-    localStorage.setItem("test-type", data.type);
+    setItem("test-type", data.type);
 
     toast.success("Please check your email to verify your account");
 

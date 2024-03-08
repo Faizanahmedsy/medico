@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { getItem, setItem } from "@/lib/localStorage";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -19,13 +20,13 @@ export default function VerifyEmail() {
   const handleOtpSubmit = () => {
     console.log("Otp submitted");
 
-    const type = localStorage.getItem("test-type");
+    const type = getItem("test-type");
 
     if (otp !== "1001") return toast.error("Invalid OTP");
 
     if (otp === "1001") {
       toast.success("OTP Verified");
-      localStorage.setItem("test-isVerified", "true");
+      setItem("test-isVerified", "true");
     }
 
     if (type === "company") {
