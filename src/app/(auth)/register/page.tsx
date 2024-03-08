@@ -69,6 +69,7 @@ export default function RegisterShopPage() {
       setItem("medico_access_token", data?.accessToken);
 
       if (decodeedToken?.isEmailConfirmed === "False") {
+        toast.success("Please check your email to verify your account");
         router.push("/register/verify-email");
       }
 
@@ -92,8 +93,6 @@ export default function RegisterShopPage() {
     setItem("test-email", data.email);
 
     setItem("test-type", data.type);
-
-    toast.success("Please check your email to verify your account");
 
     signUpMutation.mutate(data);
 
