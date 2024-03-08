@@ -1,21 +1,22 @@
 "use client";
+import { getItem } from "@/lib/localStorage";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const data = { isComplete: localStorage.getItem("test-isCompleted") };
+  const data = { isComplete: getItem("test-isCompleted") };
   if (!data?.isComplete) router.push("/register/as-company");
 
   useEffect(() => {
-    const isCompleted = localStorage.getItem("test-isCompleted") ? true : false;
+    const isCompleted = getItem("test-isCompleted") ? true : false;
 
     console.log("isCompleted", isCompleted);
 
     if (!isCompleted) {
-      if (localStorage.getItem("test-isVerified") === "true") {
-        if (localStorage.getItem("test-type") === "company") {
+      if (getItem("test-isVerified") === "true") {
+        if (getItem("test-type") === "company") {
           router.push("/register/as-company");
         } else {
           router.push("/register/as-buyer");
@@ -27,5 +28,5 @@ export default function DashboardPage() {
     }
   }, []);
 
-  return localStorage.getItem("test-isCompleted") && <div>DashboardPage</div>;
+  return getItem("test-isCompleted") && <div>DashboardPage</div>;
 }

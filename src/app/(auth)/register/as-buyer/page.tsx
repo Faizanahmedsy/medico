@@ -38,6 +38,7 @@ import { registerAsBuyerApi } from "@/services/user/user.api";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getItem, setItem } from "@/lib/localStorage";
 
 export default function RegisterAsBuyerPage() {
   const router = useRouter();
@@ -89,7 +90,7 @@ export default function RegisterAsBuyerPage() {
 
     console.log("payload", payload);
 
-    localStorage.setItem("test-isCompleted", "true");
+    setItem("test-isCompleted", "true");
     registerAsBuyerMutation.mutate(payload);
 
     toast.success("Welcome to medico");
@@ -97,7 +98,7 @@ export default function RegisterAsBuyerPage() {
   }
 
   useEffect(() => {
-    const email = localStorage.getItem("test-email");
+    const email = getItem("test-email");
     if (email) {
       form.setValue("emailAddress", email);
     }
@@ -162,9 +163,7 @@ export default function RegisterAsBuyerPage() {
                           <Input
                             placeholder=" "
                             {...field}
-                            disabled={
-                              localStorage.getItem("test-email") ? true : false
-                            }
+                            disabled={getItem("test-email") ? true : false}
                           />
                         </FormControl>
                         <FormMessage />
