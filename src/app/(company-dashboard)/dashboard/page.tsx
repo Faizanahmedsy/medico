@@ -6,8 +6,6 @@ import { toast } from "sonner";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const data = { isComplete: getItem("test-isCompleted") };
-  if (!data?.isComplete) router.push("/register/as-company");
 
   useEffect(() => {
     const isCompleted = getItem("test-isCompleted") ? true : false;
