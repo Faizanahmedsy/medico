@@ -82,6 +82,8 @@ export default function DashboardPage() {
     isComplete = getItem("medico-isComplete");
   }
 
+  console.log("isComplete", isComplete);
+
   // useEffect(() => {
   //   // const isComplete: any = getItem("medico-isComplete");
 

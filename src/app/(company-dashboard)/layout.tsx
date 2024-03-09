@@ -8,18 +8,24 @@ import { toast } from "sonner";
 export default function DashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [isMounted, setIsMounted] = useState(false);
+  // const [isMounted, setIsMounted] = useState(false);
+
+  const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
 
-  let isComplete: any;
-  if (isMounted) {
-    isComplete = getItem("medico-isComplete");
-  }
+  // let isComplete: any;
+  // if (isMounted) {
+  //   isComplete = getItem("medico-isComplete");
+  // }
 
   useEffect(() => {
-    // const isComplete: any = getItem("medico-isComplete");
+    const isComplete: any = getItem("medico-isComplete");
 
-    setIsMounted(true);
+    setAuthorized(isComplete);
+
+    // setIsMounted(true);
+
+    console.log("isComplete", isComplete);
 
     if (!isComplete) {
       toast("You are not authorized to access this page. Please register.");
@@ -27,11 +33,11 @@ export default function DashboardLayout({
     }
   }, []);
 
-  if (!isComplete) return null;
+  // if (!isComplete) return null;
 
   return (
     <>
-      {isComplete && (
+      {authorized && (
         <>
           <Header />
           <div className="flex h-screen overflow-hidden">
