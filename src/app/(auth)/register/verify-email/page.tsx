@@ -9,8 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { getItem, setItem } from "@/lib/localStorage";
-import { verifyOtpApi } from "@/services/auth/auth.api";
-import { useMutation } from "@tanstack/react-query";
+import {
+  checkIsEmailVerifiedApi,
+  verifyOtpApi,
+} from "@/services/auth/auth.api";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { verify } from "crypto";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
@@ -32,11 +35,18 @@ export default function VerifyEmail() {
     },
   });
 
+  const checkIsEmailVerifiedQuery = useQuery({
+    queryKey: ["checkIsEmailVerified"],
+    queryFn: checkIsEmailVerifiedApi,
+  });
+
   const handleOtpSubmit = () => {
     if (!otp) return toast.error("Please enter OTP");
     // verifyOtpMutation.mutate({
     //   otp: otp,
     // });
+
+    console.log("is veridied", checkIsEmailVerifiedQuery.data);
 
     const type = getItem("test-type");
 

@@ -5,6 +5,7 @@ export const API = {
     verifyUser: "auth/verify-user",
     otp: "auth/otp",
     resetPassword: "auth/resetpassword",
+    checkIsEmailVerified: "auth/verify-user",
   },
   user: {
     registerAsCompany: "user/company",

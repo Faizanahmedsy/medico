@@ -24,3 +24,11 @@ export const verifyOtpApi = async (otp: string) => {
 
   return resp.data;
 };
+
+export const checkIsEmailVerifiedApi = async () => {
+  const resp = await superAxios.get(API.auth.checkIsEmailVerified);
+
+  console.log("checkIsEmailVerifiedApi resp", resp);
+
+  return resp.data;
+};

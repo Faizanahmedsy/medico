@@ -59,11 +59,53 @@ export default function LoginShopPage() {
     onSuccess: (data: any) => {
       console.log("data", data);
 
-      if (data.type === "company") {
-        router.push("register/as-company");
-      } else {
-        router.push("register/as-buyer");
+      // Or get token from api
+      let token = getItem("medico_access_token");
+
+      let decodedToken: any = jwtDecode(token);
+
+      const userRole = extractRoleFromToken(decodedToken);
+
+      console.log("login time decodedToken", decodedToken);
+
+      if (
+        decodedToken?.isEmailVerified === "True" &&
+        decodedToken?.isCompleted === "True" &&
+        decodedToken?.isVerified === "True"
+      ) {
+        router.push("/dashboard");
       }
+
+      // if (
+      //   decodedToken?.isEmailVerified === "True" &&
+      //   decodedToken?.isVerified === "False"
+      // ) {
+      //   toast("Please wait for admin to verify your account");
+      // }
+
+      if (
+        decodedToken?.isCompleted === "False" &&
+        decodedToken?.isEmailVerified === "True"
+      ) {
+        toast("Please complete your profile");
+        if (userRole === "Company") {
+          router.push("/register/as-company");
+        }
+        if (userRole === "Buyer") {
+          router.push("/register/as-buyer");
+        }
+      }
+
+      if (decodedToken?.isEmailVerified === "False") {
+        toast("Please verify your email");
+        router.push("/register/verify-email");
+      }
+
+      // if (data.type === "company") {
+      //   router.push("register/as-company");
+      // } else {
+      //   router.push("register/as-buyer");
+      // }
     },
     onError: (error: any) => {
       console.log("error", error);
@@ -72,47 +114,93 @@ export default function LoginShopPage() {
   });
 
   function onSubmit(data: z.infer<typeof loginSchema>) {
-    console.log(data);
+    console.log("Login Payload", data);
 
     loginInMutation.mutate(data);
 
     //TODO: PUSH ALL THE BELOW LOGIC TO A ON SUCCESS MUTATION
 
-    let token = getItem("medico_access_token");
+    // let token = getItem("medico_access_token");
 
-    let decodedToken: any = jwtDecode(token);
+    // let decodedToken: any = jwtDecode(token);
 
-    const userRole = extractRoleFromToken(decodedToken);
+    // const userRole = extractRoleFromToken(decodedToken);
 
-    console.log("login time decodedToken", decodedToken);
+    // console.log("login time decodedToken", decodedToken);
 
-    if (
-      decodedToken?.isCompleted === "False" &&
-      decodedToken?.isEmailVerified === "True"
-    ) {
-      toast("Please complete your profile");
-      if (userRole === "Company") {
-        router.push("/register/as-company");
-      }
-      if (userRole === "Buyer") {
-        router.push("/register/as-buyer");
-      }
-    }
+    // TEST-------------------------------------------------------------------------------
 
-    if (
-      decodedToken?.isEmailVerified === "True" &&
-      decodedToken?.isCompleted === "True"
-    ) {
-      router.push("/dashboard");
-    }
+    // const decodedToken = {
+    //   isEmailVerified: "True",
+    //   isCompleted: "True",
+    //   isVerified: "False",
+    // };
 
-    if (
-      decodedToken?.isEmailVerified === "False" &&
-      decodedToken?.isCompleted === "False"
-    ) {
-      toast("Please verify your email");
-      router.push("/register/verify-email");
-    }
+    // const userRole: any = "Buyer";
+
+    // if (
+    //   decodedToken?.isEmailVerified === "True" &&
+    //   decodedToken?.isCompleted === "True" &&
+    //   decodedToken?.isVerified === "True"
+    // ) {
+    //   router.push("/dashboard");
+    // }
+
+    // // if (
+    // //   decodedToken?.isEmailVerified === "True" &&
+    // //   decodedToken?.isVerified === "False"
+    // // ) {
+    // //   toast("Please wait for admin to verify your account");
+    // // }
+
+    // if (
+    //   decodedToken?.isCompleted === "False" &&
+    //   decodedToken?.isEmailVerified === "True"
+    // ) {
+    //   toast("Please complete your profile");
+    //   if (userRole === "Company") {
+    //     router.push("/register/as-company");
+    //   }
+    //   if (userRole === "Buyer") {
+    //     router.push("/register/as-buyer");
+    //   }
+    // }
+
+    // if (decodedToken?.isEmailVerified === "False") {
+    //   toast("Please verify your email");
+    //   router.push("/register/verify-email");
+    // }
+
+    // -------------------------------------------------------------------------------TEST
+
+    // if (
+    //   decodedToken?.isCompleted === "False" &&
+    //   decodedToken?.isEmailVerified === "True"
+    // ) {
+    //   toast("Please complete your profile");
+    //   if (userRole === "Company") {
+    //     router.push("/register/as-company");
+    //   }
+    //   if (userRole === "Buyer") {
+    //     router.push("/register/as-buyer");
+    //   }
+    // }
+
+    // if (
+    //   decodedToken?.isEmailVerified === "True" &&
+    //   decodedToken?.isCompleted === "True" &&
+    //   decodedToken?.isVerified === "True"
+    // ) {
+    //   router.push("/dashboard");
+    // }
+
+    // if (
+    //   decodedToken?.isEmailVerified === "False" &&
+    //   decodedToken?.isCompleted === "False"
+    // ) {
+    //   toast("Please verify your email");
+    //   router.push("/register/verify-email");
+    // }
 
     // if (!getItem("test-isCompleted")) {
     //   toast("Please complete your profile");
