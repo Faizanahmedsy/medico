@@ -33,8 +33,6 @@ export default function DashboardLayout({
     }
   }, []);
 
-  // if (!isComplete) return null;
-
   return (
     <>
       {authorized && (
