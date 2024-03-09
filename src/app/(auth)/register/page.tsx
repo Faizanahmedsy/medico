@@ -40,7 +40,7 @@ import { signUpApi } from "@/services/auth/auth.api";
 import { setItem } from "@/lib/localStorage";
 
 interface decodeedToken {
-  isEmailConfirmed: string;
+  isEmailVerified: string;
 }
 
 export default function RegisterShopPage() {
@@ -63,6 +63,10 @@ export default function RegisterShopPage() {
     onSuccess: (data: any) => {
       console.log("signUpMutation onSucces data", data);
 
+      if (data?.accessToken) {
+        toast.success("Account created successfully");
+      }
+
       console.log("signUpMutation token", data?.accessToken);
 
       const decodeedToken: any = jwtDecode(data?.accessToken);
@@ -71,7 +75,12 @@ export default function RegisterShopPage() {
 
       setItem("medico_access_token", data?.accessToken);
 
-      if (decodeedToken?.isEmailConfirmed === "False") {
+      console.log(
+        "decodeedToken?.isEmailVerified",
+        decodeedToken?.isEmailVerified
+      );
+
+      if (decodeedToken?.isEmailVerified === "False") {
         toast.success("Please check your email to verify your account");
         router.push("/register/verify-email");
       }

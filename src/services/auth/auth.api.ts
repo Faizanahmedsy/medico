@@ -12,7 +12,7 @@ export const signUpApi = async (payload: any) => {
 export const loginApi = async (payload: any) => {
   const resp = await superAxios.post(API.auth.login, payload);
 
-  console.log("socialSignUp resp", resp);
+  console.log("loginApi resp", resp);
 
   return resp.data;
 };

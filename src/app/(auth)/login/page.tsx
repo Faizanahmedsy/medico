@@ -38,7 +38,7 @@ import Image from "next/image";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
-import { getItem } from "@/lib/localStorage";
+import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { extractRoleFromToken } from "@/lib/helpers";
 
@@ -56,35 +56,44 @@ export default function LoginShopPage() {
 
   const loginInMutation = useMutation({
     mutationFn: loginApi,
-    onSuccess: (data: any) => {
-      console.log("data", data);
+    onSuccess: (resp: any) => {
+      console.log("loginInMutation resp ", resp);
+
+      setItem("medico_access_token", resp?.accessToken);
+
+      let newToken: any = resp?.accessToken;
 
       // Or get token from api
-      let token = getItem("medico_access_token");
+      // let token = getItem("medico_access_token");
 
-      let decodedToken: any = jwtDecode(token);
+      let decodedToken: any = jwtDecode(newToken);
 
       const userRole = extractRoleFromToken(decodedToken);
 
       console.log("login time decodedToken", decodedToken);
 
+      console.log("check condiiton", decodedToken?.isComplete === "True");
+
       if (
         decodedToken?.isEmailVerified === "True" &&
-        decodedToken?.isCompleted === "True" &&
+        decodedToken?.isComplete === "True" &&
         decodedToken?.isVerified === "True"
       ) {
+        // alert("You are logged in");
+        toast("You are logged in");
+        setItem("medico-isComplete", "true");
         router.push("/dashboard");
       }
 
-      // if (
-      //   decodedToken?.isEmailVerified === "True" &&
-      //   decodedToken?.isVerified === "False"
-      // ) {
-      //   toast("Please wait for admin to verify your account");
-      // }
+      if (
+        decodedToken?.isEmailVerified === "True" &&
+        decodedToken?.isVerified === "False"
+      ) {
+        toast("Please wait for admin to verify your account");
+      }
 
       if (
-        decodedToken?.isCompleted === "False" &&
+        decodedToken?.isComplete === "False" &&
         decodedToken?.isEmailVerified === "True"
       ) {
         toast("Please complete your profile");
@@ -100,16 +109,15 @@ export default function LoginShopPage() {
         toast("Please verify your email");
         router.push("/register/verify-email");
       }
-
-      // if (data.type === "company") {
-      //   router.push("register/as-company");
-      // } else {
-      //   router.push("register/as-buyer");
-      // }
     },
     onError: (error: any) => {
-      console.log("error", error);
-      toast.error("An error occurred");
+      if (error?.response?.status === 500) {
+        toast.error(error?.response?.data?.detail || "An error occurred");
+      }
+
+      if (error?.response?.status === 403) {
+        toast.error(error?.response?.data?.detail);
+      }
     },
   });
 
@@ -132,7 +140,7 @@ export default function LoginShopPage() {
 
     // const decodedToken = {
     //   isEmailVerified: "True",
-    //   isCompleted: "True",
+    //   isComplete: "True",
     //   isVerified: "False",
     // };
 
@@ -140,7 +148,7 @@ export default function LoginShopPage() {
 
     // if (
     //   decodedToken?.isEmailVerified === "True" &&
-    //   decodedToken?.isCompleted === "True" &&
+    //   decodedToken?.isComplete === "True" &&
     //   decodedToken?.isVerified === "True"
     // ) {
     //   router.push("/dashboard");
@@ -154,7 +162,7 @@ export default function LoginShopPage() {
     // // }
 
     // if (
-    //   decodedToken?.isCompleted === "False" &&
+    //   decodedToken?.isComplete === "False" &&
     //   decodedToken?.isEmailVerified === "True"
     // ) {
     //   toast("Please complete your profile");
@@ -174,7 +182,7 @@ export default function LoginShopPage() {
     // -------------------------------------------------------------------------------TEST
 
     // if (
-    //   decodedToken?.isCompleted === "False" &&
+    //   decodedToken?.isComplete === "False" &&
     //   decodedToken?.isEmailVerified === "True"
     // ) {
     //   toast("Please complete your profile");
@@ -188,7 +196,7 @@ export default function LoginShopPage() {
 
     // if (
     //   decodedToken?.isEmailVerified === "True" &&
-    //   decodedToken?.isCompleted === "True" &&
+    //   decodedToken?.isComplete === "True" &&
     //   decodedToken?.isVerified === "True"
     // ) {
     //   router.push("/dashboard");
@@ -196,13 +204,13 @@ export default function LoginShopPage() {
 
     // if (
     //   decodedToken?.isEmailVerified === "False" &&
-    //   decodedToken?.isCompleted === "False"
+    //   decodedToken?.isComplete === "False"
     // ) {
     //   toast("Please verify your email");
     //   router.push("/register/verify-email");
     // }
 
-    // if (!getItem("test-isCompleted")) {
+    // if (!getItem("test-isComplete")) {
     //   toast("Please complete your profile");
     //   if (getItem("test-type") == "company") {
     //     router.push("/register/as-company");
