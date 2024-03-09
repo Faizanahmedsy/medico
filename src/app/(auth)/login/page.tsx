@@ -39,6 +39,8 @@ import { Eye } from "lucide-react";
 import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
 import { getItem } from "@/lib/localStorage";
+import { jwtDecode } from "jwt-decode";
+import { extractRoleFromToken } from "@/lib/helpers";
 
 export default function LoginShopPage() {
   const router = useRouter();
@@ -57,11 +59,53 @@ export default function LoginShopPage() {
     onSuccess: (data: any) => {
       console.log("data", data);
 
-      if (data.type === "company") {
-        router.push("register/as-company");
-      } else {
-        router.push("register/as-buyer");
+      // Or get token from api
+      let token = getItem("medico_access_token");
+
+      let decodedToken: any = jwtDecode(token);
+
+      const userRole = extractRoleFromToken(decodedToken);
+
+      console.log("login time decodedToken", decodedToken);
+
+      if (
+        decodedToken?.isEmailVerified === "True" &&
+        decodedToken?.isCompleted === "True" &&
+        decodedToken?.isVerified === "True"
+      ) {
+        router.push("/dashboard");
       }
+
+      // if (
+      //   decodedToken?.isEmailVerified === "True" &&
+      //   decodedToken?.isVerified === "False"
+      // ) {
+      //   toast("Please wait for admin to verify your account");
+      // }
+
+      if (
+        decodedToken?.isCompleted === "False" &&
+        decodedToken?.isEmailVerified === "True"
+      ) {
+        toast("Please complete your profile");
+        if (userRole === "Company") {
+          router.push("/register/as-company");
+        }
+        if (userRole === "Buyer") {
+          router.push("/register/as-buyer");
+        }
+      }
+
+      if (decodedToken?.isEmailVerified === "False") {
+        toast("Please verify your email");
+        router.push("/register/verify-email");
+      }
+
+      // if (data.type === "company") {
+      //   router.push("register/as-company");
+      // } else {
+      //   router.push("register/as-buyer");
+      // }
     },
     onError: (error: any) => {
       console.log("error", error);
@@ -69,45 +113,117 @@ export default function LoginShopPage() {
     },
   });
 
-  console.log("loginInMutation", loginInMutation);
-
   function onSubmit(data: z.infer<typeof loginSchema>) {
-    console.log(data);
+    console.log("Login Payload", data);
 
     loginInMutation.mutate(data);
 
-    if (!getItem("test-isCompleted")) {
-      toast("Please complete your profile");
-      if (getItem("test-type") == "company") {
-        router.push("/register/as-company");
-      }
-      if (getItem("test-type") == "buyer") {
-        router.push("/register/as-buyer");
-      }
-    }
+    //TODO: PUSH ALL THE BELOW LOGIC TO A ON SUCCESS MUTATION
 
-    if (getItem("test-isVerified") == "true") {
-      router.push("/dashboard");
-    }
+    // let token = getItem("medico_access_token");
 
-    if (!getItem("test-isVerified")) {
-      toast("Please verify your email");
-      router.push("/register/verify-email");
-    }
+    // let decodedToken: any = jwtDecode(token);
+
+    // const userRole = extractRoleFromToken(decodedToken);
+
+    // console.log("login time decodedToken", decodedToken);
+
+    // TEST-------------------------------------------------------------------------------
+
+    // const decodedToken = {
+    //   isEmailVerified: "True",
+    //   isCompleted: "True",
+    //   isVerified: "False",
+    // };
+
+    // const userRole: any = "Buyer";
+
+    // if (
+    //   decodedToken?.isEmailVerified === "True" &&
+    //   decodedToken?.isCompleted === "True" &&
+    //   decodedToken?.isVerified === "True"
+    // ) {
+    //   router.push("/dashboard");
+    // }
+
+    // // if (
+    // //   decodedToken?.isEmailVerified === "True" &&
+    // //   decodedToken?.isVerified === "False"
+    // // ) {
+    // //   toast("Please wait for admin to verify your account");
+    // // }
+
+    // if (
+    //   decodedToken?.isCompleted === "False" &&
+    //   decodedToken?.isEmailVerified === "True"
+    // ) {
+    //   toast("Please complete your profile");
+    //   if (userRole === "Company") {
+    //     router.push("/register/as-company");
+    //   }
+    //   if (userRole === "Buyer") {
+    //     router.push("/register/as-buyer");
+    //   }
+    // }
+
+    // if (decodedToken?.isEmailVerified === "False") {
+    //   toast("Please verify your email");
+    //   router.push("/register/verify-email");
+    // }
+
+    // -------------------------------------------------------------------------------TEST
+
+    // if (
+    //   decodedToken?.isCompleted === "False" &&
+    //   decodedToken?.isEmailVerified === "True"
+    // ) {
+    //   toast("Please complete your profile");
+    //   if (userRole === "Company") {
+    //     router.push("/register/as-company");
+    //   }
+    //   if (userRole === "Buyer") {
+    //     router.push("/register/as-buyer");
+    //   }
+    // }
+
+    // if (
+    //   decodedToken?.isEmailVerified === "True" &&
+    //   decodedToken?.isCompleted === "True" &&
+    //   decodedToken?.isVerified === "True"
+    // ) {
+    //   router.push("/dashboard");
+    // }
+
+    // if (
+    //   decodedToken?.isEmailVerified === "False" &&
+    //   decodedToken?.isCompleted === "False"
+    // ) {
+    //   toast("Please verify your email");
+    //   router.push("/register/verify-email");
+    // }
+
+    // if (!getItem("test-isCompleted")) {
+    //   toast("Please complete your profile");
+    //   if (getItem("test-type") == "company") {
+    //     router.push("/register/as-company");
+    //   }
+    //   if (getItem("test-type") == "buyer") {
+    //     router.push("/register/as-buyer");
+    //   }
+    // }
+
+    // if (getItem("test-isVerified") == "true") {
+    //   router.push("/dashboard");
+    // }
+
+    // if (!getItem("test-isVerified")) {
+    //   toast("Please verify your email");
+    //   router.push("/register/verify-email");
+    // }
   }
 
   return (
     <>
-      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"></div> */}
-      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]"></div>
-      </div> */}
-      {/* <div className="absolute top-0 -z-10 h-full w-full bg-white">
-        <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]"></div>
-      </div> */}
-
-      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div> */}
-
       <div className="flex justify-center items-center h-screen">
         <Card>
           {/* <div className="flex flex-col lg:w-[700px]"> */}
@@ -166,7 +282,8 @@ export default function LoginShopPage() {
                   </div>
                   <Link href="/register">
                     <div className="mt-5  text-sm text-muted-foreground">
-                      Don&apos;t have an account? Sign Up{" "}
+                      Don&apos;t have an account?{" "}
+                      <span className="text-blue-500"> Sign Up </span>{" "}
                     </div>
                   </Link>
                 </CardContent>

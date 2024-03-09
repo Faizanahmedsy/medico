@@ -79,7 +79,7 @@ export const registerAsBuyerSchema = z.object({
         "Last name should not have special characters and more than 1 space",
     }),
   occupation: z.string(),
-  degree: z.string(),
+  // degree: z.string(),
   state: z.string(),
   district: z.string(),
   taluka: z.string(),

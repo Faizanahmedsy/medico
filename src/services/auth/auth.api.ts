@@ -16,3 +16,19 @@ export const loginApi = async (payload: any) => {
 
   return resp.data;
 };
+
+export const verifyOtpApi = async (otp: string) => {
+  const resp = await superAxios.patch(API.auth.otp, otp);
+
+  console.log("verifyOtpApi resp", resp);
+
+  return resp.data;
+};
+
+export const checkIsEmailVerifiedApi = async () => {
+  const resp = await superAxios.get(API.auth.checkIsEmailVerified);
+
+  console.log("checkIsEmailVerifiedApi resp", resp);
+
+  return resp.data;
+};

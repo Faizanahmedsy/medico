@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, Navbar } from "@/components/modules";
+import { Footer, Navbar } from "@/components/layout";
 
 export default function LandingLayout({
   children,

@@ -3,28 +3,19 @@ import axios from "axios";
 import { getItem } from "@/lib/localStorage";
 import Cookies from "js-cookie";
 
-const token = getItem("customerAuthToken");
+const token = getItem("medico_access_token");
 
 // console.log("instance token", token);
 
 // console.log("instance cookie", Cookies.get("pharmaAuth"));
 
-// const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
+const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
 const superAxios = axios.create({
   baseURL:
-    "https://ec2e-2409-40c1-42-d715-5557-31cd-66e1-feec.ngrok-free.app/api/",
-  // baseURL: "https://honestly-teaching-toucan.ngrok-free.app/web/v1/api/",
-
-  // baseURL: "https://dummyjson.com",
-  // headers: {
-  //   // "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-  //   Authorization:  `Bearer ${token}`,
-  //   // "Content-Type": "multipart/form-data",
-  // },
-  // headers: authHeaders,
+    "https://b55e-2409-4080-9291-450-ac39-417c-ed7-738c.ngrok-free.app/api/",
   headers: {
-    // ...authHeaders,
+    ...authHeaders,
     "ngrok-skip-browser-warning": "true",
   },
 });

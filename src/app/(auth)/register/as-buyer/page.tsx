@@ -39,6 +39,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getItem, setItem } from "@/lib/localStorage";
+import { jwtDecode } from "jwt-decode";
 
 export default function RegisterAsBuyerPage() {
   const router = useRouter();
@@ -50,7 +51,7 @@ export default function RegisterAsBuyerPage() {
       lastName: "",
       emailAddress: "",
       occupation: "",
-      degree: "",
+      // degree: "",
       state: "",
       district: "",
       taluka: "",
@@ -80,7 +81,7 @@ export default function RegisterAsBuyerPage() {
       lastName: data.lastName,
       emailAddress: data.emailAddress,
       occupation: data.occupation,
-      degree: data.degree,
+      // degree: data.degree,
       address: {
         state: data.state,
         district: data.district,
@@ -103,6 +104,30 @@ export default function RegisterAsBuyerPage() {
       form.setValue("emailAddress", email);
     }
   }, []);
+
+  const token = getItem("medico_access_token");
+
+  const decodedToken: any = jwtDecode(token);
+
+  const userRole =
+    decodedToken[
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ];
+
+  console.log("debug decodedToken", decodedToken);
+
+  console.log("debug userRole", userRole);
+
+  //   if(decodedToken?.http://schemas.microsoft.com/ws/2008/06/identity/claims/role === "company") {
+
+  // }
+
+  if (userRole === "Company") {
+    toast.error("You are not authorized to access this page");
+    router.push("/register/as-company");
+
+    return;
+  }
 
   return (
     <>
@@ -183,7 +208,7 @@ export default function RegisterAsBuyerPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="degree"
                     render={({ field }) => (
@@ -195,7 +220,7 @@ export default function RegisterAsBuyerPage() {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   <FormField
                     control={form.control}
