@@ -14,9 +14,13 @@ export const registerAsCompanyApi = async (payload: any) => {
 };
 
 export const registerAsBuyerApi = async (payload: any) => {
-  const resp = await superAxios.post(API.user.registerAsBuyer, payload);
+  const resp = await superAxios.post(API.user.registerAsBuyer, payload, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("medico_access_token")}`,
+    },
+  });
 
-  console.log("socialSignUp resp", resp);
+  console.log("registerAsBuyerApi resp", resp);
 
-  return resp.data;
+  return resp;
 };

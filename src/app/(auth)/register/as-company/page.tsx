@@ -96,7 +96,7 @@ export default function RegisterAsCompanyPage() {
     console.log("payload", payload);
     registerAsCompanyMutation.mutate(payload);
 
-    setItem("test-isCompleted", "true");
+    setItem("test-isComplete", "true");
   }
 
   console.log("form chageType", form.watch("chargeType"));

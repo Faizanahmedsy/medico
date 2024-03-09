@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 // interface decodedToken extends jwtDecode {
-//   isCompleted?: string;
+//   isComplete?: string;
 //   type?: string;
 // }
 
@@ -16,11 +16,11 @@ export default function DashboardPage() {
   const router = useRouter();
 
   // useEffect(() => {
-  //   const isCompleted = getItem("test-isCompleted") ? true : false;
+  //   const isComplete = getItem("test-isComplete") ? true : false;
 
-  //   console.log("isCompleted", isCompleted);
+  //   console.log("isComplete", isComplete);
 
-  //   if (!isCompleted) {
+  //   if (!isComplete) {
   //     if (getItem("test-isVerified") === "true") {
   //       if (getItem("test-type") === "company") {
   //         router.push("/register/as-company");
@@ -55,7 +55,7 @@ export default function DashboardPage() {
 
   //   if (
   //     decodedToken?.isEmailVerified === "True" &&
-  //     decodedToken?.isCompleted === "False"
+  //     decodedToken?.isComplete === "False"
   //   ) {
   //     toast("Please complete your profile");
   //     if (userRole === "Company") {
@@ -66,6 +66,23 @@ export default function DashboardPage() {
   //     }
   //   }
   // }, []);
+
+  // useEffect(() => {
+  //   const isComplete: any = getItem("medico-isComplete");
+
+  //   if (!isComplete)) {
+  //     router.push("/register");
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    const isComplete: any = getItem("medico-isComplete");
+
+    if (!isComplete) {
+      toast("You are not authorized to access this page. Please register.");
+      router.push("/register");
+    }
+  }, []);
 
   return <div>DashboardPage</div>;
 }

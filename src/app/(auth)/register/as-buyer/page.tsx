@@ -61,8 +61,15 @@ export default function RegisterAsBuyerPage() {
 
   const registerAsBuyerMutation = useMutation({
     mutationFn: registerAsBuyerApi,
-    onSuccess: (data: any) => {
-      console.log("data", data);
+    onSuccess: (resp: any) => {
+      if (resp?.status === 201) {
+        setItem("medico-isComplete", "true");
+        toast.success("Welcome to medico");
+        router.push("/dashboard");
+      }
+
+      console.log("registerAsBuyerApi data", resp);
+
       // if (data.type === "company") {
       //   router.push("register/as-company");
       // } else {
@@ -91,11 +98,7 @@ export default function RegisterAsBuyerPage() {
 
     console.log("payload", payload);
 
-    setItem("test-isCompleted", "true");
     registerAsBuyerMutation.mutate(payload);
-
-    toast.success("Welcome to medico");
-    router.push("/dashboard");
   }
 
   useEffect(() => {
