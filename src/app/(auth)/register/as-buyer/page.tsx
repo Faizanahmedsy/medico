@@ -51,7 +51,7 @@ export default function RegisterAsBuyerPage() {
       lastName: "",
       emailAddress: "",
       occupation: "",
-      degree: "",
+      // degree: "",
       state: "",
       district: "",
       taluka: "",
@@ -81,7 +81,7 @@ export default function RegisterAsBuyerPage() {
       lastName: data.lastName,
       emailAddress: data.emailAddress,
       occupation: data.occupation,
-      degree: data.degree,
+      // degree: data.degree,
       address: {
         state: data.state,
         district: data.district,
@@ -208,7 +208,7 @@ export default function RegisterAsBuyerPage() {
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="degree"
                     render={({ field }) => (
@@ -220,7 +220,7 @@ export default function RegisterAsBuyerPage() {
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   <FormField
                     control={form.control}

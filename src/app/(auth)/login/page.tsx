@@ -194,7 +194,8 @@ export default function LoginShopPage() {
                   </div>
                   <Link href="/register">
                     <div className="mt-5  text-sm text-muted-foreground">
-                      Don&apos;t have an account? Sign Up{" "}
+                      Don&apos;t have an account?{" "}
+                      <span className="text-blue-500"> Sign Up </span>{" "}
                     </div>
                   </Link>
                 </CardContent>

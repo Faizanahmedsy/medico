@@ -185,7 +185,7 @@ export default function RegisterShopPage() {
                         <FormItem className="w-full">
                           <FormLabel>Username</FormLabel>
                           <FormControl>
-                            <Input placeholder=" " {...field} />
+                            <Input placeholder="exampleuser" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
