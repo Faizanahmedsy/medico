@@ -52,8 +52,19 @@ export const registrationSchema = z
   });
 
 export const loginSchema = z.object({
-  email: z.string(),
-  password: z.string(),
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8, {
+      message: "Password must be at least 8 characters",
+    })
+    .max(50)
+    .refine((value) => /[0-9]/.test(value), {
+      message: "Password must contain at least one number",
+    })
+    .refine((value) => /[!@#$%^&*(),.?":{}|<>]/.test(value), {
+      message: "Password must contain at least one special character",
+    }),
 });
 
 export const registerAsCompany = z.object({
@@ -80,10 +91,18 @@ export const registerAsBuyerSchema = z.object({
       message:
         "Last name should not have special characters and more than 1 space",
     }),
-  occupation: z.string(),
+  occupation: z.string().min(1, {
+    message: "Occupation is required",
+  }),
   // degree: z.string(),
-  state: z.string(),
-  district: z.string(),
-  taluka: z.string(),
+  state: z.string().min(1, {
+    message: "State is required",
+  }),
+  district: z.string().min(1, {
+    message: "District is required",
+  }),
+  taluka: z.string().min(1, {
+    message: "Taluka is required",
+  }),
   emailAddress: z.string().email(),
 });
