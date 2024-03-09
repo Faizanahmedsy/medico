@@ -133,7 +133,10 @@ export default function RegisterAsCompanyPage() {
       ],
     };
 
-    if (selectedPlan) {
+    console.log("selectedPlan", selectedPlan);
+    console.log('form.watch("chargesType")', form.watch("chargesType"));
+
+    if (selectedPlan && form.watch("chargesType") === "subscription") {
       payload.subscription = selectedPlan;
     }
 
@@ -142,7 +145,7 @@ export default function RegisterAsCompanyPage() {
     }
 
     console.log("payload", payload);
-    registerAsCompanyMutation.mutate(payload);
+    // registerAsCompanyMutation.mutate(payload);
 
     setItem("test-isComplete", "true");
   }
