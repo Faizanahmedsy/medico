@@ -75,6 +75,8 @@ export default function DashboardPage() {
   //   }
   // }, []);
 
+  const isComplete: any = getItem("medico-isComplete");
+
   useEffect(() => {
     const isComplete: any = getItem("medico-isComplete");
 
@@ -84,5 +86,5 @@ export default function DashboardPage() {
     }
   }, []);
 
-  return <div>DashboardPage</div>;
+  return isComplete && <div>DashboardPage</div>;
 }
