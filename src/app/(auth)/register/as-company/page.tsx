@@ -380,11 +380,11 @@ export default function RegisterAsCompanyPage() {
                                     <div className="grid grid-cols-3 gap-3">
                                       <Card
                                         onClick={() =>
-                                          handleCardClick("3000PERMONTH")
+                                          handleCardClick("PERMONTH_3000")
                                         }
                                         className={cn(
                                           "cursor-pointer",
-                                          selectedPlan === "3000PERMONTH"
+                                          selectedPlan === "PERMONTH_3000"
                                             ? "bg-teal-800 text-white"
                                             : ""
                                         )}
@@ -396,11 +396,11 @@ export default function RegisterAsCompanyPage() {
                                       </Card>
                                       <Card
                                         onClick={() =>
-                                          handleCardClick("15000PERSIXMONTH")
+                                          handleCardClick("PERSIXMONTH_15000")
                                         }
                                         className={cn(
                                           "cursor-pointer",
-                                          selectedPlan === "15000PERSIXMONTH"
+                                          selectedPlan === "PERSIXMONTH_15000"
                                             ? "bg-teal-800 text-white"
                                             : ""
                                         )}
@@ -412,11 +412,11 @@ export default function RegisterAsCompanyPage() {
                                       </Card>
                                       <Card
                                         onClick={() =>
-                                          handleCardClick("25000PERYEAR")
+                                          handleCardClick("PERYEAR_25000")
                                         }
                                         className={cn(
                                           "cursor-pointer",
-                                          selectedPlan === "25000PERYEAR"
+                                          selectedPlan === "PERYEAR_25000"
                                             ? "bg-teal-800 text-white"
                                             : ""
                                         )}
