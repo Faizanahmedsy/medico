@@ -50,6 +50,19 @@ import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 
+interface PayloadType {
+  companyName: string;
+  companyEmail: string;
+  companyType: string;
+  emailAddress: string;
+  subscription?: string; // Update the type of charges property if needed
+  chargesType?: string;
+  documentLinks?: {
+    name: string;
+    link: string;
+  }[];
+}
+
 export default function RegisterAsCompanyPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof registerAsCompany>>({
@@ -58,7 +71,7 @@ export default function RegisterAsCompanyPage() {
       companyName: "",
       companyEmail: "",
       companyType: "",
-      chargeType: "",
+      chargesType: "",
       charges: "",
       email: "",
     },
@@ -68,8 +81,15 @@ export default function RegisterAsCompanyPage() {
 
   const registerAsCompanyMutation = useMutation({
     mutationFn: registerAsCompanyApi,
-    onSuccess: (data: any) => {
-      console.log("data", data);
+    onSuccess: (resp: any) => {
+      console.log("registerAsCompanyApi data", resp);
+
+      if (resp?.status === 201) {
+        toast.success("Company registered successfully");
+        router.push("/dashboard");
+        setItem("medico-isComplete", "true");
+      }
+
       // if (data.type === "company") {
       //   router.push("register/as-company");
       // } else {
@@ -88,10 +108,38 @@ export default function RegisterAsCompanyPage() {
 
     // data.charges = selectedPlan;
 
-    const payload = {
-      ...data,
-      charges: selectedPlan,
+    // const payload: {
+    //   companyName: string;
+    //   companyEmail: string;
+    //   companyType: string;
+    //   chargesType: string;
+    //   email?: string;
+    //   charges: string;
+    // } = {
+    //   ...data,
+    //   charges: selectedPlan,
+    // };
+
+    const payload: PayloadType = {
+      companyName: data.companyName,
+      companyEmail: data.companyEmail,
+      companyType: data.companyType,
+      emailAddress: data.email,
+      documentLinks: [
+        {
+          name: "panCard",
+          link: "https://faizan-portfolio-v8.vercel.app/",
+        },
+      ],
     };
+
+    if (selectedPlan) {
+      payload.subscription = selectedPlan;
+    }
+
+    if (data.chargesType) {
+      payload.chargesType = data.chargesType;
+    }
 
     console.log("payload", payload);
     registerAsCompanyMutation.mutate(payload);
@@ -99,7 +147,7 @@ export default function RegisterAsCompanyPage() {
     setItem("test-isComplete", "true");
   }
 
-  console.log("form chageType", form.watch("chargeType"));
+  console.log("form chageType", form.watch("chargesType"));
 
   const handleCardClick = (plan: string) => {
     setSelectedPlan(plan);
@@ -165,7 +213,7 @@ export default function RegisterAsCompanyPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8  my-5 md:min-w-[700px]"
+              className="space-y-4  my-5 md:min-w-[700px]"
             >
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
@@ -212,6 +260,7 @@ export default function RegisterAsCompanyPage() {
                       </FormItem>
                     )}
                   />
+
                   <FormField
                     control={form.control}
                     name="companyType"
@@ -228,10 +277,10 @@ export default function RegisterAsCompanyPage() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="selfSelling">
+                            <SelectItem value="SelfSelling">
                               Self Selling
                             </SelectItem>
-                            <SelectItem value="companySelling">
+                            <SelectItem value="AdminSelling">
                               Company selling
                             </SelectItem>
                           </SelectContent>
@@ -241,171 +290,180 @@ export default function RegisterAsCompanyPage() {
                     )}
                   />
 
-                  <FormField
-                    control={form.control}
-                    name="chargeType"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Charge Type</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a charge type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="percentageOnMargin">
-                              Percentage on Margin
-                            </SelectItem>
-                            <SelectItem value="subscription">
-                              Subscription
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  {form.watch("chargeType") === "subscription" && (
-                    <FormField
-                      control={form.control}
-                      name="charges"
-                      render={({ field }) => (
-                        // <FormItem className="w-full">
-                        //   <FormLabel>Charges</FormLabel>
-                        //   <Select
-                        //     onValueChange={field.onChange}
-                        //     defaultValue={field.value}
-                        //   >
-                        //     <FormControl>
-                        //       <SelectTrigger>
-                        //         <SelectValue placeholder="Select a role" />
-                        //       </SelectTrigger>
-                        //     </FormControl>
-                        //     <SelectContent>
-                        //       <SelectItem value="1">
-                        //         <div>
-                        //           <div>3000 INR</div>
-                        //           <div>Per Month</div>
-                        //         </div>
-                        //       </SelectItem>
-                        //       <SelectItem value="2">
-                        //         <div>
-                        //           <div>15000 INR</div>
-                        //           <div>Per 6 Month</div>
-                        //         </div>
-                        //       </SelectItem>
-                        //       <SelectItem value="3">
-                        //         <div>
-                        //           <div>25000 INR</div>
-                        //           <div>Per Year</div>
-                        //         </div>
-                        //       </SelectItem>
-                        //     </SelectContent>
-                        //   </Select>
-                        //   <FormMessage />
-                        // </FormItem>
-                        <FormItem className="w-full flex flex-col justify-between pt-1">
-                          <FormLabel>Charges</FormLabel>
-                          <FormControl>
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button variant="outline">Select a plan</Button>
-                              </DialogTrigger>
-                              <DialogContent className="sm:max-w-[625px] ">
-                                <DialogHeader>
-                                  <DialogTitle>
-                                    Select a Subscription plan
-                                  </DialogTitle>
-                                  <DialogDescription>
-                                    Pick what suites you the best
-                                  </DialogDescription>
-                                </DialogHeader>
-                                <div className="grid grid-cols-3 gap-3">
-                                  <Card
-                                    onClick={() =>
-                                      handleCardClick("monthly 3000")
-                                    }
-                                    className={cn(
-                                      "cursor-pointer",
-                                      selectedPlan === "monthly 3000"
-                                        ? "bg-teal-800 text-white"
-                                        : ""
-                                    )}
-                                  >
-                                    <CardHeader>
-                                      <CardTitle>3000 INR</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>Per Month</CardContent>
-                                  </Card>
-                                  <Card
-                                    onClick={() =>
-                                      handleCardClick("sixMonths 15000")
-                                    }
-                                    className={cn(
-                                      "cursor-pointer",
-                                      selectedPlan === "sixMonths 15000"
-                                        ? "bg-teal-800 text-white"
-                                        : ""
-                                    )}
-                                  >
-                                    <CardHeader>
-                                      <CardTitle>15000 INR</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>Per 6 Month</CardContent>
-                                  </Card>
-                                  <Card
-                                    onClick={() =>
-                                      handleCardClick("yearly 25000")
-                                    }
-                                    className={cn(
-                                      "cursor-pointer",
-                                      selectedPlan === "yearly 25000"
-                                        ? "bg-teal-800 text-white"
-                                        : ""
-                                    )}
-                                  >
-                                    <CardHeader>
-                                      <CardTitle>25000 INR</CardTitle>
-                                    </CardHeader>
-                                    <CardContent> Per Year</CardContent>
-                                  </Card>
-                                </div>
-                                <DialogFooter>
-                                  <DialogClose asChild>
-                                    <Button type="button" variant="secondary">
-                                      Save changes
+                  {form.watch("companyType") === "SelfSelling" && (
+                    <>
+                      <FormField
+                        control={form.control}
+                        name="chargesType"
+                        render={({ field }) => (
+                          <FormItem className="w-full">
+                            <FormLabel>Charge Type</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select a charge type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="percentageOnMargin">
+                                  Percentage on Margin
+                                </SelectItem>
+                                <SelectItem value="subscription">
+                                  Subscription
+                                </SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      {form.watch("chargesType") === "subscription" && (
+                        <FormField
+                          control={form.control}
+                          name="charges"
+                          render={({ field }) => (
+                            // <FormItem className="w-full">
+                            //   <FormLabel>Charges</FormLabel>
+                            //   <Select
+                            //     onValueChange={field.onChange}
+                            //     defaultValue={field.value}
+                            //   >
+                            //     <FormControl>
+                            //       <SelectTrigger>
+                            //         <SelectValue placeholder="Select a role" />
+                            //       </SelectTrigger>
+                            //     </FormControl>
+                            //     <SelectContent>
+                            //       <SelectItem value="1">
+                            //         <div>
+                            //           <div>3000 INR</div>
+                            //           <div>Per Month</div>
+                            //         </div>
+                            //       </SelectItem>
+                            //       <SelectItem value="2">
+                            //         <div>
+                            //           <div>15000 INR</div>
+                            //           <div>Per 6 Month</div>
+                            //         </div>
+                            //       </SelectItem>
+                            //       <SelectItem value="3">
+                            //         <div>
+                            //           <div>25000 INR</div>
+                            //           <div>Per Year</div>
+                            //         </div>
+                            //       </SelectItem>
+                            //     </SelectContent>
+                            //   </Select>
+                            //   <FormMessage />
+                            // </FormItem>
+                            <FormItem className="w-full flex flex-col justify-between pt-1">
+                              <FormLabel>Charges</FormLabel>
+                              <FormControl>
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button variant="outline">
+                                      Select a plan
                                     </Button>
-                                  </DialogClose>
-                                  {/* <Button type="submit">Save changes</Button> */}
-                                </DialogFooter>
-                              </DialogContent>
-                            </Dialog>
-                          </FormControl>
-                        </FormItem>
+                                  </DialogTrigger>
+                                  <DialogContent className="sm:max-w-[625px] ">
+                                    <DialogHeader>
+                                      <DialogTitle>
+                                        Select a Subscription plan
+                                      </DialogTitle>
+                                      <DialogDescription>
+                                        Pick what suites you the best
+                                      </DialogDescription>
+                                    </DialogHeader>
+                                    <div className="grid grid-cols-3 gap-3">
+                                      <Card
+                                        onClick={() =>
+                                          handleCardClick("3000PERMONTH")
+                                        }
+                                        className={cn(
+                                          "cursor-pointer",
+                                          selectedPlan === "3000PERMONTH"
+                                            ? "bg-teal-800 text-white"
+                                            : ""
+                                        )}
+                                      >
+                                        <CardHeader>
+                                          <CardTitle>3000 INR</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>Per Month</CardContent>
+                                      </Card>
+                                      <Card
+                                        onClick={() =>
+                                          handleCardClick("15000PERSIXMONTH")
+                                        }
+                                        className={cn(
+                                          "cursor-pointer",
+                                          selectedPlan === "15000PERSIXMONTH"
+                                            ? "bg-teal-800 text-white"
+                                            : ""
+                                        )}
+                                      >
+                                        <CardHeader>
+                                          <CardTitle>15000 INR</CardTitle>
+                                        </CardHeader>
+                                        <CardContent>Per 6 Month</CardContent>
+                                      </Card>
+                                      <Card
+                                        onClick={() =>
+                                          handleCardClick("25000PERYEAR")
+                                        }
+                                        className={cn(
+                                          "cursor-pointer",
+                                          selectedPlan === "25000PERYEAR"
+                                            ? "bg-teal-800 text-white"
+                                            : ""
+                                        )}
+                                      >
+                                        <CardHeader>
+                                          <CardTitle>25000 INR</CardTitle>
+                                        </CardHeader>
+                                        <CardContent> Per Year</CardContent>
+                                      </Card>
+                                    </div>
+                                    <DialogFooter>
+                                      <DialogClose asChild>
+                                        <Button
+                                          type="button"
+                                          variant="secondary"
+                                        >
+                                          Save changes
+                                        </Button>
+                                      </DialogClose>
+                                      {/* <Button type="submit">Save changes</Button> */}
+                                    </DialogFooter>
+                                  </DialogContent>
+                                </Dialog>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        // <FormField
+                        //   control={form.control}
+                        //   name="charges"
+                        //   render={({ field }) => (
+                        //     <FormItem className="w-full">
+                        //       <FormLabel>Charges</FormLabel>
+                        //       <FormControl>
+                        //         <Input placeholder=" " {...field} />
+                        //       </FormControl>
+                        //       <FormMessage />
+                        //     </FormItem>
+                        //   )}
+                        // />
                       )}
-                    />
-                    // <FormField
-                    //   control={form.control}
-                    //   name="charges"
-                    //   render={({ field }) => (
-                    //     <FormItem className="w-full">
-                    //       <FormLabel>Charges</FormLabel>
-                    //       <FormControl>
-                    //         <Input placeholder=" " {...field} />
-                    //       </FormControl>
-                    //       <FormMessage />
-                    //     </FormItem>
-                    //   )}
-                    // />
+                    </>
                   )}
                 </div>
 
-                <div className="py-4">
-                  {/* <CldUploadWidget
+                {/* <div className="py-4"> */}
+                {/* <CldUploadWidget
                     uploadPreset="dzdjzwcrs"
                     options={{
                       sources: ["local", "url", "google_drive", "dropbox"],
@@ -417,7 +475,7 @@ export default function RegisterAsCompanyPage() {
                       );
                     }}
                   </CldUploadWidget> */}
-                </div>
+                {/* </div> */}
               </CardContent>
               <CardFooter>
                 <Button

@@ -40,6 +40,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
+import { extractRoleFromToken } from "@/lib/helpers";
 
 export default function RegisterAsBuyerPage() {
   const router = useRouter();
@@ -110,19 +111,15 @@ export default function RegisterAsBuyerPage() {
 
   const token: any = getItem("medico_access_token");
 
-
-   if (typeof token !== "string") {
-     console.error("Invalid token: not a string");
-     // Handle the error appropriately
-     return;
-   }
+  if (typeof token !== "string") {
+    console.error("Invalid token: not a string");
+    // Handle the error appropriately
+    return;
+  }
 
   const decodedToken: any = jwtDecode(token);
 
-  const userRole =
-    decodedToken[
-      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-    ];
+  const userRole = extractRoleFromToken(decodedToken);
 
   console.log("debug decodedToken", decodedToken);
 

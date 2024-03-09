@@ -10,7 +10,7 @@ export const registerAsCompanyApi = async (payload: any) => {
 
   console.log("socialSignUp resp", resp);
 
-  return resp.data;
+  return resp;
 };
 
 export const registerAsBuyerApi = async (payload: any) => {

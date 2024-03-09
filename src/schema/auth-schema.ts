@@ -60,7 +60,7 @@ export const registerAsCompany = z.object({
   companyName: z.string(),
   companyEmail: z.string(),
   companyType: z.string(),
-  chargeType: z.string(),
+  chargesType: z.string(),
   charges: z.optional(z.string()),
   email: z.string().email(),
 });
