@@ -118,10 +118,13 @@ export default function RegisterAsCompanyPage() {
 
   const decodedToken: any = jwtDecode(token);
 
-  const userRole =
-    decodedToken[
-      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-    ];
+  // Dynamically find the key containing "identify/claims/role"
+  const roleKey: any = Object.keys(decodedToken).find((key) =>
+    key.includes("identity/claims/role")
+  );
+
+  // Extracting the role using the dynamically found key
+  const userRole = decodedToken[roleKey];
 
   console.log("debug decodedToken", decodedToken);
 

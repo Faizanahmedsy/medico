@@ -40,6 +40,7 @@ import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
 import { getItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
+import { extractRoleFromToken } from "@/lib/helpers";
 
 export default function LoginShopPage() {
   const router = useRouter();
@@ -70,34 +71,45 @@ export default function LoginShopPage() {
     },
   });
 
-  console.log("loginInMutation", loginInMutation);
-
   function onSubmit(data: z.infer<typeof loginSchema>) {
     console.log(data);
 
     loginInMutation.mutate(data);
 
+    //TODO: PUSH ALL THE BELOW LOGIC TO A ON SUCCESS MUTATION
+
     let token = getItem("medico_access_token");
 
     let decodedToken: any = jwtDecode(token);
 
+    const userRole = extractRoleFromToken(decodedToken);
+
     console.log("login time decodedToken", decodedToken);
 
-    if (decodedToken?.isCompleted === "False") {
+    if (
+      decodedToken?.isCompleted === "False" &&
+      decodedToken?.isEmailVerified === "True"
+    ) {
       toast("Please complete your profile");
-      if (decodedToken?.type === "company") {
+      if (userRole === "Company") {
         router.push("/register/as-company");
       }
-      if (decodedToken?.type === "buyer") {
+      if (userRole === "Buyer") {
         router.push("/register/as-buyer");
       }
     }
 
-    if (decodedToken?.isVerified === "True") {
+    if (
+      decodedToken?.isEmailVerified === "True" &&
+      decodedToken?.isCompleted === "True"
+    ) {
       router.push("/dashboard");
     }
 
-    if (decodedToken?.isVerified === "False") {
+    if (
+      decodedToken?.isEmailVerified === "False" &&
+      decodedToken?.isCompleted === "False"
+    ) {
       toast("Please verify your email");
       router.push("/register/verify-email");
     }

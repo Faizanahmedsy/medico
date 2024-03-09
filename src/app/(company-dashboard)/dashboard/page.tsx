@@ -1,4 +1,6 @@
 "use client";
+import useOnMount from "@/hooks/useOnMount";
+import { extractRoleFromToken } from "@/lib/helpers";
 import { getItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
@@ -32,6 +34,8 @@ export default function DashboardPage() {
   //   }
   // }, []);
 
+  // TODO: ENABLE THISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+
   // useEffect(() => {
   //   let token = getItem("medico_access_token");
 
@@ -42,14 +46,22 @@ export default function DashboardPage() {
 
   //   const decodedToken: any = jwtDecode(token);
 
+  //   const userRole = extractRoleFromToken(decodedToken);
+
   //   console.log("dashboard redirect decodedToken", decodedToken);
 
-  //   if (decodedToken?.isCompleted === "False") {
+  //   if (decodedToken?.isEmailVerified === "False") {
+  //   }
+
+  //   if (
+  //     decodedToken?.isEmailVerified === "True" &&
+  //     decodedToken?.isCompleted === "False"
+  //   ) {
   //     toast("Please complete your profile");
-  //     if (decodedToken?.type === "company") {
+  //     if (userRole === "Company") {
   //       router.push("/register/as-company");
   //     }
-  //     if (decodedToken?.type === "buyer") {
+  //     if (userRole === "Buyer") {
   //       router.push("/register/as-buyer");
   //     }
   //   }

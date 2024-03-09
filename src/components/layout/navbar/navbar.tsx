@@ -1,6 +1,6 @@
 import React from "react";
-import { ThemeToggle } from "../theme-toggle";
-import { Button } from "../ui/button";
+import { ThemeToggle } from "../../theme-toggle";
+import { Button } from "../../ui/button";
 import Link from "next/link";
 
 export default function Navbar() {
