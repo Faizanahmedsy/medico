@@ -4,7 +4,7 @@ import { extractRoleFromToken } from "@/lib/helpers";
 import { getItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 // interface decodedToken extends jwtDecode {
@@ -13,6 +13,8 @@ import { toast } from "sonner";
 // }
 
 export default function DashboardPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
   const router = useRouter();
 
   // useEffect(() => {
@@ -75,14 +77,23 @@ export default function DashboardPage() {
   //   }
   // }, []);
 
-  useEffect(() => {
-    const isComplete: any = getItem("medico-isComplete");
+  let isComplete: any;
+  if (isMounted) {
+    isComplete = getItem("medico-isComplete");
+  }
 
-    if (!isComplete) {
-      toast("You are not authorized to access this page. Please register.");
-      router.push("/register");
-    }
-  }, []);
+  console.log("isComplete", isComplete);
+
+  // useEffect(() => {
+  //   // const isComplete: any = getItem("medico-isComplete");
+
+  //   setIsMounted(true);
+
+  //   if (!isComplete) {
+  //     toast("You are not authorized to access this page. Please register.");
+  //     router.push("/register");
+  //   }
+  // }, []);
 
   return <div>DashboardPage</div>;
 }
