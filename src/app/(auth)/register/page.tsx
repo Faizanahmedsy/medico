@@ -39,10 +39,6 @@ import { registrationSchema } from "@/schema/auth-schema";
 import { signUpApi } from "@/services/auth/auth.api";
 import { setItem } from "@/lib/localStorage";
 
-interface decodeedToken {
-  isEmailVerified: string;
-}
-
 export default function RegisterShopPage() {
   const router = useRouter();
 
@@ -71,7 +67,7 @@ export default function RegisterShopPage() {
 
       const decodeedToken: any = jwtDecode(data?.accessToken);
 
-      console.log("decodeedToken token", decodeedToken);
+      console.log("signUpMutation decodeedToken", decodeedToken);
 
       setItem("medico_access_token", data?.accessToken);
 
@@ -112,7 +108,24 @@ export default function RegisterShopPage() {
 
     setItem("test-type", data.type);
 
-    signUpMutation.mutate(data);
+    const payload: {
+      email: string;
+      type?: string;
+      role: string;
+    } = {
+      ...data,
+      role: "",
+    };
+    if (data.type === "company") {
+      payload.role = "Company";
+    }
+
+    if (data.type === "buyer") {
+      payload.role = "Buyer";
+    }
+
+    delete payload.type;
+    signUpMutation.mutate(payload);
 
     // router.push("/register/verify-email");
 

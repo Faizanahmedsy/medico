@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { extractRoleFromToken } from "@/lib/helpers";
 import { getItem, setItem } from "@/lib/localStorage";
 import {
   checkIsEmailVerifiedApi,
@@ -35,10 +36,10 @@ export default function VerifyEmail() {
     },
   });
 
-  const checkIsEmailVerifiedQuery = useQuery({
-    queryKey: ["checkIsEmailVerified"],
-    queryFn: checkIsEmailVerifiedApi,
-  });
+  // const checkIsEmailVerifiedQuery = useQuery({
+  //   queryKey: ["checkIsEmailVerified"],
+  //   queryFn: checkIsEmailVerifiedApi,
+  // });
 
   const handleOtpSubmit = () => {
     if (!otp) return toast.error("Please enter OTP");
@@ -46,7 +47,7 @@ export default function VerifyEmail() {
     //   otp: otp,
     // });
 
-    console.log("is veridied", checkIsEmailVerifiedQuery.data);
+    // console.log("is veridied", checkIsEmailVerifiedQuery.data);
 
     const type = getItem("test-type");
 
@@ -61,10 +62,7 @@ export default function VerifyEmail() {
 
     const decodedToken: any = jwtDecode(token);
 
-    const userRole =
-      decodedToken[
-        "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-      ];
+    const userRole = extractRoleFromToken(decodedToken);
 
     console.log("debug decodedToken", decodedToken);
 
