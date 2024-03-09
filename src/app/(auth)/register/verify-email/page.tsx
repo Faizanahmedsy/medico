@@ -57,7 +57,7 @@ export default function VerifyEmail() {
       setItem("test-isVerified", "true");
     }
 
-    const token = getItem("medico_access_token");
+    const token: any = getItem("medico_access_token");
 
     const decodedToken: any = jwtDecode(token);
 
