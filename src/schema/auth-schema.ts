@@ -57,9 +57,11 @@ export const loginSchema = z.object({
 });
 
 export const registerAsCompany = z.object({
-  companyName: z.string(),
-  companyEmail: z.string(),
-  companyType: z.string(),
+  companyName: z.string().min(1, { message: "Company name is required" }),
+  companyEmail: z.string().email(),
+  companyType: z
+    .string()
+    .refine((value) => ["SelfSelling", "AdminSelling"].includes(value)),
   chargesType: z.string(),
   charges: z.optional(z.string()),
   email: z.string().email(),
