@@ -110,6 +110,13 @@ export default function RegisterAsBuyerPage() {
 
   const token: any = getItem("medico_access_token");
 
+
+   if (typeof token !== "string") {
+     console.error("Invalid token: not a string");
+     // Handle the error appropriately
+     return;
+   }
+
   const decodedToken: any = jwtDecode(token);
 
   const userRole =

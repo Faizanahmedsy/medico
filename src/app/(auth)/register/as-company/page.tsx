@@ -116,6 +116,12 @@ export default function RegisterAsCompanyPage() {
 
   const token: any = getItem("medico_access_token");
 
+  if (typeof token !== "string") {
+    console.error("Invalid token: not a string");
+    // Handle the error appropriately
+    return;
+  }
+
   const decodedToken: any = jwtDecode(token);
 
   // Dynamically find the key containing "identify/claims/role"
