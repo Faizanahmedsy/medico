@@ -108,7 +108,7 @@ export default function RegisterAsBuyerPage() {
     }
   }, []);
 
-  const token = getItem("medico_access_token");
+  const token: any = getItem("medico_access_token");
 
   const decodedToken: any = jwtDecode(token);
 
