@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
 
 interface PayloadType {
   companyName: string;
@@ -63,7 +64,7 @@ interface PayloadType {
   }[];
 }
 
-export default function RegisterAsCompanyPage() {
+function RegisterAsCompanyPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof registerAsCompany>>({
     resolver: zodResolver(registerAsCompany),
@@ -495,3 +496,7 @@ export default function RegisterAsCompanyPage() {
     </>
   );
 }
+
+export default dynamic(() => Promise.resolve(RegisterAsCompanyPage), {
+  ssr: false,
+});
