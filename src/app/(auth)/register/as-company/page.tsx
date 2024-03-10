@@ -99,8 +99,7 @@ export default function RegisterAsCompanyPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsCompany>) {
-    console.log("form", form);
-    console.log(data);
+    console.log("as company form data", data);
 
     if (data.charges) {
       delete data.charges;
@@ -149,8 +148,6 @@ export default function RegisterAsCompanyPage() {
 
     setItem("test-isComplete", "true");
   }
-
-  console.log("form chageType", form.watch("chargesType"));
 
   const handleCardClick = (plan: string) => {
     setSelectedPlan(plan);

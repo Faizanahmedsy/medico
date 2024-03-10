@@ -1,7 +1,7 @@
 "use client";
 import { DashboardNav } from "./dashboard-nav";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { navItems } from "@/constants/data";
+import { buyerNavItems, companyNavItems } from "@/constants/data";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -13,6 +13,8 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function MobileSidebar({ className }: SidebarProps) {
   const [open, setOpen] = useState(false);
+
+  const role = "company" as "company" | "buyer";
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -26,7 +28,10 @@ export function MobileSidebar({ className }: SidebarProps) {
                 Overview
               </h2>
               <div className="space-y-1">
-                <DashboardNav items={navItems} setOpen={setOpen} />
+                {role === "company" && (
+                  <DashboardNav items={companyNavItems} setOpen={setOpen} />
+                )}
+                {role === "buyer" && <DashboardNav items={buyerNavItems} />}
               </div>
             </div>
           </div>
