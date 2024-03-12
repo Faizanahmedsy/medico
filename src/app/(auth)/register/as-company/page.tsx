@@ -181,9 +181,9 @@ function RegisterAsCompanyPage() {
   // Extracting the role using the dynamically found key
   const userRole = decodedToken[roleKey];
 
-  console.log("debug decodedToken", decodedToken);
+  // console.log("debug decodedToken", decodedToken);
 
-  console.log("debug userRole", userRole);
+  // console.log("debug userRole", userRole);
 
   //   if(decodedToken?.http://schemas.microsoft.com/ws/2008/06/identity/claims/role === "company") {
 
@@ -198,10 +198,6 @@ function RegisterAsCompanyPage() {
   return (
     <>
       <div className="min-h-screen flex md:flex-col justify-center items-center">
-        {/* <div className="flex flex-col "> */}
-        {/* <h1 className="text-3xl font-semibold py-6 text-center">
-          Register your company
-        </h1> */}
         <Card>
           <CardHeader>
             <CardTitle>Register your company</CardTitle>
@@ -214,7 +210,7 @@ function RegisterAsCompanyPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4  my-5 md:min-w-[700px]"
+              className="mt-5 md:min-w-[700px]"
             >
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
@@ -463,8 +459,8 @@ function RegisterAsCompanyPage() {
                   )}
                 </div>
 
-                {/* <div className="py-4"> */}
-                {/* <CldUploadWidget
+                <div className="py-4">
+                  <CldUploadWidget
                     uploadPreset="dzdjzwcrs"
                     options={{
                       sources: ["local", "url", "google_drive", "dropbox"],
@@ -472,11 +468,25 @@ function RegisterAsCompanyPage() {
                   >
                     {({ open }) => {
                       return (
-                        <button onClick={() => open()}>Upload an Image</button>
+                        <Button
+                          onClick={() => open()}
+                          variant={"secondary"}
+                          // className="w-full"
+                        >
+                          Upload an Image
+                        </Button>
                       );
                     }}
-                  </CldUploadWidget> */}
-                {/* </div> */}
+                  </CldUploadWidget>
+                </div>
+                {/* <Button
+                  type="submit"
+                  size={"sm"}
+                  className="w-full"
+                  disabled={!form.formState.isDirty}
+                >
+                  Submit
+                </Button> */}
               </CardContent>
               <CardFooter>
                 <Button
