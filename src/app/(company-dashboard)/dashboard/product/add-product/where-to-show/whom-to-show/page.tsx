@@ -13,6 +13,16 @@ export default function AddProductThirdStep() {
         After save btn user will be redirected here he will select state taluka
         and all save and then go to next page
       </div> */}
+      <div className=" flex justify-center items-center py-7">
+        <ul className="steps">
+          <li className="step step-primary"></li>
+          <li className="step step-primary"></li>
+          <li className="step step-primary"></li>
+          <li className="step"></li>
+          <li className="step"></li>
+          <li className="step"></li>
+        </ul>
+      </div>
 
       <div>
         <TextH2>Whom to show</TextH2>

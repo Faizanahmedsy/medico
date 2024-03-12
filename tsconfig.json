@@ -15,7 +15,8 @@
     "plugins": [
       {
         "name": "next"
-      }
+      },
+      require("daisyui")
     ],
     "paths": {
       "@/*": ["./src/*"]

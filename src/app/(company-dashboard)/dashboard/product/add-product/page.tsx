@@ -41,112 +41,280 @@ export default function AddProductFormFirstStepPage() {
   };
 
   return (
-    <div className="h-screen px-10 py-4">
-      <div className="flex justify-between items-center pb-7">
-        <TextH2>Add Product</TextH2>
-        <Button
-          variant={"default"}
-          type="submit"
-          onClick={() => {
-            router.push("/dashboard/product/add-product/where-to-show");
-          }}
-        >
-          SAVE
-        </Button>
-      </div>
-
-      <div>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4  my-5 md:min-w-[700px]"
+    <>
+      <div className="min-h-screen px-10 py-4">
+        <div className=" flex justify-center items-center py-7">
+          <ul className="steps">
+            <li className="step step-primary"></li>
+            <li className="step"></li>
+            <li className="step"></li>
+            <li className="step"></li>
+            <li className="step"></li>
+            <li className="step"></li>
+          </ul>
+        </div>
+        <div className="flex justify-between items-center pb-7">
+          <TextH2>Add Product</TextH2>
+          <Button
+            variant={"default"}
+            type="submit"
+            onClick={() => {
+              router.push("/dashboard/product/add-product/where-to-show");
+            }}
           >
-            <div className="grid md:grid-cols-3 gap-6">
-              <FormField
-                control={form.control}
-                name="productName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Product Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="productName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Manufacture Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="productName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Manufacture Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            SAVE
+          </Button>
+        </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              <FormField
-                control={form.control}
-                name="productName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Return Policy</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="productName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Foo</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="productName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Foo</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </form>
-        </Form>
+        <div>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4  my-5 md:min-w-[700px]"
+            >
+              <div className="grid md:grid-cols-3 gap-6">
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Drug Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Product Type</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Division</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Brand Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Product Detail</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Primises</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Size</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Contains</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Manufacture License Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Mrp</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Selling Price</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Product Type</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Product Type</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Manufacture Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Manufacture Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Return Policy</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Foo</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Foo</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

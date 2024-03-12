@@ -5,7 +5,7 @@ import { TextH2 } from "@/components/modules";
 
 export default function ProductPage() {
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <div className="flex justify-between   items-center p-4">
         <TextH2>Product</TextH2>
         <div>
