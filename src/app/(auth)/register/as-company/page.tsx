@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
 
 interface PayloadType {
   companyName: string;
@@ -63,7 +64,7 @@ interface PayloadType {
   }[];
 }
 
-export default function RegisterAsCompanyPage() {
+function RegisterAsCompanyPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof registerAsCompany>>({
     resolver: zodResolver(registerAsCompany),
@@ -99,8 +100,7 @@ export default function RegisterAsCompanyPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsCompany>) {
-    console.log("form", form);
-    console.log(data);
+    console.log("as company form data", data);
 
     if (data.charges) {
       delete data.charges;
@@ -149,8 +149,6 @@ export default function RegisterAsCompanyPage() {
 
     setItem("test-isComplete", "true");
   }
-
-  console.log("form chageType", form.watch("chargesType"));
 
   const handleCardClick = (plan: string) => {
     setSelectedPlan(plan);
@@ -498,3 +496,7 @@ export default function RegisterAsCompanyPage() {
     </>
   );
 }
+
+export default dynamic(() => Promise.resolve(RegisterAsCompanyPage), {
+  ssr: false,
+});
