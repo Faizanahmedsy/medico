@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { addProductSchema } from "@/schema/company-form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -92,9 +93,20 @@ export default function AddProductFormFirstStepPage() {
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel>Product Type</FormLabel>
-                      <FormControl>
-                        <Input placeholder=" " {...field} />
-                      </FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a product type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="item1">Item 1</SelectItem>
+                          <SelectItem value="item2">Item 2</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -105,9 +117,20 @@ export default function AddProductFormFirstStepPage() {
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel>Division</FormLabel>
-                      <FormControl>
-                        <Input placeholder=" " {...field} />
-                      </FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a division" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="item1">Item 1</SelectItem>
+                          <SelectItem value="item2">Item 2</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -132,7 +155,7 @@ export default function AddProductFormFirstStepPage() {
                     <FormItem className="w-full">
                       <FormLabel>Product Detail</FormLabel>
                       <FormControl>
-                        <Input placeholder=" " {...field} />
+                        <Textarea placeholder=" " {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -144,26 +167,53 @@ export default function AddProductFormFirstStepPage() {
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel>Primises</FormLabel>
-                      <FormControl>
-                        <Input placeholder=" " {...field} />
-                      </FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a primises" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="item1">Item 1</SelectItem>
+                          <SelectItem value="item2">Item 2</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <FormField
-                  control={form.control}
-                  name="productName"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Size</FormLabel>
-                      <FormControl>
-                        <Input placeholder=" " {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="productName"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Size X </FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="productName"
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Size Y</FormLabel>
+                        <FormControl>
+                          <Input placeholder=" " {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 <FormField
                   control={form.control}
                   name="productName"
@@ -171,7 +221,7 @@ export default function AddProductFormFirstStepPage() {
                     <FormItem className="w-full">
                       <FormLabel>Contains</FormLabel>
                       <FormControl>
-                        <Input placeholder=" " {...field} />
+                        <Textarea placeholder=" " {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -184,7 +234,7 @@ export default function AddProductFormFirstStepPage() {
                     <FormItem className="w-full">
                       <FormLabel>Manufacture License Number</FormLabel>
                       <FormControl>
-                        <Input placeholder=" " {...field} />
+                        <Input placeholder=" " {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -197,7 +247,7 @@ export default function AddProductFormFirstStepPage() {
                     <FormItem className="w-full">
                       <FormLabel>Mrp</FormLabel>
                       <FormControl>
-                        <Input placeholder=" " {...field} />
+                        <Input placeholder=" " {...field} type="number" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -209,6 +259,45 @@ export default function AddProductFormFirstStepPage() {
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel>Selling Price</FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} type="number" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Selling Price 2</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="item1">
+                            Margin on selling
+                          </SelectItem>
+                          <SelectItem value="item2">Discount on Mrp</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="productName"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Selling Price 3</FormLabel>
                       <FormControl>
                         <Input placeholder=" " {...field} />
                       </FormControl>
