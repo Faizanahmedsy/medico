@@ -1,5 +1,5 @@
 "use client";
-import { TextH2 } from "@/components/modules";
+import { DisplayFormStep, TextH2 } from "@/components/modules";
 import { Button } from "@/components/ui/button";
 import {
   FormField,
@@ -42,15 +42,8 @@ export default function AddProductSecondStep() {
 
   return (
     <div className="h-screen px-10 py-4">
-      <div className=" flex justify-center items-center py-7">
-        <ul className="steps">
-          <li className="step step-primary"></li>
-          <li className="step step-primary"></li>
-          <li className="step"></li>
-          <li className="step"></li>
-          <li className="step"></li>
-          <li className="step"></li>
-        </ul>
+      <div className="flex-center  py-7">
+        <DisplayFormStep activeStep={2} />
       </div>
       <div className="flex justify-between items-center pb-7">
         <TextH2>Where to Show</TextH2>
