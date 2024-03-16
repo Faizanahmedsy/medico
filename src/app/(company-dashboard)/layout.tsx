@@ -38,9 +38,9 @@ export default function DashboardLayout({
       {/* {authorized && ( */}
       <>
         <Header />
-        <div className="flex min-h-screen overflow-hidden">
+        <div className="flex overflow-hidden">
           <Sidebar />
-          <main className="w-full pt-16">{children}</main>
+          <main className="w-full pt-16 min-h-screen">{children}</main>
         </div>
       </>
       {/* )} */}

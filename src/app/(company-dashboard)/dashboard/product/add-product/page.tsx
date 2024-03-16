@@ -24,13 +24,16 @@ import { addProductSchema } from "@/schema/company-form-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import CardForm from "@/components/modules/card-form";
+import ProductDetailsForm from "@/components/modules/product-form/basic-info/basic-details";
 
-export default function AddProductFormFirstStepPage() {
+export default function AddProductDetailsPage() {
   const router = useRouter();
+
+  const [step, setStep] = useState(1);
 
   const form = useForm<z.infer<typeof addProductSchema>>({
     resolver: zodResolver(addProductSchema),
@@ -49,7 +52,7 @@ export default function AddProductFormFirstStepPage() {
       <div className="min-h-screen px-10 py-4">
         {/* STEP COUNTER  */}
         <div className="flex-center  py-7">
-          <DisplayFormStep activeStep={1} />
+          <DisplayFormStep activeStep={step} />
         </div>
 
         {/* HEADER */}
@@ -61,7 +64,12 @@ export default function AddProductFormFirstStepPage() {
               variant={"default"}
               type="submit"
               onClick={() => {
-                router.push("/dashboard/product/add-product/where-to-show");
+                // router.push("/dashboard/product/add-product/where-to-show");
+                if (step < 6) {
+                  setStep((prev) => prev + 1);
+                } else {
+                  router.push("/dashboard/product");
+                }
               }}
             >
               SAVE
@@ -71,7 +79,7 @@ export default function AddProductFormFirstStepPage() {
 
         {/* FORM  */}
 
-        <div>
+        {/* <div>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
@@ -350,7 +358,8 @@ export default function AddProductFormFirstStepPage() {
               </div>
             </form>
           </Form>
-        </div>
+        </div> */}
+        {step === 1 && <ProductDetailsForm />}
       </div>
     </>
   );

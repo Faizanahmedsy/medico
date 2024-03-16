@@ -1,3 +1,5 @@
+"use client";
+import useGlobalState from "@/store";
 import React from "react";
 
 interface DisplayFormStepProps {
@@ -5,8 +7,12 @@ interface DisplayFormStepProps {
 }
 
 const DisplayFormStep: React.FC<DisplayFormStepProps> = ({ activeStep }) => {
+  const theme = useGlobalState((state) => state.theme);
+
+  console.log("zusatnd theme", theme);
+
   return (
-    <ul className="steps">
+    <ul className="steps" data-theme={theme}>
       {[...Array(6)].map((_, index) => (
         <li
           key={index}

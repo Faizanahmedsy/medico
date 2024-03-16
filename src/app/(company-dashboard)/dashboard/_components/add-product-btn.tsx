@@ -8,7 +8,7 @@ export default function AddProductBtn() {
 
   return (
     <Button
-      variant={"default"}
+      variant={"company"}
       onClick={() => router.push("/dashboard/product/add-product")}
     >
       {" "}
