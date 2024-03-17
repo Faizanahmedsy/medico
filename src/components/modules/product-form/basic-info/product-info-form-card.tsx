@@ -20,23 +20,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { addProductSchema } from "@/schema/company-form-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import CardForm from "@/components/modules/card-form";
 
-import React, { useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import React from "react";
 
 export default function ProductInfoFormCard({ form }: { form: any }) {
   return (
@@ -47,7 +34,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
           <div className="grid md:grid-cols-3 gap-6">
             <FormField
               control={form.control}
-              name="productName"
+              name="drugName"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Product Name</FormLabel>
