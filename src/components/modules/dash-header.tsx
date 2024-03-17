@@ -5,7 +5,7 @@ export default function DashHeader({
   title,
   button,
 }: {
-  title: string;
+  title: string | React.ReactNode;
   button?: React.ReactNode;
 }) {
   return (
