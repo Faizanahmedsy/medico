@@ -135,7 +135,14 @@ export default function SelectLocations({
       <div className="flex gap-6">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Select State</CardTitle>
+            <CardTitle>
+              <div className="flex justify-between items-center">
+                <div>Select State</div>
+                <div className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight">
+                  Save
+                </div>
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
@@ -185,7 +192,14 @@ export default function SelectLocations({
         </Card>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Select District</CardTitle>
+            <CardTitle>
+              <div className="flex justify-between items-center">
+                <div>Select District</div>
+                <div className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight">
+                  Save
+                </div>
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
@@ -233,13 +247,21 @@ export default function SelectLocations({
         </Card>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Select Taluka</CardTitle>
+            <CardTitle>
+              <div className="flex justify-between items-center">
+                <div>Select Taluka</div>
+                <div className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight">
+                  Save
+                </div>
+              </div>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
+
                   {getTalukaByDistrictsMutation.isSuccess &&
                     talukaArr.length > 0 &&
                     talukaArr.map((t: any) => (
