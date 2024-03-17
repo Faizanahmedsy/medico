@@ -1,6 +1,8 @@
 import React from "react";
 import { DashHeader } from "@/components/modules";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
+import { getGroupApi } from "@/services/group/group.api";
 
 export default function SelectExistingUser({
   step,
@@ -9,6 +11,14 @@ export default function SelectExistingUser({
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const groupQuery = useQuery({
+    queryKey: ["groups"],
+    queryFn: getGroupApi,
+    retry: 1,
+  });
+
+  console.log("groupQuery", groupQuery);
+
   return (
     <DashHeader
       title="Select Existing User"

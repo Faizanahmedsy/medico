@@ -7,7 +7,7 @@ import SelectExistingUser from "@/components/modules/product-form/step-2/select-
 import SelectLocations from "@/components/modules/product-form/step-2/select-locations";
 
 export default function AddProductDetailsPage() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
 
   return (
     <>

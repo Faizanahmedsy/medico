@@ -29,6 +29,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
   return (
     <>
       <CardForm
+        className="pb-4"
         title={"Product Information"}
         content={
           <div className="grid md:grid-cols-3 gap-6">

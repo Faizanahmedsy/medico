@@ -114,7 +114,7 @@ export default function ProductDetailsForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4  my-5 md:min-w-[700px]"
+          className="my-5 md:min-w-[700px]"
         >
           <DashHeader
             title={"Product"}

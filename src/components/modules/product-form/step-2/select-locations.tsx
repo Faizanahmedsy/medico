@@ -13,6 +13,12 @@ import {
 import useGlobalState from "@/store";
 import useOnMount from "@/hooks/useOnMount";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  getDistrictsByStateApi,
+  getStatesApi,
+  getTalukasByDistrictApi,
+} from "@/services/location/location.api";
 
 export default function SelectLocations({
   step,
@@ -27,6 +33,33 @@ export default function SelectLocations({
   );
 
   const [taluka, setTaluka] = useState<any>();
+
+  const [districtsArr, setDistrictsArr] = useState<any>();
+
+  const getStatesQuery = useQuery({
+    queryKey: ["states"],
+    queryFn: getStatesApi,
+    retry: 1,
+  });
+
+  console.log("getStatesQuery", getStatesQuery);
+
+  const getDistrictsByStateMutation = useMutation({
+    mutationFn: getDistrictsByStateApi,
+    onSuccess: (data) => {
+      console.log("getDistrictsByStateMutation data", data);
+
+      setDistrictsArr(data);
+    },
+  });
+
+  console.log("getDistrictsByStateMutation", getDistrictsByStateMutation);
+
+  const getTalukaByDistrictsMutation = useMutation({
+    mutationFn: getTalukasByDistrictApi,
+  });
+
+  console.log("getTalukaByDistrictsMutation", getTalukaByDistrictsMutation);
 
   useEffect(() => {
     setTaluka([
@@ -49,6 +82,13 @@ export default function SelectLocations({
     setTaluka((prev: any) => prev.filter((t: any) => t.id !== id));
   };
 
+  console.log("districtsArr", districtsArr);
+
+  console.log(
+    "getDistrictsByStateMutation.isSuccess",
+    getDistrictsByStateMutation.isSuccess
+  );
+
   return (
     <>
       <DashHeader
@@ -68,6 +108,26 @@ export default function SelectLocations({
         }
       />
 
+      <div
+        onClick={() =>
+          getDistrictsByStateMutation.mutate({
+            stateIds: [1],
+          })
+        }
+      >
+        Test
+      </div>
+
+      <div
+        onClick={() =>
+          getTalukaByDistrictsMutation.mutate({
+            districtIds: [1],
+          })
+        }
+      >
+        Test
+      </div>
+
       <div className="flex gap-6">
         <Card className="w-full">
           <CardHeader>
@@ -78,14 +138,18 @@ export default function SelectLocations({
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
-                  {taluka &&
-                    taluka.length > 0 &&
-                    taluka.map((t: any) => (
+                  {getStatesQuery.isFetched &&
+                    getStatesQuery.data.length > 0 &&
+                    getStatesQuery.data.map((t: any) => (
                       <div
                         key={t.id}
                         onClick={() => {
                           setSelectedTalukas(t);
                           removeTalukaFromOptions(t.id);
+
+                          getDistrictsByStateMutation.mutate({
+                            stateIds: [t.id],
+                          });
                         }}
                         className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                       >
@@ -117,22 +181,19 @@ export default function SelectLocations({
         </Card>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Select Taluka</CardTitle>
+            <CardTitle>Select District</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
-                  {taluka &&
-                    taluka.length > 0 &&
-                    taluka.map((t: any) => (
+
+                  {getDistrictsByStateMutation.isSuccess &&
+                    districtsArr.length > 0 &&
+                    districtsArr.map((t: any) => (
                       <div
                         key={t.id}
-                        onClick={() => {
-                          setSelectedTalukas(t);
-                          removeTalukaFromOptions(t.id);
-                        }}
                         className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                       >
                         {t.name}
@@ -163,7 +224,7 @@ export default function SelectLocations({
         </Card>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Select District</CardTitle>
+            <CardTitle>Select Taluka</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">

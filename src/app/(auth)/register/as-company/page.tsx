@@ -145,7 +145,7 @@ function RegisterAsCompanyPage() {
     }
 
     console.log("payload", payload);
-    // registerAsCompanyMutation.mutate(payload);
+    registerAsCompanyMutation.mutate(payload);
 
     setItem("test-isComplete", "true");
   }
