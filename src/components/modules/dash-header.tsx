@@ -11,7 +11,7 @@ export default function DashHeader({
   return (
     <div className="flex-between pb-7">
       <TextH2>{title}</TextH2>
-      {button && button}
+      {button}
     </div>
   );
 }

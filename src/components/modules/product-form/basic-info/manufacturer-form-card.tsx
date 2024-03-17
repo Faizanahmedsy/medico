@@ -36,7 +36,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export default function ManufacturerFormCard({ form }: { form: any }) {
   return (
@@ -47,7 +46,7 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
           <div className="grid md:grid-cols-3 gap-6">
             <FormField
               control={form.control}
-              name="productName"
+              name="manufactureName"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Manufacture Name</FormLabel>
@@ -60,7 +59,7 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
             />
             <FormField
               control={form.control}
-              name="productName"
+              name="manufactureLicenseNumber"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Manufacture License Number</FormLabel>
@@ -71,9 +70,9 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
-              name="productName"
+              name="returnPolicy"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Return Policy</FormLabel>
@@ -83,10 +82,10 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <FormField
               control={form.control}
-              name="productName"
+              name="mrp"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>

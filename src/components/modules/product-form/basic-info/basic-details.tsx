@@ -41,6 +41,8 @@ import { Label } from "@/components/ui/label";
 import SellingPriceCardForm from "./selling-price-card-form";
 import ManufacturerFormCard from "./manufacturer-form-card";
 import ProductInfoFormCard from "./product-info-form-card";
+import { useMutation } from "@tanstack/react-query";
+import { addProductApi } from "@/services/product/product.api";
 
 export default function ProductDetailsForm({
   step,
@@ -55,61 +57,76 @@ export default function ProductDetailsForm({
   const form: any = useForm<z.infer<typeof addProductSchema>>({
     resolver: zodResolver(addProductSchema),
     defaultValues: {
-      productName: "",
-      pricingMethodPreference: "",
-      sellingPrice: "",
-      discount: "",
-      margin: "",
+      drugName: "",
+      type: "",
+      division: "",
+      prescription: "",
+      sizeX: "",
+      sizeY: "",
+      contains: "",
+      mrp: "",
+      manufactureLicenseNumber: "",
+      manufactureName: "",
     },
     mode: "onChange",
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const addProductMutation = useMutation({
+    mutationFn: addProductApi,
+    onSuccess: () => {
+      console.log("product added successfully");
+    },
+    onError: (error) => {
+      console.log("error", error);
+    },
+  });
+
+  const onSubmit = (payload: any) => {
+    // alert(JSON.stringify(payload, null, 2));
+
+    const formattedPayload = {
+      drugName: payload.drugName,
+      productType: payload.type,
+      contain: payload.contains,
+    };
+
+    console.log("product add payload", payload);
+
+    // addProductMutation.mutate(payload);
   };
 
-  const calculatePrice = () => {
-    const pricingMethodPreference: any = form.watch("pricingMethodPreference");
-    const sellingPrice: any = form.watch("sellingPrice");
-    const discount: any = form.watch("discount");
-    const margin: any = form.watch("margin");
-    if (pricingMethodPreference === "discountOnMrp") {
-      const discountedPrice = sellingPrice * (1 - discount / 100);
-      setCalculatedPrice(discountedPrice.toFixed(2));
-    } else if (pricingMethodPreference === "marginOnSP") {
-      const calculatedMargin = (100 - margin) / 100;
-      const calculatedPrice = sellingPrice / calculatedMargin;
-      setCalculatedPrice(calculatedPrice.toFixed(2));
-    }
-  };
+  // const calculatePrice = () => {
+  //   const pricingMethodPreference: any = form.watch("pricingMethodPreference");
+  //   const sellingPrice: any = form.watch("sellingPrice");
+  //   const discount: any = form.watch("discount");
+  //   const margin: any = form.watch("margin");
+  //   if (pricingMethodPreference === "discountOnMrp") {
+  //     const discountedPrice = sellingPrice * (1 - discount / 100);
+  //     setCalculatedPrice(discountedPrice.toFixed(2));
+  //   } else if (pricingMethodPreference === "marginOnSP") {
+  //     const calculatedMargin = (100 - margin) / 100;
+  //     const calculatedPrice = sellingPrice / calculatedMargin;
+  //     setCalculatedPrice(calculatedPrice.toFixed(2));
+  //   }
+  // };
   return (
     <div>
-      <DashHeader
-        title={(step === 1 && "Add Product") || (step === 2 && "select")}
-        button={
-          <Button
-            variant={"company"}
-            type="submit"
-            onClick={() => {
-              if (step < 6) {
-                setStep((prev) => prev + 1);
-              } else {
-                router.push("/dashboard/product");
-              }
-            }}
-          >
-            SAVE
-          </Button>
-        }
-      />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-4  my-5 md:min-w-[700px]"
         >
+          <DashHeader
+            title={"Product"}
+            button={
+              <Button variant={"company"} type="submit">
+                SAVE
+              </Button>
+            }
+          />
           <ProductInfoFormCard form={form} />
           <ManufacturerFormCard form={form} />
-          <SellingPriceCardForm form={form} />
+          {/* <SellingPriceCardForm form={form} /> */}
         </form>
       </Form>
     </div>

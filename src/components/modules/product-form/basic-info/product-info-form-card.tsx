@@ -47,7 +47,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
             />
             <FormField
               control={form.control}
-              name="productName"
+              name="type"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Product Type</FormLabel>
@@ -57,7 +57,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a primises" />
+                        <SelectValue placeholder="Select a product type" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -72,7 +72,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
 
             <FormField
               control={form.control}
-              name="productName"
+              name="division"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Division</FormLabel>
@@ -82,7 +82,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a primises" />
+                        <SelectValue placeholder="Select a division" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -97,10 +97,10 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
 
             <FormField
               control={form.control}
-              name="productName"
+              name="prescription"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Primises</FormLabel>
+                  <FormLabel>Prescription</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -122,7 +122,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
             <div className="grid md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
-                name="productName"
+                name="sizeX"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Size X </FormLabel>
@@ -135,7 +135,7 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
               />
               <FormField
                 control={form.control}
-                name="productName"
+                name="sizeY"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Size Y</FormLabel>
@@ -147,22 +147,10 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
                 )}
               />
             </div>
+
             <FormField
               control={form.control}
-              name="productName"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Product Detail</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder=" " {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="productName"
+              name="contains"
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Contains</FormLabel>
