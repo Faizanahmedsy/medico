@@ -1,13 +1,15 @@
 "use client";
 import React, { useState } from "react";
-import { DisplayFormStep } from "@/components/modules";
-
-import ProductDetailsForm from "@/components/modules/product-form/basic-info/basic-details";
-import SelectExistingUser from "@/components/modules/product-form/step-2/select-existing-user";
-import SelectLocations from "@/components/modules/product-form/step-2/select-locations";
+import {
+  DisplayFormStep,
+  ProductDetailsForm,
+  SelectExistingUser,
+  SelectLocations,
+  SelectOccupation,
+} from "@/components/modules";
 
 export default function AddProductDetailsPage() {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(4);
 
   return (
     <>
@@ -22,6 +24,8 @@ export default function AddProductDetailsPage() {
         {step === 2 && <SelectExistingUser step={step} setStep={setStep} />}
 
         {step === 3 && <SelectLocations step={step} setStep={setStep} />}
+        {step === 4 && <SelectOccupation step={step} setStep={setStep} />}
+
         {/* 
         {step === 3 && <SelectExistingUser step={step} setStep={setStep} />}
 
