@@ -19,6 +19,8 @@ import {
   getStatesApi,
   getTalukasByDistrictApi,
 } from "@/services/location/location.api";
+import { Input } from "@/components/ui/input";
+import { FormLabel } from "@/components/ui/form";
 
 export default function SelectLocations({
   step,
@@ -35,6 +37,7 @@ export default function SelectLocations({
   const [taluka, setTaluka] = useState<any>();
 
   const [districtsArr, setDistrictsArr] = useState<any>();
+  const [talukaArr, setTalukaArr] = useState<any>();
 
   const getStatesQuery = useQuery({
     queryKey: ["states"],
@@ -57,6 +60,11 @@ export default function SelectLocations({
 
   const getTalukaByDistrictsMutation = useMutation({
     mutationFn: getTalukasByDistrictApi,
+    onSuccess: (data) => {
+      console.log("getTalukaByDistrictsMutation data", data);
+
+      setTalukaArr(data);
+    },
   });
 
   console.log("getTalukaByDistrictsMutation", getTalukaByDistrictsMutation);
@@ -76,18 +84,9 @@ export default function SelectLocations({
     ]);
   }, []);
 
-  console.log("selectedTalukas", selectedTalukas);
-
   const removeTalukaFromOptions = (id: number) => {
     setTaluka((prev: any) => prev.filter((t: any) => t.id !== id));
   };
-
-  console.log("districtsArr", districtsArr);
-
-  console.log(
-    "getDistrictsByStateMutation.isSuccess",
-    getDistrictsByStateMutation.isSuccess
-  );
 
   return (
     <>
@@ -108,7 +107,7 @@ export default function SelectLocations({
         }
       />
 
-      <div
+      {/* <div
         onClick={() =>
           getDistrictsByStateMutation.mutate({
             stateIds: [1],
@@ -126,6 +125,11 @@ export default function SelectLocations({
         }
       >
         Test
+      </div> */}
+
+      <div className="py-4 flex gap-1 flex-col ">
+        <div>Group Name</div>
+        <Input placeholder="Search" className="w-[300px]" />
       </div>
 
       <div className="flex gap-6">
@@ -194,6 +198,11 @@ export default function SelectLocations({
                     districtsArr.map((t: any) => (
                       <div
                         key={t.id}
+                        onClick={() => {
+                          getTalukaByDistrictsMutation.mutate({
+                            districtIds: [t.id],
+                          });
+                        }}
                         className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                       >
                         {t.name}
@@ -231,14 +240,14 @@ export default function SelectLocations({
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
-                  {taluka &&
-                    taluka.length > 0 &&
-                    taluka.map((t: any) => (
+                  {getTalukaByDistrictsMutation.isSuccess &&
+                    talukaArr.length > 0 &&
+                    talukaArr.map((t: any) => (
                       <div
                         key={t.id}
                         onClick={() => {
-                          setSelectedTalukas(t);
-                          removeTalukaFromOptions(t.id);
+                          // setSelectedTalukas(t);
+                          // removeTalukaFromOptions(t.id);
                         }}
                         className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                       >
