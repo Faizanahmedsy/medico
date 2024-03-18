@@ -25,10 +25,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { set, z } from "zod";
 import CardForm from "@/components/modules/card-form";
 
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -43,6 +43,7 @@ import ManufacturerFormCard from "./manufacturer-form-card";
 import ProductInfoFormCard from "./product-info-form-card";
 import { useMutation } from "@tanstack/react-query";
 import { addProductApi } from "@/services/product/product.api";
+import { toast } from "sonner";
 
 export default function ProductDetailsForm({
   step,
@@ -75,6 +76,10 @@ export default function ProductDetailsForm({
     mutationFn: addProductApi,
     onSuccess: () => {
       console.log("product added successfully");
+
+      setStep(2); //TODO: move this to the second step
+
+      toast.success("Product added successfully");
     },
     onError: (error) => {
       console.log("error", error);
@@ -85,30 +90,93 @@ export default function ProductDetailsForm({
     // alert(JSON.stringify(payload, null, 2));
 
     const formattedPayload = {
-      drugName: payload.drugName,
-      productType: payload.type,
       contain: payload.contains,
+      division: payload.division,
+      drugName: payload.drugName,
+      licenseNo: payload.manufactureLicenseNumber,
+      manufacturingName: payload.manufactureName,
+      margin: payload.margin,
+      mrp: payload.mrp,
+      prescription: payload.prescription,
+      pricingMethodPreference: payload.pricingMethodPreference,
+      retailPrice: payload.retailPrice,
+      sellingPrice: payload.sellingPrice,
+      sizeX: payload.sizeX,
+      sizeY: payload.sizeY,
+      packSize: {
+        x: payload.sizeX,
+        y: payload.sizeY,
+      },
+      productType: payload.type,
+      returnPolicy: {
+        allowExchange: payload.allowExchange,
+        allowReturn: payload.allowReturn,
+        returnDays: payload.returnDays,
+      },
     };
 
-    console.log("product add payload", payload);
+    console.log("product add payload", formattedPayload);
 
-    // addProductMutation.mutate(payload);
+    addProductMutation.mutate(formattedPayload);
   };
+
+  console.log(
+    "watch pricingMethodPreference",
+    form.watch("pricingMethodPreference")
+  );
+
+  console.log("watch retailPrice", form.watch("retailPrice"));
+  console.log("watch discount", form.watch("discount"));
+  console.log("watch margin", form.watch("margin"));
+
+  console.log("watch calculatedPrice", calculatedPrice);
 
   // const calculatePrice = () => {
   //   const pricingMethodPreference: any = form.watch("pricingMethodPreference");
-  //   const sellingPrice: any = form.watch("sellingPrice");
+  //   const retailPrice: any = form.watch("retailPrice");
   //   const discount: any = form.watch("discount");
   //   const margin: any = form.watch("margin");
-  //   if (pricingMethodPreference === "discountOnMrp") {
-  //     const discountedPrice = sellingPrice * (1 - discount / 100);
+  //   if (pricingMethodPreference == "discountOnMrp") {
+  //     // alert("discountOnMrp");
+  //     const discountedPrice = retailPrice * (1 - discount / 100);
+  //     console.log("watch discountedPrice", discountedPrice);
   //     setCalculatedPrice(discountedPrice.toFixed(2));
   //   } else if (pricingMethodPreference === "marginOnSP") {
   //     const calculatedMargin = (100 - margin) / 100;
-  //     const calculatedPrice = sellingPrice / calculatedMargin;
+  //     const calculatedPrice = retailPrice / calculatedMargin;
   //     setCalculatedPrice(calculatedPrice.toFixed(2));
   //   }
   // };
+
+  const calculatePrice = () => {
+    const pricingMethodPreference: any = form.watch("pricingMethodPreference");
+    const retailPrice: number = parseFloat(form.watch("retailPrice"));
+    const discount: number = parseFloat(form.watch("discount"));
+    const margin: number = parseFloat(form.watch("margin"));
+
+    if (pricingMethodPreference === "discountOnMrp") {
+      const discountedPrice = retailPrice * (1 - discount / 100);
+      setCalculatedPrice(discountedPrice.toFixed(2));
+    } else if (pricingMethodPreference === "marginOnSP") {
+      const calculatedMargin = (100 - margin) / 100;
+      const calculatedPrice = retailPrice / calculatedMargin;
+      setCalculatedPrice(calculatedPrice.toFixed(2));
+    }
+  };
+
+  useEffect(() => {
+    calculatePrice();
+  }, [
+    form.watch("pricingMethodPreference"),
+    form.watch("retailPrice"),
+    form.watch("discount"),
+    form.watch("margin"),
+  ]);
+
+  useEffect(() => {
+    form.setValue("sellingPrice", calculatedPrice);
+  }, [calculatedPrice]);
+
   return (
     <div>
       <Form {...form}>
@@ -126,7 +194,7 @@ export default function ProductDetailsForm({
           />
           <ProductInfoFormCard form={form} />
           <ManufacturerFormCard form={form} />
-          {/* <SellingPriceCardForm form={form} /> */}
+          <SellingPriceCardForm form={form} />
         </form>
       </Form>
     </div>

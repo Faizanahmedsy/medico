@@ -21,6 +21,8 @@ import {
 } from "@/services/location/location.api";
 import { Input } from "@/components/ui/input";
 import { FormLabel } from "@/components/ui/form";
+import { set } from "zod";
+import { Separator } from "@/components/ui/separator";
 
 export default function SelectLocations({
   step,
@@ -32,6 +34,10 @@ export default function SelectLocations({
   const selectedTalukas = useGlobalState((state) => state.selectedTalukas);
   const setSelectedTalukas = useGlobalState(
     (state) => state.setSelectedTalukas
+  );
+
+  const removeSelectedTalukas = useGlobalState(
+    (state) => state.removeSelectedTalukas
   );
 
   const [taluka, setTaluka] = useState<any>();
@@ -132,14 +138,25 @@ export default function SelectLocations({
         <Input placeholder="Search" className="w-[300px]" />
       </div>
 
-      <div className="flex gap-6">
+      <div className="grid grid-cols-1 px-[300px] gap-5">
         <Card className="w-full">
           <CardHeader>
             <CardTitle>
               <div className="flex justify-between items-center">
                 <div>Select State</div>
-                <div className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight">
-                  Save
+                <div
+                  className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
+                  onClick={() => {
+                    const selectedTalukaIds = selectedTalukas.map(
+                      (t: any) => t.id
+                    );
+                    console.log("on save selectedTalukas", selectedTalukaIds);
+                    getDistrictsByStateMutation.mutate({
+                      stateIds: selectedTalukaIds,
+                    });
+                  }}
+                >
+                  Load District
                 </div>
               </div>
             </CardTitle>
@@ -149,18 +166,19 @@ export default function SelectLocations({
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
+                  {/* {taluka?.map((t: any) => (/ */}
                   {getStatesQuery.isFetched &&
-                    getStatesQuery.data.length > 0 &&
-                    getStatesQuery.data.map((t: any) => (
+                    getStatesQuery?.data?.length > 0 &&
+                    getStatesQuery?.data?.map((t: any) => (
                       <div
                         key={t.id}
                         onClick={() => {
                           setSelectedTalukas(t);
                           removeTalukaFromOptions(t.id);
 
-                          getDistrictsByStateMutation.mutate({
-                            stateIds: [t.id],
-                          });
+                          // getDistrictsByStateMutation.mutate({
+                          //   stateIds: [t.id],
+                          // });
                         }}
                         className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                       >
@@ -178,6 +196,10 @@ export default function SelectLocations({
                         <div
                           key={t.id}
                           className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
+                          onClick={() => {
+                            removeSelectedTalukas(t);
+                            setTaluka((prev: any) => [t, ...prev]);
+                          }}
                         >
                           {t.name}
                         </div>
@@ -190,13 +212,26 @@ export default function SelectLocations({
           </CardContent>
           {/* <CardFooter></CardFooter> */}
         </Card>
+
+        <Separator />
         <Card className="w-full">
           <CardHeader>
             <CardTitle>
               <div className="flex justify-between items-center">
                 <div>Select District</div>
-                <div className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight">
-                  Save
+                <div
+                  className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
+                  onClick={() => {
+                    const selectedTalukaIds = selectedTalukas.map(
+                      (t: any) => t.id
+                    );
+                    console.log("on save selectedTalukas", selectedTalukaIds);
+                    // getTalukaByDistrictsMutation.mutate({
+                    //   districtIds: [t.id],
+                    // });
+                  }}
+                >
+                  Load Taluka
                 </div>
               </div>
             </CardTitle>
@@ -213,9 +248,9 @@ export default function SelectLocations({
                       <div
                         key={t.id}
                         onClick={() => {
-                          getTalukaByDistrictsMutation.mutate({
-                            districtIds: [t.id],
-                          });
+                          // getTalukaByDistrictsMutation.mutate({
+                          //   districtIds: [t.id],
+                          // });
                         }}
                         className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                       >

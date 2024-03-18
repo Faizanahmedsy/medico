@@ -47,16 +47,16 @@ export default function SellingPriceCardForm({
   return (
     <>
       <CardForm
-        title="Selling Price"
+        title="Pricing Information"
         content={
           <>
             <div className="grid md:grid-cols-3 gap-4">
               <FormField
                 control={form.control}
-                name="sellingPrice"
+                name="retailPrice"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Selling Price</FormLabel>
+                    <FormLabel>Retail Price</FormLabel>
                     <FormControl>
                       <Input placeholder=" " {...field} />
                     </FormControl>
@@ -89,7 +89,7 @@ export default function SellingPriceCardForm({
                             <RadioGroupItem value="marginOnSP" />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            Margin on selling price
+                            Margin on retail price
                           </FormLabel>
                         </FormItem>
                       </RadioGroup>
@@ -130,12 +130,12 @@ export default function SellingPriceCardForm({
               )}
               <FormField
                 control={form.control}
-                name="productName"
+                name="sellingPrice"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>Calculated Price</FormLabel>
+                    <FormLabel>Selling Price</FormLabel>
                     <FormControl>
-                      <Input placeholder=" " {...field} />
+                      <Input placeholder=" " {...field} type="number" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

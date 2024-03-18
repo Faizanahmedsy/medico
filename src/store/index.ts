@@ -19,6 +19,13 @@ const store = (set: any) => ({
       selectedTalukas: [taluka, ...state.selectedTalukas],
     }));
   },
+  removeSelectedTalukas: (taluka: any) => {
+    set((state: any) => ({
+      selectedTalukas: state.selectedTalukas.filter(
+        (t: any) => t.id !== taluka.id
+      ),
+    }));
+  },
 });
 
 const useGlobalState = create(

@@ -42,7 +42,7 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
   return (
     <>
       <CardForm
-        title={"Manufacturer and Pricing Information"}
+        title={"Manufacturer"}
         content={
           <div className="grid md:grid-cols-3 gap-6">
             <FormField
