@@ -62,8 +62,8 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="item1">Item 1</SelectItem>
-                      <SelectItem value="item2">Item 2</SelectItem>
+                      <SelectItem value="capsule">Capsule</SelectItem>
+                      <SelectItem value="tablet">Tablet</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -112,8 +112,9 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="item1">Item 1</SelectItem>
-                      <SelectItem value="item2">Item 2</SelectItem>
+                      <SelectItem value="rx">Rx</SelectItem>
+                      <SelectItem value="nRx">nRx</SelectItem>
+                      <SelectItem value="g">G</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
