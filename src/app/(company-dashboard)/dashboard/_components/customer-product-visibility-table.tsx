@@ -43,41 +43,41 @@ import {
 const data: Payment[] = [
   {
     id: "m5gr84i9",
-    degree: 316,
-    name: "success",
-    state: "ken99@yahoo.com",
+    degree: "MBBS",
+    name: "Example",
+    state: "Gujarat",
     district: "Kutch",
     taluka: "Bhuj",
   },
   {
     id: "3u1reuv4",
-    degree: 242,
-    name: "success",
-    state: "Abe45@gmail.com",
+    degree: "MBBS",
+    name: "Example 2",
+    state: "Gujarat",
     district: "Kutch",
     taluka: "Bhuj",
   },
   {
     id: "derv1ws0",
-    degree: 837,
-    name: "processing",
-    state: "Monserrat44@gmail.com",
+    degree: "MBBS",
+    name: "Example 3",
+    state: "Gujarat",
     district: "Kutch",
     taluka: "Bhuj",
   },
   {
     id: "5kma53ae",
-    degree: 874,
-    name: "success",
-    state: "Silas22@gmail.com",
+    degree: "MBBS",
+    name: "Example 4",
+    state: "Gujarat",
     district: "Kutch",
     taluka: "Bhuj",
   },
   {
     id: "bhqecj4p",
-    degree: 721,
-    name: "failed",
-    state: "carmella@hotmail.com",
+    degree: "MBBS",
+    name: "Example 5",
+    state: "Gujarat",
     district: "Kutch",
     taluka: "Bhuj",
   },
@@ -85,8 +85,8 @@ const data: Payment[] = [
 
 export type Payment = {
   id: string;
-  degree: number;
-  name: "pending" | "processing" | "success" | "failed";
+  degree: string;
+  name: string;
   state: string;
   district: string;
   taluka: string;
@@ -119,18 +119,22 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "name",
-    header: "name",
+    header: "Name",
     cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "district",
-    header: "district",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    header: "District",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("district")}</div>
+    ),
   },
   {
     accessorKey: "taluka",
-    header: "taluka",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    header: "Taluka",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("taluka")}</div>
+    ),
   },
   {
     accessorKey: "state",
@@ -140,27 +144,32 @@ export const columns: ColumnDef<Payment>[] = [
         //   variant="ghost"
         //   onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         // >
-        <div>state</div>
+        <div>State</div>
         //   <CaretSortIcon className="ml-2 h-4 w-4" />
         // </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("state")}</div>,
+    cell: ({ row }) => <div className="">{row.getValue("state")}</div>,
   },
   {
     accessorKey: "degree",
-    header: () => <div className="text-right">Degree</div>,
-    cell: ({ row }) => {
-      const degree = parseFloat(row.getValue("degree"));
+    // header: () => <div className="text-right">Degree</div>,
+    header: "Degree",
+    cell: ({ row }) => <div className="">{row.getValue("degree")}</div>,
 
-      // Format the degree as a dollar degree
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(degree);
+    // cell: ({ row }) => {
+    //   // const degree = parseFloat(row.getValue("degree"));
 
-      return <div className="text-right font-medium">{formatted}</div>;
-    },
+    //   // // Format the degree as a dollar degree
+    //   // const formatted = new Intl.NumberFormat("en-US", {
+    //   //   style: "currency",
+    //   //   currency: "USD",
+    //   // }).format(degree);
+
+    //   // return <div className="text-right font-medium">{formatted}</div>;
+
+    //   return <div>{row.getValue("degree")}</div>;
+    // },
   },
   {
     id: "actions",
@@ -223,16 +232,16 @@ export function CustomerProductVisibilityTable() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-end py-4">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Search"
           value={(table.getColumn("state")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("state")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
@@ -257,7 +266,7 @@ export function CustomerProductVisibilityTable() {
                 );
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
       <div className="rounded-md border">
         <Table>

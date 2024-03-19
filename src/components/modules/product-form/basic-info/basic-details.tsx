@@ -123,6 +123,10 @@ export default function ProductDetailsForm({
     console.log("product add payload", formattedPayload);
 
     addProductMutation.mutate(formattedPayload);
+
+    setStep(2); //TODO: move this to the second step
+
+    toast.success("Product added successfully");
   };
 
   // console.log(

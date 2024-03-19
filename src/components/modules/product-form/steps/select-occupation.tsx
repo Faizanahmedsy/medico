@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { set } from "react-hook-form";
 
 export default function SelectOccupation({
   step,
@@ -23,6 +22,8 @@ export default function SelectOccupation({
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [selectedOccupation, setSelectedOccupation] = useState<string>("");
+
+  const [selectedDegree, setSelectedDegree] = useState<string>("");
 
   return (
     <div>
@@ -39,52 +40,57 @@ export default function SelectOccupation({
           </Button>
         }
       />
-      <div className="py-6">
-        <Select
-          onValueChange={(value) => {
-            setSelectedOccupation(value);
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select a fruit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="storeOwner">Medical Store Owner</SelectItem>
-              <SelectItem value="doctor">Doctor</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
 
-      {selectedOccupation === "doctor" && (
-        <div>
+      <div className="flex justify-center items-center gap-6">
+        <div className="py-6">
           <Select
             onValueChange={(value) => {
               setSelectedOccupation(value);
             }}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a Degree" />
+              <SelectValue placeholder="Select a occupation" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="ms">Master of Surgery </SelectItem>
-                <SelectItem value="dm">Doctor of Medicine</SelectItem>
-                <SelectItem value="mbbs">
-                  Bachelor of Medicine, Bachelor of Surgery
-                </SelectItem>
-
-                <SelectItem value="bds">Bachelor of Dental Surgery</SelectItem>
-
-                <SelectItem value="bhms">
-                  Bachelor of Homeopathy Medicine and Surgery
-                </SelectItem>
+                <SelectItem value="storeOwner">Medical Store Owner</SelectItem>
+                <SelectItem value="doctor">Doctor</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
-      )}
+
+        {selectedOccupation === "doctor" && (
+          <div>
+            <Select
+              onValueChange={(value) => {
+                setSelectedDegree(value);
+              }}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select a Degree" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="ms">Master of Surgery </SelectItem>
+                  <SelectItem value="dm">Doctor of Medicine</SelectItem>
+                  <SelectItem value="mbbs">
+                    Bachelor of Medicine, Bachelor of Surgery
+                  </SelectItem>
+
+                  <SelectItem value="bds">
+                    Bachelor of Dental Surgery
+                  </SelectItem>
+
+                  <SelectItem value="bhms">
+                    Bachelor of Homeopathy Medicine and Surgery
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
