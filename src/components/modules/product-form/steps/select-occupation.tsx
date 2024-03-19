@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { set } from "react-hook-form";
 
 export default function SelectOccupation({
   step,
@@ -28,8 +29,13 @@ export default function SelectOccupation({
       <DashHeader
         title={"Occupation"}
         button={
-          <Button variant={"company"} type="submit">
-            SAVE
+          <Button
+            variant={"company"}
+            onClick={() => {
+              setStep((prev) => prev + 1);
+            }}
+          >
+            SAVE AND CONTINUE
           </Button>
         }
       />

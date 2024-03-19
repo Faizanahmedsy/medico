@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import {
   DisplayFormStep,
   ProductDetailsForm,
+  SelectBuyersTable,
   SelectExistingUser,
   SelectLocations,
   SelectOccupation,
 } from "@/components/modules";
 
 export default function AddProductDetailsPage() {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(6);
 
   return (
     <>
@@ -25,6 +26,8 @@ export default function AddProductDetailsPage() {
 
         {step === 3 && <SelectLocations step={step} setStep={setStep} />}
         {step === 4 && <SelectOccupation step={step} setStep={setStep} />}
+
+        {step === 5 && <SelectBuyersTable step={step} setStep={setStep} />}
 
         {/* 
         {step === 3 && <SelectExistingUser step={step} setStep={setStep} />}
