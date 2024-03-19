@@ -63,6 +63,8 @@ export default function SelectLocations({
     (state) => state.removeSelectedStates
   );
 
+  const zustProductId = useGlobalState((state) => state.zustProductId);
+
   const [taluka, setTaluka] = useState<any>();
 
   // FOR STATE --------------------------------------
@@ -157,6 +159,7 @@ export default function SelectLocations({
       name: groupName,
       description: groupDec,
       talukaIds: talukaIds,
+      productIds: [zustProductId],
     };
 
     addGroupMutation.mutate(payload);

@@ -53,6 +53,12 @@ const store = (set: any) => ({
       ),
     }));
   },
+  zustProductId: "",
+  setZustProductId: (id: string) => {
+    set((state: any) => ({
+      zustProductId: id,
+    }));
+  },
 });
 
 const useGlobalState = create(

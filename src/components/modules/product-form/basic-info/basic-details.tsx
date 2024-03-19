@@ -29,15 +29,7 @@ import { set, z } from "zod";
 import CardForm from "@/components/modules/card-form";
 
 import React, { use, useEffect, useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+
 import SellingPriceCardForm from "./selling-price-card-form";
 import ManufacturerFormCard from "./manufacturer-form-card";
 import ProductInfoFormCard from "./product-info-form-card";
@@ -45,6 +37,7 @@ import { useMutation } from "@tanstack/react-query";
 import { addProductApi } from "@/services/product/product.api";
 import { toast } from "sonner";
 import { getItem } from "@/lib/localStorage";
+import useGlobalState from "@/store";
 
 export default function ProductDetailsForm({
   step,
@@ -55,6 +48,8 @@ export default function ProductDetailsForm({
 }) {
   const router = useRouter();
   const [calculatedPrice, setCalculatedPrice] = useState("");
+
+  const setZustProductId = useGlobalState((state) => state.setZustProductId);
 
   const form: any = useForm<z.infer<typeof addProductSchema>>({
     resolver: zodResolver(addProductSchema),
@@ -75,8 +70,10 @@ export default function ProductDetailsForm({
 
   const addProductMutation = useMutation({
     mutationFn: addProductApi,
-    onSuccess: () => {
+    onSuccess: (data) => {
       console.log("product added successfully");
+
+      setZustProductId(data?.id);
 
       setStep(2); //TODO: move this to the second step
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -84,6 +84,8 @@ function RegisterAsCompanyPage() {
     mutationFn: registerAsCompanyApi,
     onSuccess: (resp: any) => {
       console.log("registerAsCompanyApi data", resp);
+
+      setItem("medico-companyId", resp?.data?.id);
 
       if (resp?.status === 201) {
         toast.success("Company registered successfully");

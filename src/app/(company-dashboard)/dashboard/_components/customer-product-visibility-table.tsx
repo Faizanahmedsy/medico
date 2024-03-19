@@ -230,6 +230,19 @@ export function CustomerProductVisibilityTable() {
     },
   });
 
+  const formateSelectedArray = (selectedArray: any) => {
+    return selectedArray.map((item: any) => item.original);
+  };
+
+  const selectedArray = formateSelectedArray(
+    table.getFilteredSelectedRowModel().rows
+  );
+
+  const selectedBuyerIds = selectedArray.map((item: any) => item.id);
+
+  console.log("selectedBuyerIds", selectedBuyerIds);
+  console.log("selectedArray", selectedArray);
+
   return (
     <div className="w-full">
       <div className="flex items-center justify-end py-4">

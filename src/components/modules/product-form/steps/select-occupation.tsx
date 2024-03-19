@@ -13,6 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getItem } from "@/lib/localStorage";
+import { useMutation } from "@tanstack/react-query";
+import { addOccupationApi } from "@/services/product/product.api";
 
 export default function SelectOccupation({
   step,
@@ -25,6 +28,14 @@ export default function SelectOccupation({
 
   const [selectedDegree, setSelectedDegree] = useState<string>("");
 
+  const addOccupationMutation = useMutation({
+    mutationFn: addOccupationApi,
+    onSuccess: (data: any) => {
+      console.log(data);
+      setStep((prev) => prev + 1);
+    },
+  });
+
   return (
     <div>
       <DashHeader
@@ -33,7 +44,10 @@ export default function SelectOccupation({
           <Button
             variant={"company"}
             onClick={() => {
-              setStep((prev) => prev + 1);
+              addOccupationMutation.mutate({
+                companyId: getItem("medico-companyId"),
+              });
+              setStep((prev) => prev + 1); //TODO: remove this line
             }}
           >
             SAVE AND CONTINUE
