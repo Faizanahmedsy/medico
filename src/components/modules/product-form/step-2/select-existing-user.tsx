@@ -12,8 +12,11 @@ export default function SelectExistingUser({
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const groupQuery = useQuery({
-    queryKey: ["groups"],
-    queryFn: getGroupApi,
+    queryKey: ["getGroups"],
+    queryFn: () =>
+      getGroupApi({
+        companyId: "1db330f2-3fbc-45fc-b102-60ed0343db02",
+      }),
     retry: 1,
   });
 

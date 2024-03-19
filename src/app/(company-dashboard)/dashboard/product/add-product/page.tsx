@@ -9,7 +9,7 @@ import {
 } from "@/components/modules";
 
 export default function AddProductDetailsPage() {
-  const [step, setStep] = useState(5);
+  const [step, setStep] = useState(2);
 
   return (
     <>

@@ -44,6 +44,7 @@ import ProductInfoFormCard from "./product-info-form-card";
 import { useMutation } from "@tanstack/react-query";
 import { addProductApi } from "@/services/product/product.api";
 import { toast } from "sonner";
+import { getItem } from "@/lib/localStorage";
 
 export default function ProductDetailsForm({
   step,
@@ -90,29 +91,33 @@ export default function ProductDetailsForm({
     // alert(JSON.stringify(payload, null, 2));
 
     const formattedPayload = {
-      contain: payload.contains,
-      division: payload.division,
+      companyEmail: getItem("test-email"),
+      type: payload.type,
+      brandName: payload.manufactureName,
       drugName: payload.drugName,
-      licenseNo: payload.manufactureLicenseNumber,
       manufacturingName: payload.manufactureName,
-      margin: payload.margin,
-      mrp: payload.mrp,
+      division: payload.division,
       prescription: payload.prescription,
+      licenseNo: payload.manufactureLicenseNumber,
+      manufacturerName: payload.manufactureName,
+      contains: payload.contains,
+      // margin: payload.margin,
+      mrp: Number(payload.mrp),
       pricingMethodPreference: payload.pricingMethodPreference,
-      retailPrice: payload.retailPrice,
-      sellingPrice: payload.sellingPrice,
-      sizeX: payload.sizeX,
-      sizeY: payload.sizeY,
+      retailPrice: Number(payload.retailPrice),
+      sellingPrice: Number(payload.sellingPrice),
+      // sizeX: payload.sizeX,
+      // sizeY: payload.sizeY,
       packSize: {
-        x: payload.sizeX,
-        y: payload.sizeY,
+        x: Number(payload.sizeX),
+        y: Number(payload.sizeY),
       },
-      productType: payload.type,
       returnPolicy: {
         allowExchange: payload.allowExchange,
         allowReturn: payload.allowReturn,
-        returnDays: payload.returnDays,
+        returnDays: Number(payload.returnDays),
       },
+      effectivePriceCalculationType: 0,
     };
 
     console.log("product add payload", formattedPayload);
@@ -120,16 +125,16 @@ export default function ProductDetailsForm({
     addProductMutation.mutate(formattedPayload);
   };
 
-  console.log(
-    "watch pricingMethodPreference",
-    form.watch("pricingMethodPreference")
-  );
+  // console.log(
+  //   "watch pricingMethodPreference",
+  //   form.watch("pricingMethodPreference")
+  // );
 
-  console.log("watch retailPrice", form.watch("retailPrice"));
-  console.log("watch discount", form.watch("discount"));
-  console.log("watch margin", form.watch("margin"));
+  // console.log("watch retailPrice", form.watch("retailPrice"));
+  // console.log("watch discount", form.watch("discount"));
+  // console.log("watch margin", form.watch("margin"));
 
-  console.log("watch calculatedPrice", calculatedPrice);
+  // console.log("watch calculatedPrice", calculatedPrice);
 
   // const calculatePrice = () => {
   //   const pricingMethodPreference: any = form.watch("pricingMethodPreference");
