@@ -26,6 +26,33 @@ const store = (set: any) => ({
       ),
     }));
   },
+  selectedStates: [],
+  setSelectedStates: (stateItem: any) => {
+    set((state: any) => ({
+      selectedStates: [stateItem, ...state.selectedStates],
+    }));
+  },
+  removeSelectedStates: (stateItem: any) => {
+    set((state: any) => ({
+      selectedStates: state.selectedStates.filter(
+        (s: any) => s.id !== stateItem.id
+      ),
+    }));
+  },
+
+  selectedDistricts: [],
+  setSelectedDistricts: (districtItem: any) => {
+    set((state: any) => ({
+      selectedDistricts: [districtItem, ...state.selectedDistricts],
+    }));
+  },
+  removeSelectedDistricts: (districtItem: any) => {
+    set((state: any) => ({
+      selectedDistricts: state.selectedDistricts.filter(
+        (d: any) => d.id !== districtItem.id
+      ),
+    }));
+  },
 });
 
 const useGlobalState = create(
