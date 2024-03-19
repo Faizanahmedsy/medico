@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { DashHeader } from "../..";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function AddPriceInfo({
   step,
@@ -42,6 +43,8 @@ export default function AddPriceInfo({
     // Perform any other action, e.g., sending data to backend
     // Reset step or perform any other action as needed
     // setStep((prev) => prev + 1);
+
+    toast.success("Product added successfully");
   };
 
   return (
@@ -71,8 +74,8 @@ export default function AddPriceInfo({
             <TableRow key={index}>
               <TableCell className="font-medium">{row.name}</TableCell>
               <TableCell>Gujarat</TableCell>
-              <TableCell>Ahmedabad</TableCell>
-              <TableCell>Ahmedabad</TableCell>
+              <TableCell>Kutch</TableCell>
+              <TableCell>Bhuj</TableCell>
               <TableCell>MBBS</TableCell>
               <TableCell className="text-left w-[200px]">
                 <Input

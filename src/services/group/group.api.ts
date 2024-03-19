@@ -5,3 +5,9 @@ export const getGroupApi = async (params: any) => {
 
   console.log("groupQuery response", response);
 };
+
+export const addGroupApi = async (payload: any) => {
+  const response = await superAxios.post(`/group`, payload);
+
+  console.log("groupQuery response", response);
+};

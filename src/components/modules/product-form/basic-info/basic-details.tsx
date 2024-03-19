@@ -100,10 +100,10 @@ export default function ProductDetailsForm({
       prescription: payload.prescription,
       licenseNo: payload.manufactureLicenseNumber,
       manufacturerName: payload.manufactureName,
-      contains: payload.contains,
+      contents: payload.contains,
       // margin: payload.margin,
       mrp: Number(payload.mrp),
-      pricingMethodPreference: payload.pricingMethodPreference,
+      effectivePriceCalculationType: payload.pricingMethodPreference,
       retailPrice: Number(payload.retailPrice),
       sellingPrice: Number(payload.sellingPrice),
       // sizeX: payload.sizeX,
@@ -113,20 +113,21 @@ export default function ProductDetailsForm({
         y: Number(payload.sizeY),
       },
       returnPolicy: {
-        allowExchange: payload.allowExchange,
+        allowExchange: payload.allowExchange === "true" ? true : false,
         allowReturn: payload.allowReturn,
         returnDays: Number(payload.returnDays),
       },
-      effectivePriceCalculationType: 0,
+      value: 1,
+      // effectivePriceCalculationType: 0,
     };
 
     console.log("product add payload", formattedPayload);
 
     addProductMutation.mutate(formattedPayload);
 
-    setStep(2); //TODO: move this to the second step
+    // setStep(2); //TODO: move this to the second step
 
-    toast.success("Product added successfully");
+    // toast.success("Product added successfully");
   };
 
   // console.log(

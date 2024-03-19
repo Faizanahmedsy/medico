@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import { FormLabel } from "@/components/ui/form";
 import { set } from "zod";
 import { Separator } from "@/components/ui/separator";
+import { addGroupApi } from "@/services/group/group.api";
 
 export default function SelectLocations({
   step,
@@ -32,8 +33,7 @@ export default function SelectLocations({
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [groupName, setGroupName] = useState("");
-
-  console.log("groupName", groupName);
+  const [groupDec, setGroupDec] = useState("");
 
   const selectedTalukas = useGlobalState((state) => state.selectedTalukas);
   const setSelectedTalukas = useGlobalState(
@@ -137,6 +137,31 @@ export default function SelectLocations({
     setTaluka((prev: any) => prev.filter((t: any) => t.id !== id));
   };
 
+  const addGroupMutation = useMutation({
+    mutationFn: addGroupApi,
+    onSuccess: (data) => {
+      console.log("addGroupMutation data", data);
+    },
+  });
+
+  const handleSave = () => {
+    console.log("superrrr groupName", groupName);
+    console.log("superrrr groupDec", groupDec);
+    console.log("superrrr selectedStates", selectedStates);
+    console.log("superrrr selectedDistricts", selectedDistricts);
+    console.log("superrrr selectedTalukas", selectedTalukas);
+
+    const talukaIds = selectedTalukas.map((t: any) => t.id);
+
+    const payload = {
+      name: groupName,
+      description: groupDec,
+      talukaIds: talukaIds,
+    };
+
+    addGroupMutation.mutate(payload);
+  };
+
   return (
     <>
       <DashHeader
@@ -145,11 +170,14 @@ export default function SelectLocations({
           <Button
             variant={"company"}
             type="submit"
-            onClick={() => {
-              if (step < 6) {
-                setStep((prev) => prev + 1);
-              }
-            }}
+            //   onClick={
+            //     () => {
+            //     if (step < 6) {
+            //       setStep((prev) => prev + 1);
+            //     }
+            //   }
+            // }
+            onClick={handleSave}
           >
             SAVE AND CONTINUE
           </Button>
@@ -175,15 +203,25 @@ export default function SelectLocations({
       >
         Test
       </div> */}
-
-      <div className="py-4 flex gap-1 flex-col ">
-        <div>Group Name</div>
-        <Input
-          placeholder="Search"
-          className="w-[300px]"
-          value={groupName}
-          onChange={(e) => setGroupName(e.target.value)}
-        />
+      <div className="flex justify-center items-center gap-6">
+        <div className="py-4 flex gap-1 flex-col ">
+          <div>Group Name</div>
+          <Input
+            placeholder="Search"
+            className="w-[280px]"
+            value={groupName}
+            onChange={(e) => setGroupName(e.target.value)}
+          />
+        </div>
+        <div className="py-4 flex gap-1 flex-col ">
+          <div>Group Description</div>
+          <Input
+            placeholder="Search"
+            className="w-[280px]"
+            value={groupDec}
+            onChange={(e) => setGroupDec(e.target.value)}
+          />
+        </div>
       </div>
 
       {/* -----------------SELECT STATE ----------------- */}
