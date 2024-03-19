@@ -6,6 +6,7 @@ import SelectExistingUser from "./product-form/steps/select-existing-user";
 import SelectOccupation from "./product-form/steps/select-occupation";
 import SelectLocations from "./product-form/steps/select-locations";
 import SelectBuyersTable from "./product-form/steps/select-buyers-table";
+import AddPriceInfo from "./product-form/steps/add-price-info";
 
 export {
   TextH2,
@@ -16,4 +17,5 @@ export {
   SelectOccupation,
   SelectLocations,
   SelectBuyersTable,
+  AddPriceInfo,
 };

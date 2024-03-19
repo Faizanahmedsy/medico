@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import {
+  AddPriceInfo,
   DisplayFormStep,
   ProductDetailsForm,
   SelectBuyersTable,
@@ -28,6 +29,8 @@ export default function AddProductDetailsPage() {
         {step === 4 && <SelectOccupation step={step} setStep={setStep} />}
 
         {step === 5 && <SelectBuyersTable step={step} setStep={setStep} />}
+
+        {step === 6 && <AddPriceInfo step={step} setStep={setStep} />}
 
         {/* 
         {step === 3 && <SelectExistingUser step={step} setStep={setStep} />}
