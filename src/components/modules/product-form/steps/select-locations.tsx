@@ -256,6 +256,13 @@ export default function SelectLocations({
             // }
             onClick={handleSave}
             disabled={true}
+            // disabled={ //TODO: enble this
+            //   selectedDistricts.length === 0 ||
+            //   selectedTalukas.length === 0 ||
+            //   groupName === "" ||
+            //   groupDec === "" ||
+            //   selectedStates.length === 0
+            // }
           >
             SAVE AND CONTINUE
           </Button>

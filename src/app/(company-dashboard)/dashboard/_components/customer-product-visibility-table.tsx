@@ -335,7 +335,6 @@ export function CustomerProductVisibilityTable() {
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
-          {console.log("selected", table.getFilteredSelectedRowModel().rows)}
         </div>
         <div className="space-x-2">
           <Button
