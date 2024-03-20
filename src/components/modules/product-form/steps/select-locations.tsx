@@ -46,7 +46,6 @@ export default function SelectLocations({
 
   const selectedDistricts = useGlobalState((state) => state.selectedDistricts);
 
-  console.log("selectedDistricts", selectedDistricts);
   const setSelectedDistricts = useGlobalState(
     (state) => state.setSelectedDistricts
   );
@@ -68,7 +67,24 @@ export default function SelectLocations({
   const [taluka, setTaluka] = useState<any>();
 
   // FOR STATE --------------------------------------
-  const [stateArr, setStateArr] = useState<any>();
+  const [stateArr, setStateArr] = useState<any>([
+    {
+      id: 1,
+      name: "Maharashtra",
+    },
+    {
+      id: 2,
+      name: "Karnataka",
+    },
+    {
+      id: 3,
+      name: "Goa",
+    },
+    {
+      id: 4,
+      name: "Gujarat",
+    },
+  ]);
 
   const getStatesQuery = useQuery({
     queryKey: ["states"],
@@ -78,7 +94,7 @@ export default function SelectLocations({
 
   useEffect(() => {
     if (getStatesQuery.isFetched) {
-      setStateArr(getStatesQuery.data);
+      // setStateArr(getStatesQuery.data);
     }
   }, [getStatesQuery.isFetched]);
 
@@ -88,14 +104,31 @@ export default function SelectLocations({
 
   // FOR DISTRICTS --------------------------------------
 
-  const [districtsArr, setDistrictsArr] = useState<any>();
+  const [districtsArr, setDistrictsArr] = useState<any>([
+    {
+      id: 1,
+      name: "District 1",
+    },
+    {
+      id: 2,
+      name: "District 2",
+    },
+    {
+      id: 3,
+      name: "District 3",
+    },
+    {
+      id: 4,
+      name: "District 4",
+    },
+  ]);
 
   const getDistrictsByStateMutation = useMutation({
     mutationFn: getDistrictsByStateApi,
     onSuccess: (data) => {
       console.log("getDistrictsByStateMutation data", data);
 
-      setDistrictsArr(data);
+      // setDistrictsArr(data);
     },
   });
 
@@ -105,14 +138,55 @@ export default function SelectLocations({
 
   // FOR TALUKA --------------------------------------
 
-  const [talukaArr, setTalukaArr] = useState<any>();
+  const [talukaArr, setTalukaArr] = useState<any>([
+    {
+      id: 1,
+      name: "Taluka 1",
+    },
+    {
+      id: 2,
+      name: "Taluka 2",
+    },
+    {
+      id: 3,
+      name: "Taluka 3",
+    },
+    {
+      id: 4,
+      name: "Taluka 4",
+    },
+    {
+      id: 5,
+      name: "Taluka 5",
+    },
+    {
+      id: 6,
+      name: "Taluka 6",
+    },
+    {
+      id: 7,
+      name: "Taluka 7",
+    },
+    {
+      id: 8,
+      name: "Taluka 8",
+    },
+    {
+      id: 9,
+      name: "Taluka 9",
+    },
+    {
+      id: 10,
+      name: "Taluka 10",
+    },
+  ]);
 
   const getTalukaByDistrictsMutation = useMutation({
     mutationFn: getTalukasByDistrictApi,
     onSuccess: (data) => {
       console.log("getTalukaByDistrictsMutation data", data);
 
-      setTalukaArr(data);
+      // setTalukaArr(data);
     },
   });
 
@@ -181,6 +255,7 @@ export default function SelectLocations({
             //   }
             // }
             onClick={handleSave}
+            disabled={true}
           >
             SAVE AND CONTINUE
           </Button>
@@ -309,6 +384,8 @@ export default function SelectLocations({
         </Card>
 
         <Separator />
+
+        {/* -----------------SELECT DISTRICT ----------------- */}
         <Card className="w-full">
           <CardHeader>
             <CardTitle>
@@ -385,6 +462,8 @@ export default function SelectLocations({
           </CardContent>
           {/* <CardFooter></CardFooter> */}
         </Card>
+
+        <Separator />
 
         {/* -----------------SELECT TALUKA ----------------- */}
 
