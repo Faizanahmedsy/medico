@@ -71,11 +71,11 @@ export default function ProductDetailsForm({
   const addProductMutation = useMutation({
     mutationFn: addProductApi,
     onSuccess: (data) => {
-      console.log("product added successfully");
+      console.log("addProductMutation", data);
 
       setZustProductId(data?.id);
 
-      setStep(2); //TODO: move this to the second step
+      setStep(2);
 
       toast.success("Product added successfully");
     },
@@ -85,8 +85,6 @@ export default function ProductDetailsForm({
   });
 
   const onSubmit = (payload: any) => {
-    // alert(JSON.stringify(payload, null, 2));
-
     const formattedPayload = {
       companyEmail: getItem("test-email"),
       type: payload.type,
@@ -127,34 +125,6 @@ export default function ProductDetailsForm({
     // toast.success("Product added successfully");
   };
 
-  // console.log(
-  //   "watch pricingMethodPreference",
-  //   form.watch("pricingMethodPreference")
-  // );
-
-  // console.log("watch retailPrice", form.watch("retailPrice"));
-  // console.log("watch discount", form.watch("discount"));
-  // console.log("watch margin", form.watch("margin"));
-
-  // console.log("watch calculatedPrice", calculatedPrice);
-
-  // const calculatePrice = () => {
-  //   const pricingMethodPreference: any = form.watch("pricingMethodPreference");
-  //   const retailPrice: any = form.watch("retailPrice");
-  //   const discount: any = form.watch("discount");
-  //   const margin: any = form.watch("margin");
-  //   if (pricingMethodPreference == "discountOnMrp") {
-  //     // alert("discountOnMrp");
-  //     const discountedPrice = retailPrice * (1 - discount / 100);
-  //     console.log("watch discountedPrice", discountedPrice);
-  //     setCalculatedPrice(discountedPrice.toFixed(2));
-  //   } else if (pricingMethodPreference === "marginOnSP") {
-  //     const calculatedMargin = (100 - margin) / 100;
-  //     const calculatedPrice = retailPrice / calculatedMargin;
-  //     setCalculatedPrice(calculatedPrice.toFixed(2));
-  //   }
-  // };
-
   const calculatePrice = () => {
     const pricingMethodPreference: any = form.watch("pricingMethodPreference");
     const retailPrice: number = parseFloat(form.watch("retailPrice"));
@@ -171,6 +141,7 @@ export default function ProductDetailsForm({
     }
   };
 
+  // CALCULATE SELLING PRICE WHEN EVER ANY OF THIS FIELDS CHANGE
   useEffect(() => {
     calculatePrice();
   }, [

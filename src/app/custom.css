@@ -6,6 +6,7 @@
   @apply !bg-blue-100;
 } */
 
+/* THis is for day ui  */
 :root,
 [data-theme] {
   @apply bg-transparent;
