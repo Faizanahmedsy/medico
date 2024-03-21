@@ -14,8 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getItem } from "@/lib/localStorage";
-import { useMutation } from "@tanstack/react-query";
-import { addOccupationApi } from "@/services/product/product.api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  addOccupationApi,
+  addOccupationGetApi,
+} from "@/services/product/product.api";
 
 export default function SelectOccupation({
   step,
@@ -34,6 +37,19 @@ export default function SelectOccupation({
       console.log(data);
       setStep((prev) => prev + 1);
     },
+  });
+
+  const addOccupationQuery = useQuery({
+    queryKey: ["addOccupation"],
+    queryFn: () =>
+      addOccupationGetApi({
+        groupId: getItem("medico-groupId"),
+        payload: {
+          occupations: ["doctor"],
+          degrees: ["mba"],
+        },
+      }),
+    retry: false,
   });
 
   return (

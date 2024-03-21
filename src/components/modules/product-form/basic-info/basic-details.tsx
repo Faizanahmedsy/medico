@@ -36,7 +36,7 @@ import ProductInfoFormCard from "./product-info-form-card";
 import { useMutation } from "@tanstack/react-query";
 import { addProductApi } from "@/services/product/product.api";
 import { toast } from "sonner";
-import { getItem } from "@/lib/localStorage";
+import { getItem, setItem } from "@/lib/localStorage";
 import useGlobalState from "@/store";
 
 export default function ProductDetailsForm({
@@ -74,6 +74,8 @@ export default function ProductDetailsForm({
       console.log("addProductMutation", data);
 
       setZustProductId(data?.id);
+
+      setItem("medico-productId", data?.id);
 
       setStep(2);
 

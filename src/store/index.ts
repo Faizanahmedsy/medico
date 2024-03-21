@@ -53,7 +53,7 @@ const store = (set: any) => ({
       ),
     }));
   },
-  zustProductId: "",
+  zustProductId: "", //Move this to a different store that has localstorage
   setZustProductId: (id: string) => {
     set((state: any) => ({
       zustProductId: id,

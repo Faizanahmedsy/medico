@@ -10,4 +10,6 @@ export const addGroupApi = async (payload: any) => {
   const response = await superAxios.post(`/group`, payload);
 
   console.log("groupQuery response", response);
+
+  return response.data;
 };

@@ -11,4 +11,9 @@ export const API = {
     registerAsCompany: "user/company",
     registerAsBuyer: "user/buyer",
   },
+  addProduct: {
+    addProduct: "/product",
+    addOccupation: "/occupation",
+    addPriceForBuyers: "/buyerproduct",
+  },
 } as const;

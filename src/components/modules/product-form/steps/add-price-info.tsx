@@ -13,6 +13,8 @@ import {
 import { DashHeader } from "../..";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
+import { addPriceForBuyerApi } from "@/services/product/product.api";
 
 export default function AddPriceInfo({
   step,
@@ -26,6 +28,14 @@ export default function AddPriceInfo({
     { name: "Example", price: "" },
     { name: "Example 2", price: "" },
   ]);
+
+  const addPriceForBuyerMutation = useMutation({
+    mutationFn: addPriceForBuyerApi,
+    onSuccess: (resp) => {
+      console.log("addPriceForBuyerApi response", resp);
+      // toast.success("Product added successfully");
+    },
+  });
 
   // Handler to update the price for a specific row
   const handlePriceChange = (index: number, value: string) => {
