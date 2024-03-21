@@ -11,7 +11,7 @@ import {
 } from "@/components/modules";
 
 export default function AddProductDetailsPage() {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(5);
 
   return (
     <>

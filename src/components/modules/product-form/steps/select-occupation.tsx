@@ -16,6 +16,7 @@ import {
 import { getItem } from "@/lib/localStorage";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addOccupationApi } from "@/services/product/product.api";
+import useGlobalState from "@/store";
 
 export default function SelectOccupation({
   step,
@@ -24,6 +25,7 @@ export default function SelectOccupation({
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const setBuyerList = useGlobalState((state) => state.setBuyerList);
   const [selectedOccupation, setSelectedOccupation] = useState<string>("");
 
   const [selectedDegree, setSelectedDegree] = useState<string>("");
@@ -32,6 +34,8 @@ export default function SelectOccupation({
     mutationFn: addOccupationApi,
     onSuccess: (data: any) => {
       console.log("addOccupationApi", data);
+
+      setBuyerList(data.data.buyers);
       setStep((prev) => prev + 1);
     },
   });

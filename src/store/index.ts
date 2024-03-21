@@ -6,14 +6,45 @@ interface ThemeState {
   toggleTheme: () => void;
 }
 
+interface GlobalState {
+  theme: "light" | "dark";
+
+  selectedTalukas: any[];
+
+  selectedStates: any[];
+
+  selectedDistricts: any[];
+
+  buyerList: any[];
+
+  selectedBuyers: any[];
+
+  zustProductId: string;
+}
+
+const initialState: GlobalState = {
+  theme: "light",
+
+  selectedTalukas: [],
+
+  selectedStates: [],
+
+  selectedDistricts: [],
+
+  buyerList: [],
+
+  selectedBuyers: [],
+
+  zustProductId: "",
+};
+
 const store = (set: any) => ({
-  theme: "light" as const,
+  ...initialState,
   toggleTheme: () =>
     set((state: ThemeState) => ({
       theme: state.theme === "light" ? "dark" : "light",
     })),
 
-  selectedTalukas: [],
   setSelectedTalukas: (taluka: any) => {
     set((state: any) => ({
       selectedTalukas: [taluka, ...state.selectedTalukas],
@@ -26,7 +57,6 @@ const store = (set: any) => ({
       ),
     }));
   },
-  selectedStates: [],
   setSelectedStates: (stateItem: any) => {
     set((state: any) => ({
       selectedStates: [stateItem, ...state.selectedStates],
@@ -39,8 +69,6 @@ const store = (set: any) => ({
       ),
     }));
   },
-
-  selectedDistricts: [],
   setSelectedDistricts: (districtItem: any) => {
     set((state: any) => ({
       selectedDistricts: [districtItem, ...state.selectedDistricts],
@@ -53,11 +81,29 @@ const store = (set: any) => ({
       ),
     }));
   },
-  zustProductId: "", //Move this to a different store that has localstorage
   setZustProductId: (id: string) => {
     set((state: any) => ({
       zustProductId: id,
     }));
+  },
+  setBuyerList: (list: any) => {
+    set((state: any) => ({
+      buyerList: list,
+    }));
+  },
+  setSelectedBuyers: (buyer: any) => {
+    set((state: any) => ({
+      selectedBuyers: [buyer, ...state.selectedBuyers],
+    }));
+  },
+
+  saveSelectedBuyers: (buyer: any) => {
+    set({
+      selectedBuyers: buyer,
+    });
+  },
+  resetState: () => {
+    set(initialState);
   },
 });
 
@@ -71,42 +117,3 @@ const useGlobalState = create(
 );
 
 export default useGlobalState;
-
-// //THIS IS ONLY FOR TESTING PURPOSES WILL BE REPLACED LATER
-
-// import { create } from "zustand";
-
-// import { devtools, persist } from "zustand/middleware";
-
-// const courseStore = (set) => ({
-//   courses: [],
-//   addCourse: (course) => {
-//     set((state) => ({
-//       courses: [course, ...state.courses],
-//     }));
-//   },
-//   removeCourse: (courseId) => {
-//     set((state) => ({
-//       courses: state.courses.filter((c) => c.id !== courseId),
-//     }));
-//   },
-//   toggleCourseStatus: (courseId) => {
-//     set((state) => ({
-//       courses: state.courses.map((course) =>
-//         course.id === courseId
-//           ? { ...course, completed: !course.completed }
-//           : course
-//       ),
-//     }));
-//   },
-// });
-
-// const useCourseStore = create(
-//   devtools(
-//     persist(courseStore, {
-//       name: "courses",
-//     })
-//   )
-// );
-
-// export default useCourseStore;

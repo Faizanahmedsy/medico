@@ -12,21 +12,7 @@ export default function SelectBuyersTable({
 }) {
   return (
     <div>
-      <DashHeader
-        title={"Whom to show this product to?"}
-        button={
-          <Button
-            variant={"company"}
-            onClick={() => {
-              setStep((prev) => prev + 1);
-            }}
-          >
-            SAVE AND CONTINUE
-          </Button>
-        }
-      />
-
-      <CustomerProductVisibilityTable />
+      <CustomerProductVisibilityTable step={step} setStep={setStep} />
     </div>
   );
 }
