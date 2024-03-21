@@ -15,10 +15,7 @@ import {
 } from "@/components/ui/select";
 import { getItem } from "@/lib/localStorage";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  addOccupationApi,
-  addOccupationGetApi,
-} from "@/services/product/product.api";
+import { addOccupationApi } from "@/services/product/product.api";
 
 export default function SelectOccupation({
   step,
@@ -34,38 +31,34 @@ export default function SelectOccupation({
   const addOccupationMutation = useMutation({
     mutationFn: addOccupationApi,
     onSuccess: (data: any) => {
-      console.log(data);
+      console.log("addOccupationApi", data);
       setStep((prev) => prev + 1);
     },
   });
 
-  const addOccupationQuery = useQuery({
-    queryKey: ["addOccupation"],
-    queryFn: () =>
-      addOccupationGetApi({
-        groupId: getItem("medico-groupId"),
-        payload: {
-          occupations: ["doctor"],
-          degrees: ["mba"],
-        },
-      }),
-    retry: false,
-  });
+  // setStep((prev) => prev + 1); //TODO: remove this line
+
+  const handleSave = () => {
+    const payload: any = {
+      groupId: getItem("medico-groupId"),
+      payload: {
+        occupations: [selectedOccupation],
+      },
+    };
+
+    if (selectedOccupation === "doctor") {
+      payload.payload.degrees = [selectedDegree];
+    }
+
+    addOccupationMutation.mutate(payload);
+  };
 
   return (
     <div>
       <DashHeader
         title={"Occupation"}
         button={
-          <Button
-            variant={"company"}
-            onClick={() => {
-              addOccupationMutation.mutate({
-                companyId: getItem("medico-companyId"),
-              });
-              setStep((prev) => prev + 1); //TODO: remove this line
-            }}
-          >
+          <Button variant={"company"} onClick={handleSave}>
             SAVE AND CONTINUE
           </Button>
         }

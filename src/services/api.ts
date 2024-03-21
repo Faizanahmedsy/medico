@@ -15,5 +15,6 @@ export const API = {
     addProduct: "/product",
     addOccupation: "/occupation",
     addPriceForBuyers: "/buyerproduct",
+    addOccupationGet: "",
   },
 } as const;

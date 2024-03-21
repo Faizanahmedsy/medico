@@ -8,16 +8,6 @@ export const addProductApi = async (product: any) => {
   return response.data;
 };
 
-export const addOccupationApi = async (occupation: any) => {
-  const response = await superAxios.post(
-    API.addProduct.addOccupation,
-    occupation
-  );
-
-  console.log("addOccupationApi response", response.data);
-  return response.data;
-};
-
 export const addPriceForBuyerApi = async (price: any) => {
   const response = await superAxios.post(
     API.addProduct.addPriceForBuyers,
@@ -28,14 +18,14 @@ export const addPriceForBuyerApi = async (price: any) => {
   return response.data;
 };
 
-export const addOccupationGetApi = async ({
+export const addOccupationApi = async ({
   groupId,
   payload,
 }: {
   groupId: string;
   payload: any;
 }) => {
-  const response = await superAxios.get(
+  const response = await superAxios.post(
     `/group/${groupId}/buyers-for-talukas`,
     payload
   );

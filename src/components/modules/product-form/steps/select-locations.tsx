@@ -230,6 +230,8 @@ export default function SelectLocations({
       setItem("medico-groupId", data.id);
 
       console.log("products", data.products);
+
+      setStep((prev) => prev + 1);
     },
   });
 
