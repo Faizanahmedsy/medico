@@ -45,6 +45,14 @@ export default function SelectLocations({
     (state) => state.removeSelectedTalukas
   );
 
+  const removeSelectedTalukasBasedOnStateId = useGlobalState(
+    (state) => state.removeSelectedTalukasBasedOnStateId
+  );
+
+  const removeSelectedDistrictsBasedOnStateId = useGlobalState(
+    (state) => state.removeSelectedDistrictsBasedOnStateId
+  );
+
   const selectedDistricts = useGlobalState((state) => state.selectedDistricts);
 
   const setSelectedDistricts = useGlobalState(
@@ -391,6 +399,15 @@ export default function SelectLocations({
                           className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                           onClick={() => {
                             removeSelectedStates(t);
+                            // alert(selectedStates.length);
+
+                            if (selectedStates.length === 1) {
+                              setDistrictsArr([]);
+                              setTalukaArr([]);
+                            }
+                            removeSelectedDistrictsBasedOnStateId(t.id);
+
+                            removeSelectedTalukasBasedOnStateId(t.id);
 
                             setStateArr((prev: any) => [t, ...prev]);
                           }}
@@ -421,7 +438,7 @@ export default function SelectLocations({
                     const selectedDistrictIds = selectedDistricts.map(
                       (t: any) => t.id
                     );
-                    console.log("on save selectedTalukas", selectedDistrictIds);
+                    // console.log("on save selectedTalukas", selectedDistrictIds);
                     getTalukaByDistrictsMutation.mutate({
                       districtIds: selectedDistrictIds,
                     });
@@ -471,6 +488,17 @@ export default function SelectLocations({
                           className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                           onClick={() => {
                             removeSelectedDistricts(t);
+
+                            console.log(
+                              "selcted district onclick stateID",
+                              t.stateId
+                            );
+
+                            console.log(
+                              "selcted district secleted taluka list",
+                              selectedTalukas
+                            );
+                            removeSelectedTalukasBasedOnStateId(t.stateId);
 
                             setDistrictsArr((prev: any) => [t, ...prev]);
                           }}

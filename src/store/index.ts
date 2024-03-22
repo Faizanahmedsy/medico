@@ -57,6 +57,13 @@ const store = (set: any) => ({
       ),
     }));
   },
+  removeSelectedTalukasBasedOnStateId: (stateId: string) => {
+    set((state: any) => ({
+      selectedTalukas: state.selectedTalukas.filter(
+        (t: any) => t.stateId !== stateId
+      ),
+    }));
+  },
   setSelectedStates: (stateItem: any) => {
     set((state: any) => ({
       selectedStates: [stateItem, ...state.selectedStates],
@@ -78,6 +85,13 @@ const store = (set: any) => ({
     set((state: any) => ({
       selectedDistricts: state.selectedDistricts.filter(
         (d: any) => d.id !== districtItem.id
+      ),
+    }));
+  },
+  removeSelectedDistrictsBasedOnStateId: (stateId: string) => {
+    set((state: any) => ({
+      selectedDistricts: state.selectedDistricts.filter(
+        (d: any) => d.stateId !== stateId
       ),
     }));
   },
