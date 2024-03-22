@@ -5,11 +5,14 @@ import { useTheme } from "next-themes";
 
 import { Switch } from "./ui/switch";
 import { setItem } from "@/lib/localStorage";
+import useGlobalState from "@/store";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [checked, setChecked] = useState(true);
+
+  const toggleTheme = useGlobalState((state) => state.toggleTheme);
 
   useEffect(() => {
     // ENABLE THIS IF YOU WANT TO USE SYSTEM THEME AS DEFAULT
@@ -36,6 +39,7 @@ export function ThemeToggle() {
         aria-readonly
         checked={checked}
         onCheckedChange={(e) => {
+          toggleTheme();
           if (e) {
             setTheme("dark");
             setChecked(true);

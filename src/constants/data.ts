@@ -111,7 +111,7 @@ export type Employee = {
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
-export const navItems: NavItem[] = [
+export const companyNavItems: NavItem[] = [
   {
     title: "Dashboard",
     href: "/dashboard",
@@ -125,10 +125,10 @@ export const navItems: NavItem[] = [
     label: "product",
   },
   {
-    title: "Profile",
-    href: "/dashboard/profile",
+    title: "Group",
+    href: "/dashboard/group",
     icon: "user",
-    label: "profile",
+    label: "group",
   },
   //   {
   //     title: "Employee",
@@ -154,4 +154,31 @@ export const navItems: NavItem[] = [
   //     icon: "login",
   //     label: "login",
   //   },
+];
+
+export const buyerNavItems: NavItem[] = [
+  {
+    title: "Employee",
+    href: "/dashboard/employee",
+    icon: "employee",
+    label: "employee",
+  },
+  {
+    title: "Profile",
+    href: "/dashboard/profile",
+    icon: "profile",
+    label: "profile",
+  },
+  {
+    title: "Kanban",
+    href: "/dashboard/kanban",
+    icon: "kanban",
+    label: "kanban",
+  },
+  {
+    title: "Login",
+    href: "/",
+    icon: "login",
+    label: "login",
+  },
 ];

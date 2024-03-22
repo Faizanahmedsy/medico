@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
 
 interface PayloadType {
   companyName: string;
@@ -63,7 +64,7 @@ interface PayloadType {
   }[];
 }
 
-export default function RegisterAsCompanyPage() {
+function RegisterAsCompanyPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof registerAsCompany>>({
     resolver: zodResolver(registerAsCompany),
@@ -84,6 +85,8 @@ export default function RegisterAsCompanyPage() {
     onSuccess: (resp: any) => {
       console.log("registerAsCompanyApi data", resp);
 
+      setItem("medico-companyId", resp?.data?.id);
+
       if (resp?.status === 201) {
         toast.success("Company registered successfully");
         router.push("/dashboard");
@@ -99,8 +102,7 @@ export default function RegisterAsCompanyPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsCompany>) {
-    console.log("form", form);
-    console.log(data);
+    console.log("as company form data", data);
 
     if (data.charges) {
       delete data.charges;
@@ -145,12 +147,10 @@ export default function RegisterAsCompanyPage() {
     }
 
     console.log("payload", payload);
-    // registerAsCompanyMutation.mutate(payload);
+    registerAsCompanyMutation.mutate(payload);
 
     setItem("test-isComplete", "true");
   }
-
-  console.log("form chageType", form.watch("chargesType"));
 
   const handleCardClick = (plan: string) => {
     setSelectedPlan(plan);
@@ -183,9 +183,9 @@ export default function RegisterAsCompanyPage() {
   // Extracting the role using the dynamically found key
   const userRole = decodedToken[roleKey];
 
-  console.log("debug decodedToken", decodedToken);
+  // console.log("debug decodedToken", decodedToken);
 
-  console.log("debug userRole", userRole);
+  // console.log("debug userRole", userRole);
 
   //   if(decodedToken?.http://schemas.microsoft.com/ws/2008/06/identity/claims/role === "company") {
 
@@ -200,10 +200,6 @@ export default function RegisterAsCompanyPage() {
   return (
     <>
       <div className="min-h-screen flex md:flex-col justify-center items-center">
-        {/* <div className="flex flex-col "> */}
-        {/* <h1 className="text-3xl font-semibold py-6 text-center">
-          Register your company
-        </h1> */}
         <Card>
           <CardHeader>
             <CardTitle>Register your company</CardTitle>
@@ -216,7 +212,7 @@ export default function RegisterAsCompanyPage() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4  my-5 md:min-w-[700px]"
+              className="mt-5 md:min-w-[700px]"
             >
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
@@ -465,8 +461,8 @@ export default function RegisterAsCompanyPage() {
                   )}
                 </div>
 
-                {/* <div className="py-4"> */}
-                {/* <CldUploadWidget
+                <div className="py-4">
+                  <CldUploadWidget
                     uploadPreset="dzdjzwcrs"
                     options={{
                       sources: ["local", "url", "google_drive", "dropbox"],
@@ -474,11 +470,25 @@ export default function RegisterAsCompanyPage() {
                   >
                     {({ open }) => {
                       return (
-                        <button onClick={() => open()}>Upload an Image</button>
+                        <Button
+                          onClick={() => open()}
+                          variant={"secondary"}
+                          // className="w-full"
+                        >
+                          Upload an Image
+                        </Button>
                       );
                     }}
-                  </CldUploadWidget> */}
-                {/* </div> */}
+                  </CldUploadWidget>
+                </div>
+                {/* <Button
+                  type="submit"
+                  size={"sm"}
+                  className="w-full"
+                  disabled={!form.formState.isDirty}
+                >
+                  Submit
+                </Button> */}
               </CardContent>
               <CardFooter>
                 <Button
@@ -498,3 +508,7 @@ export default function RegisterAsCompanyPage() {
     </>
   );
 }
+
+export default dynamic(() => Promise.resolve(RegisterAsCompanyPage), {
+  ssr: false,
+});

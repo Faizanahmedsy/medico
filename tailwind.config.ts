@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -52,6 +52,15 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        company: {
+          // DEFAULT: "#a7f3d0",
+          DEFAULT: "#0d9488",
+          foreground: "#fff",
+        },
+        buyer: {
+          DEFAULT: "#a5f3fc",
+          foreground: "",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -74,7 +83,37 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config
+  plugins: [require("tailwindcss-animate"), require("daisyui")],
+  daisyui: {
+    themes: [
+      {
+        light: {
+          primary: "#0d9488",
+          "primary-focus": "#14b8a6",
+          "primary-content": "#ffffff",
+          secondary: "#f000b8",
+          "secondary-focus": "#bd0091",
+          "secondary-content": "#ffffff",
+          accent: "#37cdbe",
+          "accent-focus": "#2aa79b",
+          "accent-content": "#ffffff",
+          neutral: "#3d4451",
+          "neutral-focus": "#2a2e37",
+          "neutral-content": "#ffffff",
+          "base-100": "#ffffff",
+          "base-200": "#f9fafb",
+          "base-300": "#d1d5db",
+          "base-content": "#1f2937",
+          info: "#2094f3",
+          success: "#009485",
+          warning: "#ff9900",
+          error: "#ff5724",
+        },
+      },
+      "dark",
+      "cupcake",
+    ],
+  },
+} satisfies Config;
 
-export default config
+export default config;

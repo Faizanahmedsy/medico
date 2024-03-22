@@ -12,8 +12,7 @@ const token = getItem("medico_access_token");
 const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
 const superAxios = axios.create({
-  baseURL:
-    "https://b7b8-2401-4900-1c80-32ac-901c-520-d751-4d7d.ngrok-free.app/api/",
+  baseURL: "https://7594-152-58-34-123.ngrok-free.app/api/",
   headers: {
     ...authHeaders,
     "ngrok-skip-browser-warning": "true",
