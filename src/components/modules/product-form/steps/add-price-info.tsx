@@ -28,10 +28,9 @@ export default function AddPriceInfo({
   const router = useRouter();
 
   // State to hold the input values for each row
-  const [prices, setPrices] = useState<Array<{ name: string; price: string }>>([
-    { name: "Example", price: "" },
-    { name: "Example 2", price: "" },
-  ]);
+  const [prices, setPrices] = useState<Array<{ name: string; price: string }>>(
+    []
+  );
 
   const selectedBuyers = useGlobalState((state) => state.selectedBuyers);
 
@@ -45,13 +44,63 @@ export default function AddPriceInfo({
     },
   });
 
-  // Handler to update the price for a specific row
+  // // Handler to update the price for a specific row
+  // const handlePriceChange = (index: number, value: string) => {
+  //   setPrices((prevPrices) => {
+  //     const newPrices = [...prevPrices];
+  //     newPrices[index].price = value;
+  //     return newPrices;
+  //   });
+  // };
+
+  const [payload, setPayload] = useState<
+    Array<{ buyerId: number; price: string }>
+  >([]);
+
   const handlePriceChange = (index: number, value: string) => {
-    setPrices((prevPrices) => {
-      const newPrices = [...prevPrices];
-      newPrices[index].price = value;
-      return newPrices;
+    console.log("foooo index", index);
+    console.log("foooo value", value);
+
+    setPayload((prevPayload) => {
+      // Check if the payload already contains an entry for the current buyer ID
+      const existingIndex = prevPayload.findIndex(
+        (item) => item.buyerId === index
+      );
+      if (existingIndex !== -1) {
+        // If the buyer ID exists, update the price
+        const updatedPayload = [...prevPayload];
+        updatedPayload[existingIndex].price = value;
+        return updatedPayload;
+      } else {
+        // If the buyer ID doesn't exist, add a new entry
+        return [...prevPayload, { buyerId: index, price: value }];
+      }
     });
+
+    // const payload = {
+    //   buyerId: index,
+    //   productId: 0,
+    //   priceL: parseInt(value),
+    // };
+
+    // const newArr = [];
+    // newArr.push(payload);
+
+    // console.log("newArr", newArr);
+
+    // alert("foooo");
+    // setPrices((prevPrices) => {
+    //   const newPrices = [...prevPrices];
+
+    //   // Check if index is within bounds
+    //   if (index >= 0 && index < newPrices.length) {
+    //     newPrices[index].price = value;
+    //   } else {
+    //     console.error(`Index ${index} is out of bounds for prices array.`);
+    //   }
+
+    //   return newPrices;
+    // });
   };
 
   // Handler to handle saving prices
@@ -59,14 +108,16 @@ export default function AddPriceInfo({
     // Here you can access prices array which contains the prices for each row
     console.log(prices);
 
-    const payload = [
-      {
-        buyerId: 0,
-        productId: 0,
-        priceL: 0,
-      },
-    ];
-    addPriceForBuyerMutation.mutate(prices);
+    console.log("payload", payload);
+
+    // const payload = [
+    //   {
+    //     buyerId: 0,
+    //     productId: 0,
+    //     priceL: 0,
+    //   },
+    // ];
+    addPriceForBuyerMutation.mutate(payload);
     // Perform any other action, e.g., sending data to backend
     // Reset step or perform any other action as needed
     // setStep((prev) => prev + 1);
@@ -100,7 +151,7 @@ export default function AddPriceInfo({
         </TableHeader>
         <TableBody>
           {selectedBuyers.map((buyer, index) => (
-            <TableRow key={index}>
+            <TableRow key={buyer.id}>
               <TableCell className="font-medium">{buyer.name}</TableCell>
               <TableCell>{buyer.state}</TableCell>
               <TableCell>{buyer.district}</TableCell>
@@ -109,7 +160,7 @@ export default function AddPriceInfo({
               <TableCell className="text-left w-[200px]">
                 <Input
                   value={buyer.price}
-                  onChange={(e) => handlePriceChange(index, e.target.value)}
+                  onChange={(e) => handlePriceChange(buyer.id, e.target.value)}
                 />
               </TableCell>
             </TableRow>
