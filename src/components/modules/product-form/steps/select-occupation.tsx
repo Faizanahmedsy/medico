@@ -33,10 +33,10 @@ export default function SelectOccupation({
   const addOccupationMutation = useMutation({
     mutationFn: addOccupationApi,
     onSuccess: (data: any) => {
+      // setStep((prev) => prev + 1);
       console.log("addOccupationApi", data);
 
       setBuyerList(data.data.buyers);
-      setStep((prev) => prev + 1);
     },
   });
 
@@ -55,6 +55,7 @@ export default function SelectOccupation({
     }
 
     addOccupationMutation.mutate(payload);
+    setStep((prev) => prev + 1);
   };
 
   return (
