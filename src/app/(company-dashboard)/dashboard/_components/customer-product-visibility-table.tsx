@@ -216,10 +216,6 @@ export function CustomerProductVisibilityTable({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const selectedBuyers = useGlobalState((state) => state.selectedBuyers);
-
-  console.log("selectedBuyers", selectedBuyers);
-
   const saveSelectedBuyers = useGlobalState(
     (state) => state.saveSelectedBuyers
   );

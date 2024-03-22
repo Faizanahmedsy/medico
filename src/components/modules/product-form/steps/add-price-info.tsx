@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { addPriceForBuyerApi } from "@/services/product/product.api";
+import useGlobalState from "@/store";
+import { useRouter } from "next/navigation";
 
 export default function AddPriceInfo({
   step,
@@ -23,11 +25,17 @@ export default function AddPriceInfo({
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const router = useRouter();
+
   // State to hold the input values for each row
   const [prices, setPrices] = useState<Array<{ name: string; price: string }>>([
     { name: "Example", price: "" },
     { name: "Example 2", price: "" },
   ]);
+
+  const selectedBuyers = useGlobalState((state) => state.selectedBuyers);
+
+  console.log("selectedBuyers", selectedBuyers);
 
   const addPriceForBuyerMutation = useMutation({
     mutationFn: addPriceForBuyerApi,
@@ -50,11 +58,22 @@ export default function AddPriceInfo({
   const handleSave = () => {
     // Here you can access prices array which contains the prices for each row
     console.log(prices);
+
+    const payload = [
+      {
+        buyerId: 0,
+        productId: 0,
+        priceL: 0,
+      },
+    ];
+    addPriceForBuyerMutation.mutate(prices);
     // Perform any other action, e.g., sending data to backend
     // Reset step or perform any other action as needed
     // setStep((prev) => prev + 1);
 
-    toast.success("Product added successfully");
+    //TODO move this to onSuccess of mutation
+    // toast.success("Product added successfully");
+    // router.push("/dashboard/product");
   };
 
   return (
@@ -80,16 +99,16 @@ export default function AddPriceInfo({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {prices.map((row, index) => (
+          {selectedBuyers.map((buyer, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium">{row.name}</TableCell>
-              <TableCell>Gujarat</TableCell>
-              <TableCell>Kutch</TableCell>
-              <TableCell>Bhuj</TableCell>
-              <TableCell>MBBS</TableCell>
+              <TableCell className="font-medium">{buyer.name}</TableCell>
+              <TableCell>{buyer.state}</TableCell>
+              <TableCell>{buyer.district}</TableCell>
+              <TableCell>{buyer.taluka}</TableCell>
+              <TableCell>{buyer.degree}</TableCell>
               <TableCell className="text-left w-[200px]">
                 <Input
-                  value={row.price}
+                  value={buyer.price}
                   onChange={(e) => handlePriceChange(index, e.target.value)}
                 />
               </TableCell>

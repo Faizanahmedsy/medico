@@ -8,10 +8,10 @@ export const addProductApi = async (product: any) => {
   return response.data;
 };
 
-export const addPriceForBuyerApi = async (price: any) => {
+export const addPriceForBuyerApi = async (payload: any) => {
   const response = await superAxios.post(
     API.addProduct.addPriceForBuyers,
-    price
+    payload
   );
 
   console.log("addPriceForButeApi response", response.data);
