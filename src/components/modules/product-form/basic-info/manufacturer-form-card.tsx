@@ -65,7 +65,7 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                 <FormItem className="w-full">
                   <FormLabel>Manufacture License Number</FormLabel>
                   <FormControl>
-                    <Input placeholder=" " {...field} type="number" />
+                    <Input placeholder=" " {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
