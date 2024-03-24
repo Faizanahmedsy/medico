@@ -56,6 +56,7 @@ export const registerAsCompany = z.object({
     .refine((value) => ["SelfSelling", "AdminSelling"].includes(value)),
   chargesType: z.string(),
   charges: z.optional(z.string()),
+  percentage: z.optional(z.string()),
   email: z.string().email(),
 });
 
