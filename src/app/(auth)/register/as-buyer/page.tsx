@@ -128,13 +128,13 @@ export default function RegisterAsBuyerPage() {
   //   if(decodedToken?.http://schemas.microsoft.com/ws/2008/06/identity/claims/role === "company") {
 
   // }
+  //Todo: enable this
+  // if (userRole === "Company") {
+  //   toast.error("You are not authorized to access this page");
+  //   router.push("/register/as-company");
 
-  if (userRole === "Company") {
-    toast.error("You are not authorized to access this page");
-    router.push("/register/as-company");
-
-    return;
-  }
+  //   return;
+  // }
 
   return (
     <>
