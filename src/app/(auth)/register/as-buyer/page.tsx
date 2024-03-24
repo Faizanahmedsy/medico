@@ -101,6 +101,7 @@ function RegisterAsBuyerPage() {
         district: data.district,
         taluka: data.taluka,
       },
+      talukaId: data.taluka,
     };
 
     console.log("payload", payload);
