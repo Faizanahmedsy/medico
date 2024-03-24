@@ -58,6 +58,7 @@ interface PayloadType {
   emailAddress: string;
   subscription?: string; // Update the type of charges property if needed
   chargesType?: string;
+  percentage?: string;
   documentLinks?: {
     name: string;
     link: string;
@@ -139,6 +140,10 @@ function RegisterAsCompanyPage() {
       ],
     };
 
+    // if (data.percentage) {
+    //   payload.percentage = data.percentage;
+    // }
+
     console.log("selectedPlan", selectedPlan);
     console.log('form.watch("chargesType")', form.watch("chargesType"));
 
@@ -146,8 +151,12 @@ function RegisterAsCompanyPage() {
       payload.subscription = selectedPlan;
     }
 
-    if (data.chargesType) {
-      payload.chargesType = data.chargesType;
+    if (data.chargesType === "percentageOnMargin") {
+      payload.chargesType = "Percentage";
+    }
+
+    if (data.chargesType === "subscription") {
+      payload.chargesType = "Subscription";
     }
 
     console.log("payload", payload);
@@ -330,40 +339,6 @@ function RegisterAsCompanyPage() {
                           control={form.control}
                           name="charges"
                           render={({ field }) => (
-                            // <FormItem className="w-full">
-                            //   <FormLabel>Charges</FormLabel>
-                            //   <Select
-                            //     onValueChange={field.onChange}
-                            //     defaultValue={field.value}
-                            //   >
-                            //     <FormControl>
-                            //       <SelectTrigger>
-                            //         <SelectValue placeholder="Select a role" />
-                            //       </SelectTrigger>
-                            //     </FormControl>
-                            //     <SelectContent>
-                            //       <SelectItem value="1">
-                            //         <div>
-                            //           <div>3000 INR</div>
-                            //           <div>Per Month</div>
-                            //         </div>
-                            //       </SelectItem>
-                            //       <SelectItem value="2">
-                            //         <div>
-                            //           <div>15000 INR</div>
-                            //           <div>Per 6 Month</div>
-                            //         </div>
-                            //       </SelectItem>
-                            //       <SelectItem value="3">
-                            //         <div>
-                            //           <div>25000 INR</div>
-                            //           <div>Per Year</div>
-                            //         </div>
-                            //       </SelectItem>
-                            //     </SelectContent>
-                            //   </Select>
-                            //   <FormMessage />
-                            // </FormItem>
                             <FormItem className="w-full flex flex-col justify-between pt-1">
                               <FormLabel>Charges</FormLabel>
                               <FormControl>
@@ -441,7 +416,6 @@ function RegisterAsCompanyPage() {
                                           Save changes
                                         </Button>
                                       </DialogClose>
-                                      {/* <Button type="submit">Save changes</Button> */}
                                     </DialogFooter>
                                   </DialogContent>
                                 </Dialog>
@@ -449,20 +423,25 @@ function RegisterAsCompanyPage() {
                             </FormItem>
                           )}
                         />
-                        // <FormField
-                        //   control={form.control}
-                        //   name="charges"
-                        //   render={({ field }) => (
-                        //     <FormItem className="w-full">
-                        //       <FormLabel>Charges</FormLabel>
-                        //       <FormControl>
-                        //         <Input placeholder=" " {...field} />
-                        //       </FormControl>
-                        //       <FormMessage />
-                        //     </FormItem>
-                        //   )}
-                        // />
                       )}
+
+                      {/* {form.watch("chargesType") === "percentageOnMargin" && (
+                        <>
+                          <FormField
+                            control={form.control}
+                            name="percentage"
+                            render={({ field }) => (
+                              <FormItem className="w-full">
+                                <FormLabel>Percentage</FormLabel>
+                                <FormControl>
+                                  <Input placeholder=" " {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </>
+                      )} */}
                     </>
                   )}
                 </div>
@@ -499,14 +478,6 @@ function RegisterAsCompanyPage() {
                     }}
                   </CldUploadWidget>
                 </div>
-                {/* <Button
-                  type="submit"
-                  size={"sm"}
-                  className="w-full"
-                  disabled={!form.formState.isDirty}
-                >
-                  Submit
-                </Button> */}
               </CardContent>
               <CardFooter>
                 <Button
