@@ -129,12 +129,12 @@ export default function RegisterAsBuyerPage() {
 
   // }
   //Todo: enable this
-  // if (userRole === "Company") {
-  //   toast.error("You are not authorized to access this page");
-  //   router.push("/register/as-company");
+  if (userRole === "Company") {
+    toast.error("You are not authorized to access this page");
+    router.push("/register/as-company");
 
-  //   return;
-  // }
+    return;
+  }
 
   return (
     <>
