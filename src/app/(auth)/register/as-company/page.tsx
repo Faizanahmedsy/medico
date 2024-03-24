@@ -140,9 +140,9 @@ function RegisterAsCompanyPage() {
       ],
     };
 
-    if (data.percentage) {
-      payload.percentage = data.percentage;
-    }
+    // if (data.percentage) {
+    //   payload.percentage = data.percentage;
+    // }
 
     console.log("selectedPlan", selectedPlan);
     console.log('form.watch("chargesType")', form.watch("chargesType"));
@@ -151,8 +151,12 @@ function RegisterAsCompanyPage() {
       payload.subscription = selectedPlan;
     }
 
-    if (data.chargesType) {
-      payload.chargesType = data.chargesType;
+    if (data.chargesType === "percentageOnMargin") {
+      payload.chargesType = "Percentage";
+    }
+
+    if (data.chargesType === "subscription") {
+      payload.chargesType = "Subscription";
     }
 
     console.log("payload", payload);
@@ -421,7 +425,7 @@ function RegisterAsCompanyPage() {
                         />
                       )}
 
-                      {form.watch("chargesType") === "percentageOnMargin" && (
+                      {/* {form.watch("chargesType") === "percentageOnMargin" && (
                         <>
                           <FormField
                             control={form.control}
@@ -437,7 +441,7 @@ function RegisterAsCompanyPage() {
                             )}
                           />
                         </>
-                      )}
+                      )} */}
                     </>
                   )}
                 </div>

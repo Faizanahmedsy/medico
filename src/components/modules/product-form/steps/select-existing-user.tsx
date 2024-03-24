@@ -175,11 +175,11 @@ export default function SelectExistingUser({
           <SelectContent>
             <SelectGroup>
               {/* <div>no data</div> */}
-              {groupData.map((group) => (
+              {/* {groupData.map((group) => (
                 <SelectItem key={group.id} value={group.id}>
                   {group.name}
                 </SelectItem>
-              ))}
+              ))} */}
             </SelectGroup>
           </SelectContent>
         </Select>
