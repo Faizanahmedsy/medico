@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import { z } from "zod";
 import { set, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -80,6 +80,10 @@ function RegisterAsCompanyPage() {
   });
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
+  const [uploadedImage, setUploadedImage] = useState<string>("");
+
+  console.log("uploadedImage", uploadedImage);
+
   const registerAsCompanyMutation = useMutation({
     mutationFn: registerAsCompanyApi,
     onSuccess: (resp: any) => {
@@ -129,8 +133,8 @@ function RegisterAsCompanyPage() {
       emailAddress: data.email,
       documentLinks: [
         {
-          name: "panCard",
-          link: "https://faizan-portfolio-v8.vercel.app/",
+          name: "example",
+          link: uploadedImage,
         },
       ],
     };
@@ -159,6 +163,8 @@ function RegisterAsCompanyPage() {
   };
 
   useEffect(() => {
+    console.log("uploadedImage", uploadedImage);
+
     const email = getItem("test-email");
     if (email) {
       form.setValue("email", email);
@@ -463,9 +469,21 @@ function RegisterAsCompanyPage() {
 
                 <div className="py-4">
                   <CldUploadWidget
-                    uploadPreset="dzdjzwcrs"
+                    uploadPreset="nezbeiii"
                     options={{
                       sources: ["local", "url", "google_drive", "dropbox"],
+                    }}
+                    onUploadAdded={(file) => {
+                      console.log("CldUploadWidget file", file);
+                    }}
+                    onSuccess={(response) => {
+                      console.log("CldUploadWidget response", response);
+
+                      if (response?.event === "success") {
+                        const info =
+                          response.info as CloudinaryUploadWidgetInfo;
+                        setUploadedImage(info.url);
+                      }
                     }}
                   >
                     {({ open }) => {
