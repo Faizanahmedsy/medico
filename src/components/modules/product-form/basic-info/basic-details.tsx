@@ -100,11 +100,12 @@ export default function ProductDetailsForm({
       contents: payload.contains,
       // margin: payload.margin,
       mrp: Number(payload.mrp),
-      effectivePriceCalculationType: payload.pricingMethodPreference,
+      effectivePriceCalculationType:
+        payload.pricingMethodPreference === "marginOnSP"
+          ? "MarginOnSellingPrice"
+          : "DiscountOnMRP",
       retailPrice: Number(payload.retailPrice),
       sellingPrice: Number(payload.sellingPrice),
-      // sizeX: payload.sizeX,
-      // sizeY: payload.sizeY,
       packSize: {
         x: Number(payload.sizeX),
         y: Number(payload.sizeY),
@@ -118,6 +119,11 @@ export default function ProductDetailsForm({
       // effectivePriceCalculationType: 0,
     };
 
+    // if (pricingMethodPreference === "marginOnSP") {
+    //   formattedPayload.effectivePriceCalculationType = "MarginOnSellingPrice";
+    // } else {
+    //   formattedPayload.effectivePriceCalculationType = "DiscountOnMRP";
+    // }
     console.log("product add payload", formattedPayload);
 
     addProductMutation.mutate(formattedPayload);
@@ -129,7 +135,7 @@ export default function ProductDetailsForm({
 
   const calculatePrice = () => {
     const pricingMethodPreference: any = form.watch("pricingMethodPreference");
-    const retailPrice: number = parseFloat(form.watch("retailPrice"));
+    const retailPrice: number = parseFloat(form.watch("mrp"));
     const discount: number = parseFloat(form.watch("discount"));
     const margin: number = parseFloat(form.watch("margin"));
 
@@ -148,7 +154,7 @@ export default function ProductDetailsForm({
     calculatePrice();
   }, [
     form.watch("pricingMethodPreference"),
-    form.watch("retailPrice"),
+    form.watch("mrp"),
     form.watch("discount"),
     form.watch("margin"),
   ]);

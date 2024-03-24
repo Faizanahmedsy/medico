@@ -112,9 +112,9 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="rx">Rx</SelectItem>
+                      <SelectItem value="Rx">Rx</SelectItem>
                       <SelectItem value="nRx">nRx</SelectItem>
-                      <SelectItem value="g">G</SelectItem>
+                      <SelectItem value="G">G</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
