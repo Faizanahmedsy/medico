@@ -4,7 +4,3 @@ export const extractRoleFromToken = (decodedToken: any) => {
   );
   return decodedToken[roleKey];
 };
-
-export const print = (message: string) => {
-  console.log(message);
-};

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -35,14 +35,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { registerAsBuyerApi } from "@/services/user/user.api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { extractRoleFromToken } from "@/lib/helpers";
+import {
+  getDistrictsByStateApi,
+  getStatesApi,
+  getTalukasByDistrictApi,
+} from "@/services/location/location.api";
+import dynamic from "next/dynamic";
 
-export default function RegisterAsBuyerPage() {
+function RegisterAsBuyerPage() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof registerAsBuyerSchema>>({
@@ -95,12 +101,55 @@ export default function RegisterAsBuyerPage() {
         district: data.district,
         taluka: data.taluka,
       },
+      talukaId: data.taluka,
     };
 
     console.log("payload", payload);
 
     registerAsBuyerMutation.mutate(payload);
   }
+
+  const [stateArr, setStateArr] = useState<any>([]);
+
+  const getStatesQuery = useQuery({
+    queryKey: ["states"],
+    queryFn: getStatesApi,
+    retry: 1,
+  });
+  console.log("getStatesQuery.data", getStatesQuery.data);
+  useEffect(() => {
+    if (getStatesQuery.isFetched) {
+      setStateArr(getStatesQuery.data);
+    }
+  }, [getStatesQuery.isFetched]);
+
+  console.log("getStatesQuery", getStatesQuery);
+
+  const [districtsArr, setDistrictsArr] = useState<any>([]);
+
+  const getDistrictsByStateMutation = useMutation({
+    mutationFn: getDistrictsByStateApi,
+    onSuccess: (data) => {
+      console.log("getDistrictsByStateMutation data", data);
+
+      setDistrictsArr(data);
+    },
+  });
+
+  console.log("getDistrictsByStateMutation", getDistrictsByStateMutation);
+
+  const [talukaArr, setTalukaArr] = useState<any>([]);
+
+  const getTalukaByDistrictsMutation = useMutation({
+    mutationFn: getTalukasByDistrictApi,
+    onSuccess: (data) => {
+      console.log("getTalukaByDistrictsMutation data", data);
+
+      setTalukaArr(data);
+    },
+  });
+
+  console.log("getTalukaByDistrictsMutation", getTalukaByDistrictsMutation);
 
   useEffect(() => {
     const email = getItem("test-email");
@@ -128,7 +177,7 @@ export default function RegisterAsBuyerPage() {
   //   if(decodedToken?.http://schemas.microsoft.com/ws/2008/06/identity/claims/role === "company") {
 
   // }
-
+  //Todo: enable this
   if (userRole === "Company") {
     toast.error("You are not authorized to access this page");
     router.push("/register/as-company");
@@ -215,19 +264,6 @@ export default function RegisterAsBuyerPage() {
                       </FormItem>
                     )}
                   />
-                  {/* <FormField
-                    control={form.control}
-                    name="degree"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Degree</FormLabel>
-                        <FormControl>
-                          <Input placeholder=" " {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  /> */}
 
                   <FormField
                     control={form.control}
@@ -235,9 +271,32 @@ export default function RegisterAsBuyerPage() {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>State</FormLabel>
-                        <FormControl>
-                          <Input placeholder=" " {...field} />
-                        </FormControl>
+                        <Select
+                          onValueChange={(newValue) => {
+                            getDistrictsByStateMutation.mutate({
+                              stateIds: [newValue],
+                            });
+
+                            field.onChange(newValue);
+                          }}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a state" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {stateArr.map((item: any) => (
+                              <SelectItem
+                                value={item?.id.toString()}
+                                key={item?.id}
+                              >
+                                {item?.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -248,9 +307,32 @@ export default function RegisterAsBuyerPage() {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>District</FormLabel>
-                        <FormControl>
-                          <Input placeholder=" " {...field} />
-                        </FormControl>
+                        <Select
+                          onValueChange={(newValue) => {
+                            getTalukaByDistrictsMutation.mutate({
+                              districtIds: [newValue],
+                            });
+
+                            field.onChange(newValue);
+                          }}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a state" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {districtsArr.map((item: any) => (
+                              <SelectItem
+                                value={item?.id.toString()}
+                                key={item?.id}
+                              >
+                                {item?.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -260,19 +342,27 @@ export default function RegisterAsBuyerPage() {
                     name="taluka"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel>Taluka</FormLabel>
+                        <FormLabel>District</FormLabel>
                         <Select
-                          onValueChange={field.onChange}
+                          onValueChange={(newValue) => {
+                            field.onChange(newValue);
+                          }}
                           defaultValue={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a Taluka" />
+                              <SelectValue placeholder="Select a state" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="item1">Item 1</SelectItem>
-                            <SelectItem value="item2">Item 2</SelectItem>
+                            {talukaArr.map((item: any) => (
+                              <SelectItem
+                                value={item?.id.toString()}
+                                key={item?.id}
+                              >
+                                {item?.name}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -299,3 +389,6 @@ export default function RegisterAsBuyerPage() {
     </>
   );
 }
+export default dynamic(() => Promise.resolve(RegisterAsBuyerPage), {
+  ssr: false,
+});

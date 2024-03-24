@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
 
 interface PayloadType {
   companyName: string;
@@ -57,13 +58,14 @@ interface PayloadType {
   emailAddress: string;
   subscription?: string; // Update the type of charges property if needed
   chargesType?: string;
+  percentage?: string;
   documentLinks?: {
     name: string;
     link: string;
   }[];
 }
 
-export default function RegisterAsCompanyPage() {
+function RegisterAsCompanyPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof registerAsCompany>>({
     resolver: zodResolver(registerAsCompany),
@@ -79,10 +81,16 @@ export default function RegisterAsCompanyPage() {
   });
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
+  const [uploadedImage, setUploadedImage] = useState<string>("");
+
+  console.log("uploadedImage", uploadedImage);
+
   const registerAsCompanyMutation = useMutation({
     mutationFn: registerAsCompanyApi,
     onSuccess: (resp: any) => {
       console.log("registerAsCompanyApi data", resp);
+
+      setItem("medico-companyId", resp?.data?.id);
 
       if (resp?.status === 201) {
         toast.success("Company registered successfully");
@@ -99,8 +107,7 @@ export default function RegisterAsCompanyPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsCompany>) {
-    console.log("form", form);
-    console.log(data);
+    console.log("as company form data", data);
 
     if (data.charges) {
       delete data.charges;
@@ -127,11 +134,15 @@ export default function RegisterAsCompanyPage() {
       emailAddress: data.email,
       documentLinks: [
         {
-          name: "panCard",
-          link: "https://faizan-portfolio-v8.vercel.app/",
+          name: "example",
+          link: uploadedImage,
         },
       ],
     };
+
+    // if (data.percentage) {
+    //   payload.percentage = data.percentage;
+    // }
 
     console.log("selectedPlan", selectedPlan);
     console.log('form.watch("chargesType")', form.watch("chargesType"));
@@ -140,17 +151,19 @@ export default function RegisterAsCompanyPage() {
       payload.subscription = selectedPlan;
     }
 
-    if (data.chargesType) {
-      payload.chargesType = data.chargesType;
+    if (data.chargesType === "percentageOnMargin") {
+      payload.chargesType = "Percentage";
+    }
+
+    if (data.chargesType === "subscription") {
+      payload.chargesType = "Subscription";
     }
 
     console.log("payload", payload);
-    // registerAsCompanyMutation.mutate(payload);
+    registerAsCompanyMutation.mutate(payload);
 
     setItem("test-isComplete", "true");
   }
-
-  console.log("form chageType", form.watch("chargesType"));
 
   const handleCardClick = (plan: string) => {
     setSelectedPlan(plan);
@@ -159,6 +172,8 @@ export default function RegisterAsCompanyPage() {
   };
 
   useEffect(() => {
+    console.log("uploadedImage", uploadedImage);
+
     const email = getItem("test-email");
     if (email) {
       form.setValue("email", email);
@@ -324,40 +339,6 @@ export default function RegisterAsCompanyPage() {
                           control={form.control}
                           name="charges"
                           render={({ field }) => (
-                            // <FormItem className="w-full">
-                            //   <FormLabel>Charges</FormLabel>
-                            //   <Select
-                            //     onValueChange={field.onChange}
-                            //     defaultValue={field.value}
-                            //   >
-                            //     <FormControl>
-                            //       <SelectTrigger>
-                            //         <SelectValue placeholder="Select a role" />
-                            //       </SelectTrigger>
-                            //     </FormControl>
-                            //     <SelectContent>
-                            //       <SelectItem value="1">
-                            //         <div>
-                            //           <div>3000 INR</div>
-                            //           <div>Per Month</div>
-                            //         </div>
-                            //       </SelectItem>
-                            //       <SelectItem value="2">
-                            //         <div>
-                            //           <div>15000 INR</div>
-                            //           <div>Per 6 Month</div>
-                            //         </div>
-                            //       </SelectItem>
-                            //       <SelectItem value="3">
-                            //         <div>
-                            //           <div>25000 INR</div>
-                            //           <div>Per Year</div>
-                            //         </div>
-                            //       </SelectItem>
-                            //     </SelectContent>
-                            //   </Select>
-                            //   <FormMessage />
-                            // </FormItem>
                             <FormItem className="w-full flex flex-col justify-between pt-1">
                               <FormLabel>Charges</FormLabel>
                               <FormControl>
@@ -435,7 +416,6 @@ export default function RegisterAsCompanyPage() {
                                           Save changes
                                         </Button>
                                       </DialogClose>
-                                      {/* <Button type="submit">Save changes</Button> */}
                                     </DialogFooter>
                                   </DialogContent>
                                 </Dialog>
@@ -443,29 +423,46 @@ export default function RegisterAsCompanyPage() {
                             </FormItem>
                           )}
                         />
-                        // <FormField
-                        //   control={form.control}
-                        //   name="charges"
-                        //   render={({ field }) => (
-                        //     <FormItem className="w-full">
-                        //       <FormLabel>Charges</FormLabel>
-                        //       <FormControl>
-                        //         <Input placeholder=" " {...field} />
-                        //       </FormControl>
-                        //       <FormMessage />
-                        //     </FormItem>
-                        //   )}
-                        // />
                       )}
+
+                      {/* {form.watch("chargesType") === "percentageOnMargin" && (
+                        <>
+                          <FormField
+                            control={form.control}
+                            name="percentage"
+                            render={({ field }) => (
+                              <FormItem className="w-full">
+                                <FormLabel>Percentage</FormLabel>
+                                <FormControl>
+                                  <Input placeholder=" " {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </>
+                      )} */}
                     </>
                   )}
                 </div>
 
                 <div className="py-4">
                   <CldUploadWidget
-                    uploadPreset="dzdjzwcrs"
+                    uploadPreset="nezbeiii"
                     options={{
                       sources: ["local", "url", "google_drive", "dropbox"],
+                    }}
+                    onUploadAdded={(file) => {
+                      console.log("CldUploadWidget file", file);
+                    }}
+                    onSuccess={(response) => {
+                      console.log("CldUploadWidget response", response);
+
+                      if (response?.event === "success") {
+                        const info =
+                          response.info as CloudinaryUploadWidgetInfo;
+                        setUploadedImage(info.url);
+                      }
                     }}
                   >
                     {({ open }) => {
@@ -481,14 +478,6 @@ export default function RegisterAsCompanyPage() {
                     }}
                   </CldUploadWidget>
                 </div>
-                {/* <Button
-                  type="submit"
-                  size={"sm"}
-                  className="w-full"
-                  disabled={!form.formState.isDirty}
-                >
-                  Submit
-                </Button> */}
               </CardContent>
               <CardFooter>
                 <Button
@@ -508,3 +497,7 @@ export default function RegisterAsCompanyPage() {
     </>
   );
 }
+
+export default dynamic(() => Promise.resolve(RegisterAsCompanyPage), {
+  ssr: false,
+});
