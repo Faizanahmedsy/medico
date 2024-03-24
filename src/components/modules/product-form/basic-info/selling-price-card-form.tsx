@@ -104,7 +104,7 @@ export default function SellingPriceCardForm({
                   name="discount"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Discount on Mrp</FormLabel>
+                      <FormLabel>Discount on Mrp (%)</FormLabel>
                       <FormControl>
                         <Input placeholder=" " {...field} type="number" />
                       </FormControl>
