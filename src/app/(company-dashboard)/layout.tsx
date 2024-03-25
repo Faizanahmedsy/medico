@@ -5,33 +5,31 @@ import { useRouter } from "next/navigation";
 import { getItem } from "@/lib/localStorage";
 import { toast } from "sonner";
 
-export default function DashboardLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
-  const [isMounted, setIsMounted] = useState(false);
-
+function useAuthorization() {
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
 
-  let isComplete: any;
-  if (isMounted) {
-    isComplete = getItem("medico-isComplete");
-  }
-
   useEffect(() => {
-    const isComplete: any = getItem("medico-isComplete");
-
+    const isComplete = getItem("medico-isComplete");
     setAuthorized(isComplete);
 
-    // setIsMounted(true);
-
-    console.log("isComplete", isComplete);
-
     if (!isComplete) {
-      toast("You are not authorized to access this page. Please register.");
+      toast.error(
+        "You are not authorized to access this page. Please register."
+      );
       router.push("/register");
     }
   }, []);
+
+  return authorized;
+}
+
+export default function DashboardLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  const router = useRouter();
+
+  const authorized = useAuthorization();
 
   return (
     <>
