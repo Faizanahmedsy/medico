@@ -38,6 +38,7 @@ import { addProductApi } from "@/services/product/product.api";
 import { toast } from "sonner";
 import { getItem, setItem } from "@/lib/localStorage";
 import useGlobalState from "@/store";
+import { FormattedPayload } from "../../../../../types/company-dashboard-types";
 
 export default function ProductDetailsForm({
   step,
@@ -48,6 +49,8 @@ export default function ProductDetailsForm({
 }) {
   const router = useRouter();
   const [calculatedPrice, setCalculatedPrice] = useState("");
+
+  const [letterPadDocument, setLetterPadDocument] = useState<string>("");
 
   const setZustProductId = useGlobalState((state) => state.setZustProductId);
 
@@ -87,7 +90,7 @@ export default function ProductDetailsForm({
   });
 
   const onSubmit = (payload: any) => {
-    const formattedPayload = {
+    const formattedPayload: FormattedPayload = {
       companyEmail: getItem("test-email"),
       type: payload.type,
       brandName: payload.manufactureName,
@@ -119,18 +122,13 @@ export default function ProductDetailsForm({
       // effectivePriceCalculationType: 0,
     };
 
-    // if (pricingMethodPreference === "marginOnSP") {
-    //   formattedPayload.effectivePriceCalculationType = "MarginOnSellingPrice";
-    // } else {
-    //   formattedPayload.effectivePriceCalculationType = "DiscountOnMRP";
-    // }
+    if (payload.prescription === "nRx") {
+      formattedPayload.letterPadDocumentLink = letterPadDocument;
+    }
+
     console.log("product add payload", formattedPayload);
 
     addProductMutation.mutate(formattedPayload);
-
-    // setStep(2); //TODO: move this to the second step
-
-    // toast.success("Product added successfully");
   };
 
   const calculatePrice = () => {
@@ -178,7 +176,10 @@ export default function ProductDetailsForm({
               </Button>
             }
           />
-          <ProductInfoFormCard form={form} />
+          <ProductInfoFormCard
+            form={form}
+            setLetterPadDocument={setLetterPadDocument}
+          />
           <div className="pb-4">
             <ManufacturerFormCard form={form} />
           </div>

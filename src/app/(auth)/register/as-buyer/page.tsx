@@ -49,6 +49,20 @@ import {
 } from "@/services/location/location.api";
 import dynamic from "next/dynamic";
 
+interface BuyerPayload {
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  occupation: string;
+  degree?: string;
+  address: {
+    state: string;
+    district: string;
+    taluka: string;
+  };
+  talukaId: string;
+}
+
 function RegisterAsBuyerPage() {
   const router = useRouter();
 
@@ -91,7 +105,7 @@ function RegisterAsBuyerPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsBuyerSchema>) {
-    let payload = {
+    let payload: BuyerPayload = {
       firstName: data.firstName,
       lastName: data.lastName,
       emailAddress: data.emailAddress,
@@ -104,6 +118,13 @@ function RegisterAsBuyerPage() {
       },
       talukaId: data.taluka,
     };
+
+    if (data.occupation === "doctor") {
+      payload = {
+        ...payload,
+        degree: data.degree,
+      };
+    }
 
     console.log("payload", payload);
 
@@ -274,7 +295,7 @@ function RegisterAsBuyerPage() {
                               <SelectItem value="storeOwner">
                                 Medical Store Owner
                               </SelectItem>
-                              {/* <SelectItem value="doctor">Doctor</SelectItem> */}
+                              <SelectItem value="doctor">Doctor</SelectItem>
                             </SelectGroup>
                           </SelectContent>
                         </Select>
@@ -286,41 +307,39 @@ function RegisterAsBuyerPage() {
                   {form.watch("occupation") === "doctor" && (
                     <FormField
                       control={form.control}
-                      name="occupation"
+                      name="degree"
                       render={({ field }) => (
                         <FormItem className="w-full">
                           <FormLabel>Degree</FormLabel>
                           <Select
-                            onValueChange={(newValue) => {
-                              field.onChange(newValue);
-                            }}
-                            defaultValue={field.value}
+                            onValueChange={field.onChange}
+                            // defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger className="w-[180px]">
+                              <SelectTrigger className="w-full">
                                 <SelectValue placeholder="Select a Degree" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectGroup>
-                                <SelectItem value="ms">
-                                  Master of Surgery{" "}
-                                </SelectItem>
-                                <SelectItem value="dm">
-                                  Doctor of Medicine
-                                </SelectItem>
-                                <SelectItem value="mbbs">
-                                  Bachelor of Medicine, Bachelor of Surgery
-                                </SelectItem>
+                              {/* <SelectGroup> */}
+                              <SelectItem value="ms">
+                                Master of Surgery{" "}
+                              </SelectItem>
+                              <SelectItem value="dm">
+                                Doctor of Medicine
+                              </SelectItem>
+                              <SelectItem value="mbbs">
+                                Bachelor of Medicine, Bachelor of Surgery
+                              </SelectItem>
 
-                                <SelectItem value="bds">
-                                  Bachelor of Dental Surgery
-                                </SelectItem>
+                              <SelectItem value="bds">
+                                Bachelor of Dental Surgery
+                              </SelectItem>
 
-                                <SelectItem value="bhms">
-                                  Bachelor of Homeopathy Medicine and Surgery
-                                </SelectItem>
-                              </SelectGroup>
+                              <SelectItem value="bhms">
+                                Bachelor of Homeopathy Medicine and Surgery
+                              </SelectItem>
+                              {/* </SelectGroup> */}
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -383,7 +402,7 @@ function RegisterAsBuyerPage() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a state" />
+                              <SelectValue placeholder="Select a district" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -406,7 +425,7 @@ function RegisterAsBuyerPage() {
                     name="taluka"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel>District</FormLabel>
+                        <FormLabel>Taluka</FormLabel>
                         <Select
                           onValueChange={(newValue) => {
                             field.onChange(newValue);
@@ -415,7 +434,7 @@ function RegisterAsBuyerPage() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a state" />
+                              <SelectValue placeholder="Select a taluka" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
