@@ -438,7 +438,6 @@ export default function SelectLocations({
                     const selectedDistrictIds = selectedDistricts.map(
                       (t: any) => t.id
                     );
-                    // console.log("on save selectedTalukas", selectedDistrictIds);
                     getTalukaByDistrictsMutation.mutate({
                       districtIds: selectedDistrictIds,
                     });
@@ -489,15 +488,6 @@ export default function SelectLocations({
                           onClick={() => {
                             removeSelectedDistricts(t);
 
-                            console.log(
-                              "selcted district onclick stateID",
-                              t.stateId
-                            );
-
-                            console.log(
-                              "selcted district secleted taluka list",
-                              selectedTalukas
-                            );
                             removeSelectedTalukasBasedOnStateId(t.stateId);
 
                             setDistrictsArr((prev: any) => [t, ...prev]);
