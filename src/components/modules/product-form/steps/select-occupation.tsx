@@ -36,7 +36,7 @@ export default function SelectOccupation({
       // setStep((prev) => prev + 1);
       console.log("addOccupationApi", data);
 
-      setBuyerList(data.data.buyers);
+      setBuyerList(data);
     },
   });
 

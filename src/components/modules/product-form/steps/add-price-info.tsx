@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query";
 import { addPriceForBuyerApi } from "@/services/product/product.api";
 import useGlobalState from "@/store";
 import { useRouter } from "next/navigation";
+import { getItem } from "@/lib/localStorage";
 
 export default function AddPriceInfo({
   step,
@@ -40,7 +41,7 @@ export default function AddPriceInfo({
     mutationFn: addPriceForBuyerApi,
     onSuccess: (resp) => {
       console.log("addPriceForBuyerApi response", resp);
-      // toast.success("Product added successfully");
+      toast.success("Product added successfully");
     },
   });
 
@@ -110,6 +111,16 @@ export default function AddPriceInfo({
 
     console.log("payload", payload);
 
+    const formatedPayload = payload.map((item) => {
+      return {
+        buyerId: item.buyerId,
+        productId: getItem("medico-productId"),
+        price: parseInt(item.price),
+      };
+    });
+
+    router.push("/dashboard/product");
+
     // const payload = [
     //   {
     //     buyerId: 0,
@@ -117,7 +128,7 @@ export default function AddPriceInfo({
     //     priceL: 0,
     //   },
     // ];
-    addPriceForBuyerMutation.mutate(payload);
+    addPriceForBuyerMutation.mutate(formatedPayload);
     // Perform any other action, e.g., sending data to backend
     // Reset step or perform any other action as needed
     // setStep((prev) => prev + 1);
@@ -141,9 +152,10 @@ export default function AddPriceInfo({
         {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Name</TableHead>
-            <TableHead className="text-left">State</TableHead>
-            <TableHead className="text-left">District</TableHead>
+            <TableHead className="w-[150px]">First Name</TableHead>
+            <TableHead className="w-[150px]">Last Name</TableHead>
+            {/* <TableHead className="text-left">State</TableHead>
+            <TableHead className="text-left">District</TableHead> */}
             <TableHead className="text-left">Taluka</TableHead>
             <TableHead className="text-left">Degree</TableHead>
             <TableHead className="text-left">Price</TableHead>
@@ -152,11 +164,12 @@ export default function AddPriceInfo({
         <TableBody>
           {selectedBuyers.map((buyer, index) => (
             <TableRow key={buyer.id}>
-              <TableCell className="font-medium">{buyer.name}</TableCell>
-              <TableCell>{buyer.state}</TableCell>
-              <TableCell>{buyer.district}</TableCell>
-              <TableCell>{buyer.taluka}</TableCell>
-              <TableCell>{buyer.degree}</TableCell>
+              <TableCell className="font-medium">{buyer.firstName}</TableCell>
+              <TableCell className="font-medium">{buyer.lastName}</TableCell>
+              {/* <TableCell>{buyer.state}</TableCell>
+              <TableCell>{buyer.district}</TableCell> */}
+              <TableCell>{buyer.taluka?.name}</TableCell>
+              <TableCell>{buyer.occupation}</TableCell>
               <TableCell className="text-left w-[200px]">
                 <Input
                   value={buyer.price}
