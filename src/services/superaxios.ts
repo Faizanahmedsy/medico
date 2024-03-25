@@ -13,7 +13,7 @@ const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
 const superAxios = axios.create({
   baseURL:
-    "https://253b-2409-4080-8e86-3313-a444-4679-26b5-8963.ngrok-free.app/api/",
+    "https://bb57-2409-4080-8e14-aa56-7cc2-7fcf-3938-ae17.ngrok-free.app/api/",
   headers: {
     ...authHeaders,
     "ngrok-skip-browser-warning": "true",

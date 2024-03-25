@@ -15,6 +15,7 @@ import {
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -257,13 +258,76 @@ function RegisterAsBuyerPage() {
                     render={({ field }) => (
                       <FormItem className="w-full">
                         <FormLabel>Occupation</FormLabel>
-                        <FormControl>
-                          <Input placeholder=" " {...field} />
-                        </FormControl>
+                        <Select
+                          onValueChange={(newValue) => {
+                            field.onChange(newValue);
+                          }}
+                          defaultValue={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="Select a occupation" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="storeOwner">
+                                Medical Store Owner
+                              </SelectItem>
+                              {/* <SelectItem value="doctor">Doctor</SelectItem> */}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+
+                  {form.watch("occupation") === "doctor" && (
+                    <FormField
+                      control={form.control}
+                      name="occupation"
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormLabel>Degree</FormLabel>
+                          <Select
+                            onValueChange={(newValue) => {
+                              field.onChange(newValue);
+                            }}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Select a Degree" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="ms">
+                                  Master of Surgery{" "}
+                                </SelectItem>
+                                <SelectItem value="dm">
+                                  Doctor of Medicine
+                                </SelectItem>
+                                <SelectItem value="mbbs">
+                                  Bachelor of Medicine, Bachelor of Surgery
+                                </SelectItem>
+
+                                <SelectItem value="bds">
+                                  Bachelor of Dental Surgery
+                                </SelectItem>
+
+                                <SelectItem value="bhms">
+                                  Bachelor of Homeopathy Medicine and Surgery
+                                </SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
 
                   <FormField
                     control={form.control}

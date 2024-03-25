@@ -20,7 +20,7 @@ export const addProductSchema = z.object({
   division: z.string().refine((value) => ["item1", "item2"].includes(value)),
   prescription: z
     .string()
-    .refine((value) => ["rx", "nRx", "g"].includes(value)),
+    .refine((value) => ["Rx", "nRx", "G"].includes(value)),
 
   manufactureLicenseNumber: z
     .string()

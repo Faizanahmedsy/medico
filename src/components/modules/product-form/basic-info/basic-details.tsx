@@ -179,7 +179,9 @@ export default function ProductDetailsForm({
             }
           />
           <ProductInfoFormCard form={form} />
-          <ManufacturerFormCard form={form} />
+          <div className="pb-4">
+            <ManufacturerFormCard form={form} />
+          </div>
           <SellingPriceCardForm form={form} />
         </form>
       </Form>

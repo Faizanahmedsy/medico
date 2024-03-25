@@ -42,56 +42,101 @@ import { useEffect, useState } from "react";
 import useGlobalState from "@/store";
 import { DashHeader } from "@/components/modules";
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    degree: "MBBS",
-    name: "Example",
-    state: "Gujarat",
-    district: "Kutch",
-    taluka: "Bhuj",
-  },
-  {
-    id: "3u1reuv4",
-    degree: "MBBS",
-    name: "Example 2",
-    state: "Gujarat",
-    district: "Kutch",
-    taluka: "Bhuj",
-  },
-  {
-    id: "derv1ws0",
-    degree: "MBBS",
-    name: "Example 3",
-    state: "Gujarat",
-    district: "Kutch",
-    taluka: "Bhuj",
-  },
-  {
-    id: "5kma53ae",
-    degree: "MBBS",
-    name: "Example 4",
-    state: "Gujarat",
-    district: "Kutch",
-    taluka: "Bhuj",
-  },
-  {
-    id: "bhqecj4p",
-    degree: "MBBS",
-    name: "Example 5",
-    state: "Gujarat",
-    district: "Kutch",
-    taluka: "Bhuj",
-  },
-];
+// const data: Payment[] = [
+//   {
+//     id: "m5gr84i9",
+//     degree: "MBBS",
+//     name: "Example",
+//     state: "Gujarat",
+//     district: "Kutch",
+//     taluka: "Bhuj",
+//   },
+//   {
+//     id: "3u1reuv4",
+//     degree: "MBBS",
+//     name: "Example 2",
+//     state: "Gujarat",
+//     district: "Kutch",
+//     taluka: "Bhuj",
+//   },
+//   {
+//     id: "derv1ws0",
+//     degree: "MBBS",
+//     name: "Example 3",
+//     state: "Gujarat",
+//     district: "Kutch",
+//     taluka: "Bhuj",
+//   },
+//   {
+//     id: "5kma53ae",
+//     degree: "MBBS",
+//     name: "Example 4",
+//     state: "Gujarat",
+//     district: "Kutch",
+//     taluka: "Bhuj",
+//   },
+//   {
+//     id: "bhqecj4p",
+//     degree: "MBBS",
+//     name: "Example 5",
+//     state: "Gujarat",
+//     district: "Kutch",
+//     taluka: "Bhuj",
+//   },
+// ];
+
+// const buyerList: BuyerList[] = [
+//   {
+//     id: "43fba7da-a3ac-4160-a177-89b50a3e3705",
+//     firstName: "test",
+//     lastName: "test",
+//     occupation: "storeOwner",
+//     // degree: null,
+//     // address: null,
+//     taluka: {
+//       id: 1,
+//       name: "Ahmadabad",
+//       districtId: 1,
+//       district: null,
+//     },
+//     // documentLinks: null,
+//   },
+// ];
+
+// export type BuyerList = {
+//   id: string;
+//   firstName: string;
+//   lastName: string;
+//   occupation: string;
+//   degree: string;
+//   address: string;
+//   taluka: string;
+//   district: string;
+//   state: string;
+//   documentLinks: string;
+// };
+
+// export type Payment = {
+//   id: string;
+//   degree: string;
+//   name: string;
+//   state: string;
+//   district: string;
+//   taluka: string;
+// };
 
 export type Payment = {
   id: string;
-  degree: string;
-  name: string;
-  state: string;
-  district: string;
-  taluka: string;
+  firstName: string;
+  lastName: string;
+  occupation: string;
+  // district: string;
+  taluka: {
+    id: number;
+    name: string;
+    districtId: number;
+    district: string | null;
+  };
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -120,22 +165,33 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "district",
-    header: "District",
+    accessorKey: "firstName",
+    header: "First Name",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("district")}</div>
+      <div className="capitalize">{row.getValue("firstName")}</div>
     ),
   },
+  {
+    accessorKey: "lastName",
+    header: "Last Name",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("lastName")}</div>
+    ),
+  },
+  // {
+  //   accessorKey: "district",
+  //   header: "District",
+  //   cell: ({ row }) => (
+  //     <div className="capitalize">{row.getValue("district")}</div>
+  //   ),
+  // },
   {
     accessorKey: "taluka",
     header: "Taluka",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("taluka")}</div>
+      <div className="capitalize">
+        {(row.getValue("taluka") as { name: string })?.name}
+      </div>
     ),
   },
   {
@@ -154,10 +210,10 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div className="">{row.getValue("state")}</div>,
   },
   {
-    accessorKey: "degree",
+    accessorKey: "occupation",
     // header: () => <div className="text-right">Degree</div>,
-    header: "Degree",
-    cell: ({ row }) => <div className="">{row.getValue("degree")}</div>,
+    header: "Occupation",
+    cell: ({ row }) => <div className="">{row.getValue("occupation")}</div>,
 
     // cell: ({ row }) => {
     //   // const degree = parseFloat(row.getValue("degree"));
@@ -211,6 +267,12 @@ export function CustomerProductVisibilityTable({
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const buyerList = useGlobalState((state) => state.buyerList);
+
+  const data: Payment[] = buyerList;
+
+  console.log("buyerList", buyerList);
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
