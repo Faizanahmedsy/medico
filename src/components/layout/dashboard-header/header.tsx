@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { MobileSidebar } from "../sidebar/mobile-sidebar";
 import { UserNav } from "../sidebar/user-nav";
 import Link from "next/link";
+import { LogoutButton } from "@/components/custom";
 
 export default function Header() {
   return (
@@ -29,8 +30,9 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-          <UserNav />
+          {/* <UserNav /> */}
           <ThemeToggle />
+          <LogoutButton />
         </div>
       </nav>
     </div>
