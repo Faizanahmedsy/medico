@@ -24,8 +24,15 @@ import { Textarea } from "@/components/ui/textarea";
 import CardForm from "@/components/modules/card-form";
 
 import React from "react";
+import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 
-export default function ProductInfoFormCard({ form }: { form: any }) {
+export default function ProductInfoFormCard({
+  form,
+  setLetterPadDocument,
+}: {
+  form: any;
+  setLetterPadDocument: any;
+}) {
   return (
     <>
       <CardForm
@@ -121,6 +128,41 @@ export default function ProductInfoFormCard({ form }: { form: any }) {
                 </FormItem>
               )}
             />
+
+            {form.watch("prescription") === "nRx" && (
+              <div className="flex justify-center items-center">
+                <CldUploadWidget
+                  uploadPreset="nezbeiii"
+                  options={{
+                    sources: ["local", "url", "google_drive", "dropbox"],
+                  }}
+                  onUploadAdded={(file) => {
+                    console.log("CldUploadWidget file", file);
+                  }}
+                  onSuccess={(response) => {
+                    console.log("CldUploadWidget response", response);
+
+                    if (response?.event === "success") {
+                      const info = response.info as CloudinaryUploadWidgetInfo;
+                      setLetterPadDocument(info.url);
+                    }
+                  }}
+                >
+                  {({ open }) => {
+                    return (
+                      <Button
+                        onClick={() => open()}
+                        variant={"secondary"}
+                        // className="w-full"
+                      >
+                        Upload Letter Pad Document File
+                      </Button>
+                    );
+                  }}
+                </CldUploadWidget>
+              </div>
+            )}
+
             <div className="grid md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
