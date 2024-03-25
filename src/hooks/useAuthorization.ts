@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getItem } from "@/lib/localStorage";
 
-function useAuthorization() {
+export function useAuthorization() {
   const [authorized, setAuthorized] = useState(false);
   const router = useRouter();
 
