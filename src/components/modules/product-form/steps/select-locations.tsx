@@ -25,6 +25,7 @@ import { set } from "zod";
 import { Separator } from "@/components/ui/separator";
 import { addGroupApi } from "@/services/group/group.api";
 import { getItem, setItem } from "@/lib/localStorage";
+import { cn } from "@/lib/utils";
 
 export default function SelectLocations({
   step,
@@ -45,8 +46,8 @@ export default function SelectLocations({
     (state) => state.removeSelectedTalukas
   );
 
-  const removeSelectedTalukasBasedOnStateId = useGlobalState(
-    (state) => state.removeSelectedTalukasBasedOnStateId
+  const removeSelectedTalukasBasedOnDistrictId = useGlobalState(
+    (state) => state.removeSelectedTalukasBasedOnDistrictId
   );
 
   const removeSelectedDistrictsBasedOnStateId = useGlobalState(
@@ -263,6 +264,8 @@ export default function SelectLocations({
     addGroupMutation.mutate(payload);
   };
 
+  console.log("getStatesQueryisFetched", getStatesQuery.isFetched);
+
   return (
     <>
       <DashHeader
@@ -407,7 +410,7 @@ export default function SelectLocations({
                             }
                             removeSelectedDistrictsBasedOnStateId(t.id);
 
-                            removeSelectedTalukasBasedOnStateId(t.id);
+                            removeSelectedTalukasBasedOnDistrictId(t.id);
 
                             setStateArr((prev: any) => [t, ...prev]);
                           }}
@@ -427,7 +430,14 @@ export default function SelectLocations({
         <Separator />
 
         {/* -----------------SELECT DISTRICT ----------------- */}
-        <Card className="w-full">
+        <Card
+          className={cn(
+            "w-full",
+            getDistrictsByStateMutation.isSuccess
+              ? ""
+              : "bg-slate-200 cursor-not-allowed"
+          )}
+        >
           <CardHeader>
             <CardTitle>
               <div className="flex justify-between items-center">
@@ -488,7 +498,7 @@ export default function SelectLocations({
                           onClick={() => {
                             removeSelectedDistricts(t);
 
-                            removeSelectedTalukasBasedOnStateId(t.stateId);
+                            removeSelectedTalukasBasedOnDistrictId(t.id);
 
                             setDistrictsArr((prev: any) => [t, ...prev]);
                           }}
@@ -509,7 +519,14 @@ export default function SelectLocations({
 
         {/* -----------------SELECT TALUKA ----------------- */}
 
-        <Card className="w-full">
+        <Card
+          className={cn(
+            "w-full",
+            getTalukaByDistrictsMutation.isSuccess
+              ? ""
+              : "bg-slate-200 cursor-not-allowed"
+          )}
+        >
           <CardHeader>
             <CardTitle>
               <div className="flex justify-between items-center">

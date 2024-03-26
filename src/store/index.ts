@@ -57,10 +57,10 @@ const store = (set: any) => ({
       ),
     }));
   },
-  removeSelectedTalukasBasedOnStateId: (stateId: string) => {
+  removeSelectedTalukasBasedOnDistrictId: (districtId: string) => {
     set((state: any) => ({
       selectedTalukas: state.selectedTalukas.filter(
-        (t: any) => t.stateId !== stateId
+        (t: any) => t.districtId !== districtId
       ),
     }));
   },

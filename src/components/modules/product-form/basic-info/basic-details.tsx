@@ -38,7 +38,7 @@ import { addProductApi } from "@/services/product/product.api";
 import { toast } from "sonner";
 import { getItem, setItem } from "@/lib/localStorage";
 import useGlobalState from "@/store";
-import { FormattedPayload } from "../../../../../types/company-dashboard-types";
+import { FormattedPayload } from "../../../../types/company-dashboard-types";
 
 export default function ProductDetailsForm({
   step,
