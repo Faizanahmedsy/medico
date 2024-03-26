@@ -45,8 +45,8 @@ export default function SelectLocations({
     (state) => state.removeSelectedTalukas
   );
 
-  const removeSelectedTalukasBasedOnStateId = useGlobalState(
-    (state) => state.removeSelectedTalukasBasedOnStateId
+  const removeSelectedTalukasBasedOnDistrictId = useGlobalState(
+    (state) => state.removeSelectedTalukasBasedOnDistrictId
   );
 
   const removeSelectedDistrictsBasedOnStateId = useGlobalState(
@@ -407,7 +407,7 @@ export default function SelectLocations({
                             }
                             removeSelectedDistrictsBasedOnStateId(t.id);
 
-                            removeSelectedTalukasBasedOnStateId(t.id);
+                            removeSelectedTalukasBasedOnDistrictId(t.id);
 
                             setStateArr((prev: any) => [t, ...prev]);
                           }}
@@ -488,7 +488,7 @@ export default function SelectLocations({
                           onClick={() => {
                             removeSelectedDistricts(t);
 
-                            removeSelectedTalukasBasedOnStateId(t.stateId);
+                            removeSelectedTalukasBasedOnDistrictId(t.id);
 
                             setDistrictsArr((prev: any) => [t, ...prev]);
                           }}
