@@ -37,6 +37,11 @@ export default function SelectLocations({
   const [groupName, setGroupName] = useState("");
   const [groupDec, setGroupDec] = useState("");
 
+  const [disableDistrict, setDisableDistrict] = useState(true);
+  const [disableTaluka, setDisableTaluka] = useState(true);
+
+  console.log("disableTaluka", disableTaluka);
+
   const selectedTalukas = useGlobalState((state) => state.selectedTalukas);
   const setSelectedTalukas = useGlobalState(
     (state) => state.setSelectedTalukas
@@ -265,6 +270,15 @@ export default function SelectLocations({
   };
 
   console.log("getStatesQueryisFetched", getStatesQuery.isFetched);
+
+  useEffect(() => {
+    // Enable taluka selection if at least one district is selected and districts are successfully loaded
+    if (getTalukaByDistrictsMutation.isSuccess) {
+      setDisableTaluka(false);
+    } else {
+      setDisableTaluka(true);
+    }
+  }, [getTalukaByDistrictsMutation.isSuccess]);
 
   return (
     <>
@@ -498,6 +512,8 @@ export default function SelectLocations({
                           key={t.id}
                           className="cursor-pointer bg-gray-200  hover:bg-gray-200 p-2 rounded-md"
                           onClick={() => {
+                            setDisableTaluka(true);
+
                             removeSelectedDistricts(t);
 
                             removeSelectedTalukasBasedOnDistrictId(t.id);
@@ -524,9 +540,7 @@ export default function SelectLocations({
         <Card
           className={cn(
             "w-full",
-            getTalukaByDistrictsMutation.isSuccess
-              ? ""
-              : "bg-slate-200 cursor-not-allowed"
+            disableTaluka ? "bg-slate-200 cursor-not-allowed" : ""
           )}
         >
           <CardHeader>

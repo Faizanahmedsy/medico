@@ -60,9 +60,9 @@ export default function RegisterShopPage() {
     onSuccess: (data: any) => {
       console.log("signUpMutation onSucces data", data);
 
-      if (data?.accessToken) {
-        toast.success("Account created successfully");
-      }
+      // if (data?.accessToken) {
+      //   toast.success("Account created successfully");
+      // }
 
       console.log("signUpMutation token", data?.accessToken);
 
@@ -247,7 +247,7 @@ export default function RegisterShopPage() {
                     type="submit"
                     size={"sm"}
                     className="w-full"
-                    disabled={!form.formState.isDirty}
+                    disabled={signUpMutation.isPending}
                   >
                     {signUpMutation.isPending && (
                       <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

@@ -1,4 +1,5 @@
 "use client";
+import { Wrapper } from "@/components/custom";
 import useOnMount from "@/hooks/useOnMount";
 import { extractRoleFromToken } from "@/lib/helpers";
 import { getItem } from "@/lib/localStorage";
@@ -95,5 +96,5 @@ export default function DashboardPage() {
   //   }
   // }, []);
 
-  return <div>DashboardPage</div>;
+  return <Wrapper>DashboardPage</Wrapper>;
 }

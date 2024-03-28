@@ -50,6 +50,7 @@ import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface PayloadType {
   companyName: string;
@@ -470,6 +471,7 @@ function RegisterAsCompanyPage() {
                         <Button
                           onClick={() => open()}
                           variant={"secondary"}
+                          type="button"
                           // className="w-full"
                         >
                           Upload an Image
@@ -484,8 +486,11 @@ function RegisterAsCompanyPage() {
                   type="submit"
                   size={"sm"}
                   className="w-full"
-                  disabled={!form.formState.isDirty}
+                  disabled={registerAsCompanyMutation.isPending}
                 >
+                  {registerAsCompanyMutation.isPending && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  )}
                   Submit
                 </Button>
               </CardFooter>
