@@ -76,7 +76,7 @@ export const registerAsBuyerSchema = z.object({
   occupation: z.string().min(1, {
     message: "Occupation is required",
   }),
-  degree: z.string(),
+  degree: z.optional(z.string()),
   state: z.string().min(1, {
     message: "State is required",
   }),
