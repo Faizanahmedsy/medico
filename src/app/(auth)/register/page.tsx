@@ -60,9 +60,9 @@ export default function RegisterShopPage() {
     onSuccess: (data: any) => {
       console.log("signUpMutation onSucces data", data);
 
-      if (data?.accessToken) {
-        toast.success("Account created successfully");
-      }
+      // if (data?.accessToken) {
+      //   toast.success("Account created successfully");
+      // }
 
       console.log("signUpMutation token", data?.accessToken);
 

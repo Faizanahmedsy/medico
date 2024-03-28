@@ -471,6 +471,7 @@ function RegisterAsCompanyPage() {
                         <Button
                           onClick={() => open()}
                           variant={"secondary"}
+                          type="button"
                           // className="w-full"
                         >
                           Upload an Image

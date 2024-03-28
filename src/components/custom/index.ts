@@ -1,3 +1,3 @@
 import LogoutButton from "./logout-btn";
-
-export { LogoutButton };
+import Wrapper from "./wrapper";
+export { LogoutButton, Wrapper };
