@@ -485,7 +485,7 @@ function RegisterAsCompanyPage() {
                   type="submit"
                   size={"sm"}
                   className="w-full"
-                  disabled={!form.formState.isDirty}
+                  disabled={registerAsCompanyMutation.isPending}
                 >
                   {registerAsCompanyMutation.isPending && (
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

@@ -460,7 +460,7 @@ function RegisterAsBuyerPage() {
                   type="submit"
                   size={"sm"}
                   className="w-full"
-                  disabled={!form.formState.isDirty}
+                  disabled={registerAsBuyerMutation.isPending}
                 >
                   {registerAsBuyerMutation.isPending && (
                     <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
