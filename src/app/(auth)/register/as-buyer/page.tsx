@@ -48,6 +48,7 @@ import {
   getTalukasByDistrictApi,
 } from "@/services/location/location.api";
 import dynamic from "next/dynamic";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface BuyerPayload {
   firstName: string;
@@ -461,6 +462,9 @@ function RegisterAsBuyerPage() {
                   className="w-full"
                   disabled={!form.formState.isDirty}
                 >
+                  {registerAsBuyerMutation.isPending && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  )}
                   Submit
                 </Button>
               </CardFooter>

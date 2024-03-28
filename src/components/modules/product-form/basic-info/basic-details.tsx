@@ -1,4 +1,12 @@
 "use client";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { DisplayFormStep, TextH2 } from "@/components/modules";
 import DashHeader from "@/components/modules/dash-header";
 import { Button } from "@/components/ui/button";
@@ -39,6 +47,7 @@ import { toast } from "sonner";
 import { getItem, setItem } from "@/lib/localStorage";
 import useGlobalState from "@/store";
 import { FormattedPayload } from "../../../../types/company-dashboard-types";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function ProductDetailsForm({
   step,
@@ -171,9 +180,30 @@ export default function ProductDetailsForm({
           <DashHeader
             title={"Product"}
             button={
-              <Button variant={"company"} type="submit">
-                SAVE
-              </Button>
+              <>
+                {/* <Dialog>
+                  <DialogTrigger>Open</DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>
+                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                      </DialogTitle>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog> */}
+
+                {/* <Button>test</Button> */}
+                <Button
+                  variant={"company"}
+                  type="submit"
+                  disabled={addProductMutation.isPending}
+                >
+                  {addProductMutation.isPending && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  SAVE
+                </Button>
+              </>
             }
           />
           <ProductInfoFormCard

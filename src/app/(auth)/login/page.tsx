@@ -41,6 +41,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { extractRoleFromToken } from "@/lib/helpers";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function LoginShopPage() {
   const router = useRouter();
@@ -303,6 +304,9 @@ export default function LoginShopPage() {
                     className="w-full"
                     disabled={!form.formState.isDirty}
                   >
+                    {loginInMutation.isPending && (
+                      <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    )}
                     Submit
                   </Button>
                 </CardFooter>

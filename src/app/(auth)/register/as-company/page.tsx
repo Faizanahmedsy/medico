@@ -50,6 +50,7 @@ import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface PayloadType {
   companyName: string;
@@ -486,6 +487,9 @@ function RegisterAsCompanyPage() {
                   className="w-full"
                   disabled={!form.formState.isDirty}
                 >
+                  {registerAsCompanyMutation.isPending && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  )}
                   Submit
                 </Button>
               </CardFooter>
