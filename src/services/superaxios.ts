@@ -9,7 +9,7 @@ const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
 // back-end deployed on http://16.16.213.22:8080/swagger/index.html
 const superAxios = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+  baseURL: "http://16.16.213.22:8080/api/",
   headers: {
     ...authHeaders,
     "ngrok-skip-browser-warning": "true",
