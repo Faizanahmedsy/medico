@@ -7,9 +7,9 @@ const token = getItem("medico_access_token");
 
 const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
+// back-end deployed on http://16.16.213.22:8080/swagger/index.html
 const superAxios = axios.create({
-  baseURL:
-    "https://e229-2409-4080-9487-a722-8088-ba8b-62bc-7344.ngrok-free.app/api/",
+  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
   headers: {
     ...authHeaders,
     "ngrok-skip-browser-warning": "true",

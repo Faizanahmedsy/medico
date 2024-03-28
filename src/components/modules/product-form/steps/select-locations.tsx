@@ -410,6 +410,8 @@ export default function SelectLocations({
                             }
                             removeSelectedDistrictsBasedOnStateId(t.id);
 
+                            setDistrictsArr((prev: any) => [t, ...prev]);
+
                             removeSelectedTalukasBasedOnDistrictId(t.id);
 
                             setStateArr((prev: any) => [t, ...prev]);
