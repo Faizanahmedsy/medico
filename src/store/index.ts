@@ -121,13 +121,6 @@ const store = (set: any) => ({
   },
 });
 
-const useGlobalState = create(
-  // devtools(
-  //   persist(store, {
-  //     name: "store",
-  //   })
-  // )
-  store
-);
+const useGlobalState = create(store);
 
 export default useGlobalState;

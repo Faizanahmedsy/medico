@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { addGroupApi } from "@/services/group/group.api";
 import { getItem, setItem } from "@/lib/localStorage";
 import { cn } from "@/lib/utils";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function SelectLocations({
   step,
@@ -272,6 +273,14 @@ export default function SelectLocations({
   console.log("getStatesQueryisFetched", getStatesQuery.isFetched);
 
   useEffect(() => {
+    if (getDistrictsByStateMutation.isSuccess) {
+      setDisableDistrict(false);
+    } else {
+      setDisableDistrict(true);
+    }
+  }, [getDistrictsByStateMutation.isSuccess]);
+
+  useEffect(() => {
     // Enable taluka selection if at least one district is selected and districts are successfully loaded
     if (getTalukaByDistrictsMutation.isSuccess) {
       setDisableTaluka(false);
@@ -306,6 +315,9 @@ export default function SelectLocations({
               selectedStates.length === 0
             }
           >
+            {addGroupMutation.isPending && (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            )}
             SAVE AND CONTINUE
           </Button>
         }
@@ -359,7 +371,7 @@ export default function SelectLocations({
               <div className="flex justify-between items-center">
                 <div>Select State</div>
                 <div
-                  className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
+                  className="rounded-xl text-xs p-3 px-5 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
                   onClick={() => {
                     const selectedStatesId = selectedStates.map(
                       (t: any) => t.id
@@ -369,7 +381,12 @@ export default function SelectLocations({
                     });
                   }}
                 >
-                  Load District
+                  <div className="flex">
+                    {getDistrictsByStateMutation.isPending && (
+                      <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Load District
+                  </div>
                 </div>
               </div>
             </CardTitle>
@@ -418,15 +435,17 @@ export default function SelectLocations({
                             removeSelectedStates(t);
                             // alert(selectedStates.length);
 
+                            setDisableDistrict(true);
+
                             if (selectedStates.length === 1) {
                               setDistrictsArr([]);
                               setTalukaArr([]);
                             }
                             removeSelectedDistrictsBasedOnStateId(t.id);
 
-                            setDistrictsArr((prev: any) => [t, ...prev]);
+                            // setDistrictsArr((prev: any) => [t, ...prev]);
 
-                            removeSelectedTalukasBasedOnDistrictId(t.id);
+                            // removeSelectedTalukasBasedOnDistrictId(t.id);
 
                             setStateArr((prev: any) => [t, ...prev]);
                           }}
@@ -449,9 +468,7 @@ export default function SelectLocations({
         <Card
           className={cn(
             "w-full",
-            getDistrictsByStateMutation.isSuccess
-              ? ""
-              : "bg-slate-200 cursor-not-allowed"
+            disableDistrict ? "bg-slate-200 cursor-not-allowed" : ""
           )}
         >
           <CardHeader>
@@ -459,7 +476,7 @@ export default function SelectLocations({
               <div className="flex justify-between items-center">
                 <div>Select District</div>
                 <div
-                  className="rounded-xl text-xs p-1 px-2 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
+                  className="rounded-xl text-xs p-3 px-5 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
                   onClick={() => {
                     const selectedDistrictIds = selectedDistricts.map(
                       (t: any) => t.id
@@ -469,7 +486,12 @@ export default function SelectLocations({
                     });
                   }}
                 >
-                  Load Taluka
+                  <div className="flex">
+                    {getTalukaByDistrictsMutation.isPending && (
+                      <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Load Taluka
+                  </div>
                 </div>
               </div>
             </CardTitle>
@@ -486,6 +508,10 @@ export default function SelectLocations({
                       <div
                         key={t.id}
                         onClick={() => {
+                          if (disableDistrict) {
+                            return;
+                          }
+
                           setSelectedDistricts(t);
                           // getTalukaByDistrictsMutation.mutate({
                           //   districtIds: [t.id],
@@ -562,6 +588,10 @@ export default function SelectLocations({
                       <div
                         key={t.id}
                         onClick={() => {
+                          if (disableTaluka) {
+                            return;
+                          }
+
                           setSelectedTalukas(t);
                           // removeTalukaFromOptions(t.id);
 

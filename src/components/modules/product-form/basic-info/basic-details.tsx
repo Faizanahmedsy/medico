@@ -99,6 +99,8 @@ export default function ProductDetailsForm({
   });
 
   const onSubmit = (payload: any) => {
+    console.log("add product", payload);
+
     const formattedPayload: FormattedPayload = {
       companyEmail: getItem("test-email"),
       type: payload.type,
@@ -131,13 +133,20 @@ export default function ProductDetailsForm({
       // effectivePriceCalculationType: 0,
     };
 
+    if (payload.pricingMethodPreference === "discountOnMrp") {
+      formattedPayload.value = Number(payload.discount);
+    }
+
+    if (payload.pricingMethodPreference === "marginOnSP") {
+      formattedPayload.value = Number(payload.margin);
+    }
     if (payload.prescription === "nRx") {
       formattedPayload.letterPadDocumentLink = letterPadDocument;
     }
 
     console.log("product add payload", formattedPayload);
 
-    addProductMutation.mutate(formattedPayload);
+    // addProductMutation.mutate(formattedPayload);
   };
 
   const calculatePrice = () => {

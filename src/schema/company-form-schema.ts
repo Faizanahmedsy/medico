@@ -27,7 +27,8 @@ export const addProductSchema = z.object({
     .min(1, { message: "License number is required" }),
   // contents: z.string().min(1, { message: "Contents is required" }),
   mrp: z.string().min(1, { message: "MRP is required" }),
-  returnDays: z.string().min(1, { message: "Return days is required" }),
+  // returnDays: z.string().min(1, { message: "Return days is required" }),
+  returnDays: z.optional(z.string()),
   allowReturn: z.string().min(1, { message: "Allow return is required" }),
   allowExchange: z.string().min(1, { message: "Allow exchange is required" }),
 });

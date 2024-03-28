@@ -106,6 +106,7 @@ function RegisterAsBuyerPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsBuyerSchema>) {
+    // alert("submit");
     let payload: BuyerPayload = {
       firstName: data.firstName,
       lastName: data.lastName,
