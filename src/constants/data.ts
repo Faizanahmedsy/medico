@@ -130,6 +130,12 @@ export const companyNavItems: NavItem[] = [
     icon: "user",
     label: "group",
   },
+  {
+    title: "Offers",
+    href: "/dashboard/offers",
+    icon: "user",
+    label: "offers",
+  },
   //   {
   //     title: "Employee",
   //     href: "/dashboard/employee",
