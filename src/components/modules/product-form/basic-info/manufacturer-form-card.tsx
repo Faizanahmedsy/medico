@@ -71,49 +71,7 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="returnDays"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Return Days</FormLabel>
-                  <FormControl>
-                    <Input placeholder=" " {...field} type="number" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="allowReturn"
-              render={({ field }) => (
-                <FormItem className="space-y-3">
-                  <FormLabel>Allow Return</FormLabel>
-                  <FormControl>
-                    <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      className="flex flex-col space-y-1"
-                    >
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="true" />
-                        </FormControl>
-                        <FormLabel className="font-normal">True</FormLabel>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-3 space-y-0">
-                        <FormControl>
-                          <RadioGroupItem value="false" />
-                        </FormControl>
-                        <FormLabel className="font-normal">False</FormLabel>
-                      </FormItem>
-                    </RadioGroup>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="allowExchange"
@@ -124,7 +82,7 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                     <RadioGroup
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      className="flex flex-col space-y-1"
+                      className="flex  space-y-1"
                     >
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
@@ -144,38 +102,53 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="mrp"
+              name="allowReturn"
               render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>
-                    <div className="flex justify-between">
-                      <div>MRP</div>
-                      <div>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <QuestionMarkCircledIcon />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>
-                                Maximum Retail Price , This will be visible to
-                                end consumers
-                              </p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                    </div>
-                  </FormLabel>
+                <FormItem className="space-y-3">
+                  <FormLabel>Allow Return</FormLabel>
                   <FormControl>
-                    <Input placeholder=" " {...field} type="number" />
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex space-y-1"
+                    >
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="true" />
+                        </FormControl>
+                        <FormLabel className="font-normal">True</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="false" />
+                        </FormControl>
+                        <FormLabel className="font-normal">False</FormLabel>
+                      </FormItem>
+                    </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            {form.watch("allowReturn") === "true" && (
+              <FormField
+                control={form.control}
+                name="returnDays"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Return Days</FormLabel>
+                    <FormControl>
+                      <Input placeholder=" " {...field} type="number" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
         }
       />

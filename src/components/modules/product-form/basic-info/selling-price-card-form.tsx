@@ -51,6 +51,41 @@ export default function SellingPriceCardForm({
         content={
           <>
             <div className="grid md:grid-cols-3 gap-4">
+              <div className="flex  justify-end items-center">
+                <FormField
+                  control={form.control}
+                  name="mrp"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>
+                        <div className="flex justify-between">
+                          <div>MRP</div>
+                          <div>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <QuestionMarkCircledIcon />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>
+                                    Maximum Retail Price , This will be visible
+                                    to end consumers
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </div>
+                        </div>
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder=" " {...field} type="number" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name="retailPrice"
