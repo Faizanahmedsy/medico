@@ -131,7 +131,6 @@ export default function ProductDetailsForm({
       returnPolicy: {
         allowExchange: payload.allowExchange === "true" ? true : false,
         allowReturn: payload.allowReturn === "true" ? true : false,
-        // returnDays: Number(payload.returnDays),
       },
       value: 1,
       // effectivePriceCalculationType: 0,
@@ -149,9 +148,7 @@ export default function ProductDetailsForm({
     }
 
     if (payload.allowReturn === "true") {
-      formattedPayload.returnPolicy = {
-        returnDays: Number(payload.returnDays),
-      };
+      formattedPayload.returnPolicy.returnDays = Number(payload.returnDays);
     }
 
     console.log("product add payload", formattedPayload);
