@@ -1,3 +1,4 @@
+import { getItem } from "@/lib/localStorage";
 import superAxios from "../superaxios";
 
 export const getGroupApi = async (params: any) => {
@@ -7,7 +8,13 @@ export const getGroupApi = async (params: any) => {
 };
 
 export const addGroupApi = async (payload: any) => {
-  const response = await superAxios.post(`/group`, payload);
+  const token = getItem("medico_access_token");
+
+  const response = await superAxios.post(`/group`, payload, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   console.log("groupQuery response", response);
 
