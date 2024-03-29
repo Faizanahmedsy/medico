@@ -51,6 +51,7 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { LogoutButton } from "@/components/custom";
 
 interface PayloadType {
   companyName: string;
@@ -104,6 +105,18 @@ function RegisterAsCompanyPage() {
       // } else {
       //   router.push("register/as-buyer");
       // }
+    },
+    onError: (error) => {
+      console.log("registerAsCompanyApi error", error);
+
+      let errormssage: any = error;
+
+      if (errormssage?.response?.data?.detail) {
+        toast.error(errormssage?.response?.data?.detail);
+        return;
+      }
+
+      toast.error("Something went wrong");
     },
   });
 
@@ -215,6 +228,8 @@ function RegisterAsCompanyPage() {
 
   return (
     <>
+      <LogoutButton />
+
       <div className="min-h-screen flex md:flex-col justify-center items-center">
         <Card>
           <CardHeader>

@@ -95,6 +95,10 @@ export default function ProductDetailsForm({
     },
     onError: (error) => {
       console.log("error", error);
+
+      let thiserror: any = error;
+
+      toast.error(thiserror?.response?.data?.title || "Something went wrong");
     },
   });
 
@@ -126,8 +130,8 @@ export default function ProductDetailsForm({
       },
       returnPolicy: {
         allowExchange: payload.allowExchange === "true" ? true : false,
-        allowReturn: payload.allowReturn,
-        returnDays: Number(payload.returnDays),
+        allowReturn: payload.allowReturn === "true" ? true : false,
+        // returnDays: Number(payload.returnDays),
       },
       value: 1,
       // effectivePriceCalculationType: 0,
@@ -142,6 +146,12 @@ export default function ProductDetailsForm({
     }
     if (payload.prescription === "nRx") {
       formattedPayload.letterPadDocumentLink = letterPadDocument;
+    }
+
+    if (payload.allowReturn === "true") {
+      formattedPayload.returnPolicy = {
+        returnDays: Number(payload.returnDays),
+      };
     }
 
     console.log("product add payload", formattedPayload);

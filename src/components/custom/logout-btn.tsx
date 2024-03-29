@@ -1,11 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { getItem } from "@/lib/localStorage";
 
 export default function LogoutButton() {
+  const [auth, setAuth] = useState(false);
+
+  const token = getItem("medico_access_token");
+
+  console.log("myyyyyyyy token", token);
+
+  useEffect(() => {
+    if (token) {
+      setAuth(true);
+    }
+  }, []);
+
   const router = useRouter();
 
   const handleLogout = () => {
@@ -14,6 +27,8 @@ export default function LogoutButton() {
     sessionStorage.clear();
     router.push("/login");
   };
+
+  if (!auth) return null;
 
   return (
     <>

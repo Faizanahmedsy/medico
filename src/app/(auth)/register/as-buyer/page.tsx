@@ -49,6 +49,7 @@ import {
 } from "@/services/location/location.api";
 import dynamic from "next/dynamic";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { LogoutButton } from "@/components/custom";
 
 interface BuyerPayload {
   firstName: string;
@@ -211,6 +212,8 @@ function RegisterAsBuyerPage() {
 
   return (
     <>
+      <LogoutButton />
+
       <div className="md:px-32 py-2 flex md:flex-col justify-center items-center min-h-screen w-full ">
         {/* <div className="flex flex-col "> */}
         <Card className="w-[800px]">
