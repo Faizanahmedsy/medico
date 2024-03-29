@@ -141,9 +141,9 @@ function RegisterAsCompanyPage() {
     //   charges: selectedPlan,
     // };
 
-    if (data?.companyEmail) {
-      setItem("test-email", data?.companyEmail);
-    }
+    // if (data?.companyEmail) {
+    //   setItem("test-email", data?.companyEmail);
+    // }
 
     const payload: PayloadType = {
       companyName: data.companyName,
