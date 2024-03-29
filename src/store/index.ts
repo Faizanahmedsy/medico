@@ -57,10 +57,10 @@ const store = (set: any) => ({
       ),
     }));
   },
-  removeSelectedTalukasBasedOnStateId: (stateId: string) => {
+  removeSelectedTalukasBasedOnDistrictId: (districtId: string) => {
     set((state: any) => ({
       selectedTalukas: state.selectedTalukas.filter(
-        (t: any) => t.stateId !== stateId
+        (t: any) => t.districtId !== districtId
       ),
     }));
   },
@@ -121,13 +121,6 @@ const store = (set: any) => ({
   },
 });
 
-const useGlobalState = create(
-  // devtools(
-  //   persist(store, {
-  //     name: "store",
-  //   })
-  // )
-  store
-);
+const useGlobalState = create(store);
 
 export default useGlobalState;

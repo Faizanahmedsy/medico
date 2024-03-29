@@ -38,6 +38,7 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { registrationSchema } from "@/schema/auth-schema";
 import { signUpApi } from "@/services/auth/auth.api";
 import { setItem } from "@/lib/localStorage";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function RegisterShopPage() {
   const router = useRouter();
@@ -59,9 +60,9 @@ export default function RegisterShopPage() {
     onSuccess: (data: any) => {
       console.log("signUpMutation onSucces data", data);
 
-      if (data?.accessToken) {
-        toast.success("Account created successfully");
-      }
+      // if (data?.accessToken) {
+      //   toast.success("Account created successfully");
+      // }
 
       console.log("signUpMutation token", data?.accessToken);
 
@@ -138,27 +139,12 @@ export default function RegisterShopPage() {
 
   return (
     <>
-      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"></div> */}
-      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-fuchsia-400 opacity-20 blur-[100px]"></div>
-      </div> */}
-      {/* <div className="absolute top-0 -z-10 h-full w-full bg-white">
-        <div className="absolute bottom-auto left-auto right-0 top-0 h-[500px] w-[500px] -translate-x-[30%] translate-y-[20%] rounded-full bg-[rgba(173,109,244,0.5)] opacity-50 blur-[80px]"></div>
-      </div> */}
-
-      {/* <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div> */}
-
       <div className="flex justify-center items-center h-screen">
         <Card>
-          {/* <div className="flex flex-col lg:w-[700px]"> */}
           <div className="flex flex-col">
             <CardHeader>
               <CardTitle>Register</CardTitle>
-              {/* <CardDescription>
-              Deploy your new project in one-click.
-            </CardDescription> */}
             </CardHeader>
-            {/* <h1 className="text-3xl font-semibold py-4">Register</h1> */}
             <hr />
 
             <div className="" />
@@ -168,37 +154,6 @@ export default function RegisterShopPage() {
                 className="space-y-8 md:w-[700px]  min-w-[250px] mx-auto my-5"
               >
                 <CardContent>
-                  {/* <div className="flex gap-5 flex-col md:flex-row">
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>First Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Last Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder=" " {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div> */}
-
                   <div className="flex gap-5 flex-col md:flex-row">
                     <FormField
                       control={form.control}
@@ -262,12 +217,7 @@ export default function RegisterShopPage() {
                         <FormItem className="w-full">
                           <FormLabel>Password</FormLabel>
                           <FormControl>
-                            {/* <div className="flex w-full max-w-sm items-center space-x-2"> */}
                             <PasswordInput placeholder="" {...field} />
-                            {/* <div>
-                                <Eye />
-                              </div>
-                            </div> */}
                           </FormControl>
 
                           <FormMessage />
@@ -297,8 +247,11 @@ export default function RegisterShopPage() {
                     type="submit"
                     size={"sm"}
                     className="w-full"
-                    disabled={!form.formState.isDirty}
+                    disabled={signUpMutation.isPending}
                   >
+                    {signUpMutation.isPending && (
+                      <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                    )}
                     Submit
                   </Button>
                 </CardFooter>
@@ -306,10 +259,6 @@ export default function RegisterShopPage() {
             </Form>
           </div>
         </Card>
-
-        {/* <div className="mx-10">
-        <Image src="medicine.svg" alt="logo" width={600} height={600} />
-      </div> */}
       </div>
     </>
   );

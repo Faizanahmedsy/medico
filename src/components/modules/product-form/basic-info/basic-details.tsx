@@ -1,4 +1,12 @@
 "use client";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { DisplayFormStep, TextH2 } from "@/components/modules";
 import DashHeader from "@/components/modules/dash-header";
 import { Button } from "@/components/ui/button";
@@ -38,7 +46,8 @@ import { addProductApi } from "@/services/product/product.api";
 import { toast } from "sonner";
 import { getItem, setItem } from "@/lib/localStorage";
 import useGlobalState from "@/store";
-import { FormattedPayload } from "../../../../../types/company-dashboard-types";
+import { FormattedPayload } from "../../../../types/company-dashboard-types";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function ProductDetailsForm({
   step,
@@ -90,6 +99,8 @@ export default function ProductDetailsForm({
   });
 
   const onSubmit = (payload: any) => {
+    console.log("add product", payload);
+
     const formattedPayload: FormattedPayload = {
       companyEmail: getItem("test-email"),
       type: payload.type,
@@ -122,13 +133,20 @@ export default function ProductDetailsForm({
       // effectivePriceCalculationType: 0,
     };
 
+    if (payload.pricingMethodPreference === "discountOnMrp") {
+      formattedPayload.value = Number(payload.discount);
+    }
+
+    if (payload.pricingMethodPreference === "marginOnSP") {
+      formattedPayload.value = Number(payload.margin);
+    }
     if (payload.prescription === "nRx") {
       formattedPayload.letterPadDocumentLink = letterPadDocument;
     }
 
     console.log("product add payload", formattedPayload);
 
-    addProductMutation.mutate(formattedPayload);
+    // addProductMutation.mutate(formattedPayload);
   };
 
   const calculatePrice = () => {
@@ -171,9 +189,30 @@ export default function ProductDetailsForm({
           <DashHeader
             title={"Product"}
             button={
-              <Button variant={"company"} type="submit">
-                SAVE
-              </Button>
+              <>
+                {/* <Dialog>
+                  <DialogTrigger>Open</DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>
+                        <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                      </DialogTitle>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog> */}
+
+                {/* <Button>test</Button> */}
+                <Button
+                  variant={"company"}
+                  type="submit"
+                  disabled={addProductMutation.isPending}
+                >
+                  {addProductMutation.isPending && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  SAVE
+                </Button>
+              </>
             }
           />
           <ProductInfoFormCard

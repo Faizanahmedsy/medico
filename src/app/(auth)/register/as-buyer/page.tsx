@@ -48,6 +48,7 @@ import {
   getTalukasByDistrictApi,
 } from "@/services/location/location.api";
 import dynamic from "next/dynamic";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 interface BuyerPayload {
   firstName: string;
@@ -105,6 +106,7 @@ function RegisterAsBuyerPage() {
   });
 
   function onSubmit(data: z.infer<typeof registerAsBuyerSchema>) {
+    // alert("submit");
     let payload: BuyerPayload = {
       firstName: data.firstName,
       lastName: data.lastName,
@@ -459,8 +461,11 @@ function RegisterAsBuyerPage() {
                   type="submit"
                   size={"sm"}
                   className="w-full"
-                  disabled={!form.formState.isDirty}
+                  disabled={registerAsBuyerMutation.isPending}
                 >
+                  {registerAsBuyerMutation.isPending && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+                  )}
                   Submit
                 </Button>
               </CardFooter>
