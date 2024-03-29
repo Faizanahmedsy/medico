@@ -146,7 +146,7 @@ export default function ProductDetailsForm({
 
     console.log("product add payload", formattedPayload);
 
-    // addProductMutation.mutate(formattedPayload);
+    addProductMutation.mutate(formattedPayload);
   };
 
   const calculatePrice = () => {
