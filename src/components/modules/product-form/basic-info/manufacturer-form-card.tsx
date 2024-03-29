@@ -134,21 +134,21 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
               )}
             />
 
-            {/* {form.watch("allowReturn") === "true" && ( */}
-            <FormField
-              control={form.control}
-              name="returnDays"
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Return Days</FormLabel>
-                  <FormControl>
-                    <Input placeholder=" " {...field} type="number" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            {/* )} */}
+            {form.watch("allowReturn") === "true" && (
+              <FormField
+                control={form.control}
+                name="returnDays"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Return Days</FormLabel>
+                    <FormControl>
+                      <Input placeholder=" " {...field} type="number" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
         }
       />
