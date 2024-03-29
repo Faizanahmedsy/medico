@@ -141,6 +141,10 @@ function RegisterAsCompanyPage() {
     //   charges: selectedPlan,
     // };
 
+    if (data?.companyEmail) {
+      setItem("test-email", data?.companyEmail);
+    }
+
     const payload: PayloadType = {
       companyName: data.companyName,
       companyEmail: data.companyEmail,

@@ -40,7 +40,7 @@ import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
-import { extractRoleFromToken } from "@/lib/helpers";
+import { extractEmailFromToken, extractRoleFromToken } from "@/lib/helpers";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function LoginShopPage() {
@@ -62,6 +62,8 @@ export default function LoginShopPage() {
 
       setItem("medico_access_token", resp?.accessToken);
 
+      // setItem("medico_access_token", resp?.accessToken);
+
       let newToken: any = resp?.accessToken;
 
       // Or get token from api
@@ -71,6 +73,13 @@ export default function LoginShopPage() {
 
       const userRole = extractRoleFromToken(decodedToken);
 
+      const email = extractEmailFromToken(decodedToken);
+
+      // alert(email);
+
+      if (userRole == "Company") {
+        setItem("test-email", email);
+      }
       console.log("login time decodedToken", decodedToken);
 
       console.log("check condiiton", decodedToken?.isComplete === "True");

@@ -97,6 +97,12 @@ export default function RegisterShopPage() {
           toast.error("Email already exists");
         }
       }
+
+      if (error?.response?.data?.detail) {
+        toast.error(error?.response?.data?.detail);
+      } else {
+        toast.error("Something Went Wrong");
+      }
       // toast.error("An error occurred");
     },
   });
