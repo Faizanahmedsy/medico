@@ -39,6 +39,7 @@ import { registrationSchema } from "@/schema/auth-schema";
 import { signUpApi } from "@/services/auth/auth.api";
 import { setItem } from "@/lib/localStorage";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { LogoutButton } from "@/components/custom";
 
 export default function RegisterShopPage() {
   const router = useRouter();
@@ -139,6 +140,7 @@ export default function RegisterShopPage() {
 
   return (
     <>
+      <LogoutButton />
       <div className="flex justify-center items-center h-screen">
         <Card>
           <div className="flex flex-col">

@@ -4,9 +4,9 @@ export interface PackSize {
 }
 
 export interface ReturnPolicy {
-  allowExchange: boolean;
-  allowReturn: string;
-  returnDays: number;
+  allowExchange?: boolean;
+  allowReturn?: boolean;
+  returnDays?: number;
 }
 
 export interface FormattedPayload {
