@@ -158,15 +158,20 @@ export default function ProductDetailsForm({
 
   const calculatePrice = () => {
     const pricingMethodPreference: any = form.watch("pricingMethodPreference");
-    const retailPrice: number = parseFloat(form.watch("mrp"));
+    const mrp: number = parseFloat(form.watch("mrp"));
+    const retailPrice: number = parseFloat(form.watch("retailPrice"));
+
     const discount: number = parseFloat(form.watch("discount"));
     const margin: number = parseFloat(form.watch("margin"));
 
     if (pricingMethodPreference === "discountOnMrp") {
-      const discountedPrice = retailPrice * (1 - discount / 100);
+      const discountedPrice = mrp * (1 - discount / 100);
       setCalculatedPrice(discountedPrice.toFixed(2));
     } else if (pricingMethodPreference === "marginOnSP") {
+      console.log("fhfh margin", margin);
       const calculatedMargin = (100 - margin) / 100;
+
+      console.log("fhfh calculatedMargin", calculatedMargin);
       const calculatedPrice = retailPrice / calculatedMargin;
       setCalculatedPrice(calculatedPrice.toFixed(2));
     }

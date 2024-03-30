@@ -40,7 +40,12 @@ import Link from "next/link";
 import { PasswordInput } from "@/components/ui/password-input";
 import { getItem, setItem } from "@/lib/localStorage";
 import { jwtDecode } from "jwt-decode";
-import { extractEmailFromToken, extractRoleFromToken } from "@/lib/helpers";
+import {
+  extractEmailFromToken,
+  extractRoleFromToken,
+  getDecodedToken,
+  superTokenFormatter,
+} from "@/lib/helpers";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function LoginShopPage() {
@@ -58,9 +63,17 @@ export default function LoginShopPage() {
   const loginInMutation = useMutation({
     mutationFn: loginApi,
     onSuccess: (resp: any) => {
-      console.log("loginInMutation resp ", resp);
+      console.log("test-token loginInMutation resp ", resp);
 
       setItem("medico_access_token", resp?.accessToken);
+
+      const superDecode = getDecodedToken(resp?.accessToken);
+
+      console.log("superdecode", superDecode);
+
+      const formattedToken = superTokenFormatter(resp?.accessToken);
+
+      console.log("superdecode formattedToken", formattedToken);
 
       // setItem("medico_access_token", resp?.accessToken);
 
@@ -70,6 +83,10 @@ export default function LoginShopPage() {
       // let token = getItem("medico_access_token");
 
       let decodedToken: any = jwtDecode(newToken);
+
+      setItem("medico-companyId", decodedToken?.companyId);
+
+      console.log("decodedToken", decodedToken);
 
       const userRole = extractRoleFromToken(decodedToken);
 

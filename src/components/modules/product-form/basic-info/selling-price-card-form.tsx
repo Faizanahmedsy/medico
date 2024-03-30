@@ -150,7 +150,11 @@ export default function SellingPriceCardForm({
                     <FormItem className="w-full">
                       <FormLabel>Discount on MRP (%)</FormLabel>
                       <FormControl>
-                        <Input placeholder=" " {...field} type="number" />
+                        <Input
+                          placeholder=" "
+                          {...field}
+                          onKeyDown={restrictPositiveNumbersOnly}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

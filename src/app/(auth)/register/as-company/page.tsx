@@ -52,6 +52,7 @@ import { toast } from "sonner";
 import dynamic from "next/dynamic";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { LogoutButton } from "@/components/custom";
+import { extractRoleFromToken } from "@/lib/helpers";
 
 interface PayloadType {
   companyName: string;
@@ -81,6 +82,7 @@ function RegisterAsCompanyPage() {
     },
     mode: "onChange",
   });
+  registerAsCompanyApi;
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
   const [uploadedImage, setUploadedImage] = useState<string>("");
@@ -90,9 +92,11 @@ function RegisterAsCompanyPage() {
   const registerAsCompanyMutation = useMutation({
     mutationFn: registerAsCompanyApi,
     onSuccess: (resp: any) => {
-      console.log("registerAsCompanyApi data", resp);
+      console.log("test-token registerAsCompanyApi resp", resp);
 
       setItem("medico-companyId", resp?.data?.id);
+
+      setItem("medico_access_token", resp?.data?.accessToken);
 
       if (resp?.status === 201) {
         toast.success("Company registered successfully");
@@ -196,39 +200,26 @@ function RegisterAsCompanyPage() {
     if (email) {
       form.setValue("email", email);
     }
+
+    // const token: any = getItem("medico_access_token");
+
+    // if (token) {
+    //   if (typeof token !== "string") {
+    //     console.error("Invalid token: not a string");
+    //     return;
+    //   }
+
+    //   const decodedToken: any = jwtDecode(token);
+
+    //   const userRole = extractRoleFromToken(decodedToken);
+
+    //   if (userRole === "Buyer") {
+    //     toast.error("You are not authorized to access this page");
+    //     router.push("/register/as-buyer");
+    //     return;
+    //   }
+    // }
   }, []);
-
-  const token: any = getItem("medico_access_token");
-
-  if (typeof token !== "string") {
-    console.error("Invalid token: not a string");
-    // Handle the error appropriately
-    return;
-  }
-
-  const decodedToken: any = jwtDecode(token);
-
-  // Dynamically find the key containing "identify/claims/role"
-  const roleKey: any = Object.keys(decodedToken).find((key) =>
-    key.includes("identity/claims/role")
-  );
-
-  // Extracting the role using the dynamically found key
-  const userRole = decodedToken[roleKey];
-
-  // console.log("debug decodedToken", decodedToken);
-
-  // console.log("debug userRole", userRole);
-
-  //   if(decodedToken?.http://schemas.microsoft.com/ws/2008/06/identity/claims/role === "company") {
-
-  // }
-
-  if (userRole === "Buyer") {
-    toast.error("You are not authorized to access this page");
-    router.push("/register/as-buyer");
-    return;
-  }
 
   return (
     <>

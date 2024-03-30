@@ -86,6 +86,10 @@ function RegisterAsBuyerPage() {
   const registerAsBuyerMutation = useMutation({
     mutationFn: registerAsBuyerApi,
     onSuccess: (resp: any) => {
+      console.log("test-token registerAsBuyerApi resp", resp);
+
+      // setItem("medico_access_token", resp?.data?.accessToken);
+
       if (resp?.status === 201) {
         setItem("medico-isComplete", "true");
         toast.success("Welcome to medico");

@@ -39,7 +39,7 @@ export default function SelectExistingUser({
     queryKey: ["getGroups"],
     queryFn: () =>
       getGroupApi({
-        companyId: getItem("medico-companyId"),
+        companyEmail: getItem("test-email"),
       }),
     retry: 1,
   });

@@ -78,6 +78,12 @@ export default function SelectLocations({
     (state) => state.removeSelectedStates
   );
 
+  const {
+    mutateSelectedDistricts,
+    mutateSelectedStates,
+    mutateSelectedTalukas,
+  } = useGlobalState((state) => state);
+
   const zustProductId = useGlobalState((state) => state.zustProductId);
 
   const [taluka, setTaluka] = useState<any>();
@@ -246,6 +252,12 @@ export default function SelectLocations({
 
       console.log("products", data.products);
 
+      mutateSelectedTalukas([]);
+
+      mutateSelectedStates([]);
+
+      mutateSelectedDistricts([]);
+
       setStep((prev) => prev + 1);
     },
   });
@@ -260,7 +272,7 @@ export default function SelectLocations({
     const talukaIds = selectedTalukas.map((t: any) => t.id);
 
     const payload = {
-      companyId: getItem("medico-companyId"),
+      companyEmail: getItem("test-email"),
       name: groupName,
       description: groupDec,
       talukaIds: talukaIds,
