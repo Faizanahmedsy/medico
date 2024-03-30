@@ -38,6 +38,7 @@ import {
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { restrictPositiveNumbersOnly } from "@/lib/helpers/form-input";
 
 export default function SellingPriceCardForm({
   form,
@@ -78,7 +79,11 @@ export default function SellingPriceCardForm({
                         </div>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder=" " {...field} type="number" />
+                        <Input
+                          placeholder=" "
+                          {...field}
+                          onKeyDown={restrictPositiveNumbersOnly}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -93,7 +98,11 @@ export default function SellingPriceCardForm({
                   <FormItem className="w-full">
                     <FormLabel>Retail Price</FormLabel>
                     <FormControl>
-                      <Input placeholder=" " {...field} />
+                      <Input
+                        placeholder=" "
+                        {...field}
+                        onKeyDown={restrictPositiveNumbersOnly}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -116,7 +125,7 @@ export default function SellingPriceCardForm({
                             <RadioGroupItem value="discountOnMrp" />
                           </FormControl>
                           <FormLabel className="font-normal">
-                            Discount on Mrp
+                            Discount on MRP
                           </FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-3 space-y-0">
@@ -139,7 +148,7 @@ export default function SellingPriceCardForm({
                   name="discount"
                   render={({ field }) => (
                     <FormItem className="w-full">
-                      <FormLabel>Discount on Mrp (%)</FormLabel>
+                      <FormLabel>Discount on MRP (%)</FormLabel>
                       <FormControl>
                         <Input placeholder=" " {...field} type="number" />
                       </FormControl>

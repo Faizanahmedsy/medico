@@ -190,7 +190,11 @@ export default function ProductInfoFormCard({
                   <FormItem className="w-full">
                     <FormLabel>Size Y</FormLabel>
                     <FormControl>
-                      <Input placeholder=" " {...field} />
+                      <Input
+                        placeholder=" "
+                        {...field}
+                        onKeyDown={restrictPositiveNumbersOnly}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

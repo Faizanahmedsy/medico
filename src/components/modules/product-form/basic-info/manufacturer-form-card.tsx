@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/tooltip";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { restrictPositiveNumbersOnly } from "@/lib/helpers/form-input";
 
 export default function ManufacturerFormCard({ form }: { form: any }) {
   return (
@@ -150,7 +151,11 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                   <FormItem className="w-full">
                     <FormLabel>Return Days</FormLabel>
                     <FormControl>
-                      <Input placeholder=" " {...field} type="number" />
+                      <Input
+                        placeholder=" "
+                        {...field}
+                        onKeyDown={restrictPositiveNumbersOnly}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

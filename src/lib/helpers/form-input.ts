@@ -19,3 +19,25 @@ export const restrictPositiveNumbersOnly = (event: any) => {
     event.preventDefault(); // Prevent input
   }
 };
+
+export const discountValidate = (event: any) => {
+  // Get the key code of the pressed key
+  const keyCode = event.keyCode || event.which;
+  const inputValue = event.target.value;
+
+  // Allow certain keys: digits 0-9, backspace, delete, and arrow keys
+  if (
+    !(keyCode >= 48 && keyCode <= 57) && // Digits 0-9
+    !(keyCode >= 96 && keyCode <= 105) && // Numpad digits 0-9
+    keyCode !== 8 && // Backspace
+    keyCode !== 46 && // Delete
+    (keyCode < 37 || keyCode > 40) // Arrow keys
+  ) {
+    event.preventDefault(); // Prevent input
+  }
+
+  // Prevent leading 0s
+  if (inputValue === "0" && keyCode === 48) {
+    event.preventDefault(); // Prevent input
+  }
+};
