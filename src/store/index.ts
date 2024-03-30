@@ -44,11 +44,25 @@ const store = (set: any) => ({
     set((state: ThemeState) => ({
       theme: state.theme === "light" ? "dark" : "light",
     })),
-
   setSelectedTalukas: (taluka: any) => {
     set((state: any) => ({
       selectedTalukas: [taluka, ...state.selectedTalukas],
     }));
+  },
+  mutateSelectedTalukas: (newArr: any) => {
+    set({
+      selectedTalukas: newArr,
+    });
+  },
+  mutateSelectedStates: (newArr: any) => {
+    set({
+      selectedStates: newArr,
+    });
+  },
+  mutateSelectedDistricts: (newArr: any) => {
+    set({
+      selectedDistricts: newArr,
+    });
   },
   removeSelectedTalukas: (taluka: any) => {
     set((state: any) => ({

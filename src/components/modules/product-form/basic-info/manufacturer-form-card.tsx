@@ -65,7 +65,15 @@ export default function ManufacturerFormCard({ form }: { form: any }) {
                 <FormItem className="w-full">
                   <FormLabel>Manufacture License Number</FormLabel>
                   <FormControl>
-                    <Input placeholder=" " {...field} />
+                    <Input
+                      placeholder=" "
+                      {...field}
+                      onChange={(event: any) => {
+                        const uppercaseValue = event.target.value.toUpperCase();
+                        event.target.value = uppercaseValue;
+                        field.onChange(event.target.value);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

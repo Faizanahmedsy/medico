@@ -26,6 +26,8 @@ import CardForm from "@/components/modules/card-form";
 import React from "react";
 import { CldUploadWidget, CloudinaryUploadWidgetInfo } from "next-cloudinary";
 
+import { restrictPositiveNumbersOnly } from "@/lib/helpers/form-input";
+
 export default function ProductInfoFormCard({
   form,
   setLetterPadDocument,
@@ -171,7 +173,11 @@ export default function ProductInfoFormCard({
                   <FormItem className="w-full">
                     <FormLabel>Size X </FormLabel>
                     <FormControl>
-                      <Input placeholder=" " {...field} />
+                      <Input
+                        placeholder=" "
+                        {...field}
+                        onKeyDown={restrictPositiveNumbersOnly}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
