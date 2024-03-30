@@ -9,7 +9,7 @@ export default function DashHeader({
   button?: React.ReactNode;
 }) {
   return (
-    <div className="flex-between pb-7">
+    <div className="flex justify-between items-center pb-7 md:flex-row flex-col">
       <TextH2>{title}</TextH2>
       {button}
     </div>

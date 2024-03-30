@@ -342,7 +342,7 @@ export default function SelectLocations({
       >
         Test
       </div> */}
-      <div className="flex justify-center items-center gap-6">
+      <div className="flex md:flex-row flex-col justify-center items-center md:gap-6">
         <div className="py-4 flex gap-1 flex-col ">
           <div>Group Name</div>
           <Input
@@ -364,11 +364,11 @@ export default function SelectLocations({
       </div>
 
       {/* -----------------SELECT STATE ----------------- */}
-      <div className="grid grid-cols-1 px-[300px] gap-5">
+      <div className="grid grid-cols-1 md:px-[300px] px-[0px] gap-5">
         <Card className="w-full">
           <CardHeader>
             <CardTitle>
-              <div className="flex justify-between items-center">
+              <div className="flex md:flex-row gap-2 md:gap-0 flex-col justify-between items-center">
                 <div>Select State</div>
                 <div
                   className="rounded-xl text-xs p-3 px-5 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
@@ -392,7 +392,7 @@ export default function SelectLocations({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
@@ -473,7 +473,7 @@ export default function SelectLocations({
         >
           <CardHeader>
             <CardTitle>
-              <div className="flex justify-between items-center">
+              <div className="flex md:flex-row gap-2 md:gap-0 flex-col justify-between items-center">
                 <div>Select District</div>
                 <div
                   className="rounded-xl text-xs p-3 px-5 bg-emerald-200 text-emerald-800 font-bold leading-2  -tracking-tight cursor-pointer"
@@ -497,7 +497,7 @@ export default function SelectLocations({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
@@ -571,13 +571,13 @@ export default function SelectLocations({
         >
           <CardHeader>
             <CardTitle>
-              <div className="flex justify-between items-center">
+              <div className="flex md:flex-row gap-2 md:gap-0 flex-col justify-between items-center">
                 <div>Select Taluka</div>
               </div>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <ScrollArea className="h-72">
                 <div className="space-y-2">
                   <div className="font-bold">Options</div>
