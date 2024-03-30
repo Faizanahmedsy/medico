@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { any } from "zod";
+import { getItem } from "@/lib/localStorage";
 
 export default function SelectExistingUser({
   step,
@@ -38,7 +39,7 @@ export default function SelectExistingUser({
     queryKey: ["getGroups"],
     queryFn: () =>
       getGroupApi({
-        companyId: "1db330f2-3fbc-45fc-b102-60ed0343db02",
+        companyId: getItem("medico-companyId"),
       }),
     retry: 1,
   });
